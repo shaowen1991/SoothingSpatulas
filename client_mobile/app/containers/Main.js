@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component, PropTypes } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 // import {
 
@@ -18,7 +18,7 @@ class Main extends Component {
           Welcome to Momento! Main
         </Text>
       </View>
-    )
+    );
   }
 }
 
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-})
+});
 
-export default connect()(Main)
+export default connect()(Main);

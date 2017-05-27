@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { TextInput } from 'react-native';
-import { updateUsername, updateLogin } from '../actions.js'
-import Main from './Main'
-import Login from './Login'
+import { updateUsername, updateLogin } from '../actions.js';
+import Main from './Main';
+import Login from './Login';
 
 class Navigator extends Component {
   render() {
@@ -12,14 +12,14 @@ class Navigator extends Component {
 
     return (
       props.loginReducer ? <Main /> : <Login />
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
   usernameReducer
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: (username, pw) => {
@@ -28,6 +28,6 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(updateLogin());
     }
   }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigator);
