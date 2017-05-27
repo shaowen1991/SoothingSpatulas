@@ -2,8 +2,7 @@ const models = require('../models');
 
 exports.seed = function (knex, Promise) {
 
-
-return models.User.where({ email: 'admin@domain.com' }).fetch()
+  return models.User.where({ email: 'admin@domain.com' }).fetch()
     .then((user) => {
       if (user) {
         throw user;
@@ -21,7 +20,6 @@ return models.User.where({ email: 'admin@domain.com' }).fetch()
     .then((user) => {
       return models.LocationUser.forge({
         comment: 'great place!',
-        date: '1495851320', // unix timestamp
         latitude: '37.7749',
         longitude: '-122.4194',
         rating: 10,
