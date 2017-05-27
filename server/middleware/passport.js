@@ -1,9 +1,9 @@
 'use strict';
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
-const TwitterStrategy = require('passport-twitter').Strategy;
+// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
+// const TwitterStrategy = require('passport-twitter').Strategy;
 const config = require('config')['passport'];
 const models = require('../../db/models');
 
@@ -110,7 +110,7 @@ passport.use('local-login', new LocalStrategy({
         done(null, null, req.flash('loginMessage', 'Incorrect username or password'));
       });
   }));
-
+/*
 passport.use('google', new GoogleStrategy({
   clientID: config.Google.clientID,
   clientSecret: config.Google.clientSecret,
@@ -200,5 +200,5 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
           and grant access when you register.' });
     });
 };
-
+*/
 module.exports = passport;
