@@ -7,7 +7,7 @@ import Navigator from './containers/Navigator';
 const initialState = {};
 
 /* -----------------------
-       Reducers
+       Redux Reducers
 ----------------------- */
 const loginReducer = (state = false, action) => {
   switch (action.type) {
@@ -29,6 +29,9 @@ const reducers = combineReducers({
   usernameReducer
 });
 
+/* -----------------------
+       Redux Store
+----------------------- */
 const store = createStore(reducers, initialState);
 
 

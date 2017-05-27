@@ -1,22 +1,32 @@
-import React, { Component, PropTypes } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 
-// import {
+import { updateLogout, updateUsername } from '../actions.js';
 
-// } from '../components'
+const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
+  loginReducer,
+  usernameReducer 
+});
 
-// const mapStateToProps = (state) => ({
-
-// })
+const mapDispatchToProps = (dispatch) => ({
+  onLogoutClick: () => {
+      dispatch(updateLogout());
+      dispatch(updateUsername(''));
+  }
+});
 
 class Main extends Component {
   render() {
+    let props = this.props;
+    console.log('Main props: ', props);
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Momento! Main
+          Welcome to Momento! {props.usernameReducer}
         </Text>
+        <Button onPress={props.onLogoutClick} title="sign out" />
       </View>
     );
   }
@@ -41,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

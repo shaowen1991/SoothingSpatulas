@@ -1,59 +1,55 @@
 import React, { Component } from 'react';
 import { 
+  Alert,
   Button,
   StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-
+import { StackNavigator } from 'react-navigation';
 import { updateUsername, updateLogin } from '../actions.js';
 
 
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
-  loginReducer,
-  usernameReducer
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoginClick: (username, pw) => {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */
-    if (username !== '') {
-      dispatch(updateUsername(username));
-      dispatch(updateLogin());
-    }
-  }
-});
-
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       typeInUsername: '',
       typeInPassword: ''
     }
+    this.signupHanlder = this.signupHanlder.bind(this);
   }
 
   static navigationOptions = {
-    title: 'Login',
+    title: 'Sign Up',
+  }
+
+  signupHanlder () {
+    /* -----------------------
+          Apply Auth here
+    ----------------------- */    
+    let authed = true;
+    if (authed) {
+      const { navigate } = this.props.navigation;
+      Alert.alert('Success! Please Login');
+      navigate('Login');
+    }
+    else {
+      Alert.alert('Username already exist');
+    }
   }
 
   render() {
     let props = this.props;
     const { navigate } = props.navigation;
-    console.log('Login props: ', props);
+    console.log('Signup props: ', props);
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Memento!
-        </Text>
         <Text style={styles.instructions}>
-          Login or Sign up:
+          Sign up:
         </Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
@@ -71,13 +67,8 @@ class Login extends Component {
           secureTextEntry={true}
         />
         <Button 
-          title="Login"
-          onPress={() => {
-            props.onLoginClick(this.state.typeInUsername, this.state.typeInPassword);
-          }} />
-        <Button 
           title="Sign up"
-          onPress={() => navigate('Signup')}  />
+          onPress={this.signupHanlder} />
       </View>
     );
   }
@@ -104,4 +95,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect()(Signup);

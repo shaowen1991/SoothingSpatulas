@@ -1,5 +1,5 @@
 /* -----------------------
-       Actions
+       Redux Actions
 ----------------------- */
 const updateUsername = (username) => ({
   type: 'UPDATE_USERNAME',

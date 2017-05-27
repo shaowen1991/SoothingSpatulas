@@ -1,33 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextInput } from 'react-native';
-import { updateUsername, updateLogin } from '../actions.js';
+
 import Main from './Main';
-import Login from './Login';
+import LoginNavi from './LoginNavi';
 
 class Navigator extends Component {
   render() {
     let props = this.props;
-    console.log('props: ', props);
+    console.log('Navigator props: ', props);
 
     return (
-      props.loginReducer ? <Main /> : <Login />
+      props.loginReducer ? <Main /> : <LoginNavi />
     );
   }
 }
 
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
-  loginReducer,
-  usernameReducer
-});
+const mapStateToProps = ({ loginReducer }) => ({ loginReducer });
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoginClick: (username, pw) => {
-    if (username !== '') {
-      dispatch(updateUsername(username));
-      dispatch(updateLogin());
-    }
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigator);
+export default connect(mapStateToProps, {})(Navigator);
