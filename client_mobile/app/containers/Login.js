@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { 
+import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -8,8 +9,8 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-
 import { updateUsername, updateLogin } from '../actions.js';
+import { firebaseApp } from '../config/config.js';
 
 
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
@@ -19,13 +20,18 @@ const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: (username, pw) => {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */
-    if (username !== '') {
+    firebaseApp.auth().signInWithEmailAndPassword(username, pw)
+    .then(response => {
       dispatch(updateUsername(username));
       dispatch(updateLogin());
-    }
+    })
+    .catch(error => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      Alert.alert(errorMessage)
+      console.log('error code: ', errorCode);
+      console.log('error message: ', errorMessage);
+    })
   }
 });
 

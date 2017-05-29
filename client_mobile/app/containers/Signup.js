@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import { updateUsername, updateLogin } from '../actions.js';
-
+import { firebaseApp } from '../config/config.js';
 
 class Signup extends Component {
   constructor(props) {
@@ -27,18 +27,17 @@ class Signup extends Component {
   }
 
   signupHanlder () {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */    
-    let authed = true;
-    if (authed) {
+    firebaseApp.auth().createUserWithEmailAndPassword(this.state.typeInUsername, this.state.typeInPassword)
+    .then(response => {
       const { navigate } = this.props.navigation;
       Alert.alert('Success! Please Login');
       navigate('Login');
-    }
-    else {
-      Alert.alert('Username already exist');
-    }
+    })
+    .catch(error => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      Alert.alert(errorMessage)
+    })
   }
 
   render() {
