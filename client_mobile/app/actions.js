@@ -14,10 +14,27 @@ const updateLogout = () => ({
   type: 'LOG_OUT'
 });
 
+const openCheckIn = () => ({
+  type: 'OPEN_CHECKIN'
+});
+
+const closeCheckIn = () => ({
+  type: 'CLOSE_CHECKIN'
+});
+
+const addTextComment = (user, text) => ({
+  type: 'ADD_TEXT_COMMENT',
+  user: user,
+  text: text
+});
+
 export {
   updateUsername,
   updateLogin,
-  updateLogout
+  updateLogout,
+  openCheckIn,
+  closeCheckIn,
+  addTextComment
 };
 
 

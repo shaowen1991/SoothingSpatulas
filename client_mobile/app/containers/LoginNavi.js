@@ -4,10 +4,10 @@ import Login from './Login.js';
 import Signup from './Signup.js';
 
 const LoginNavi = StackNavigator({
-    Login: { screen: Login },
-    Signup: { screen: Signup}
+  Login: { screen: Login },
+  Signup: { screen: Signup }
 }, {
-    initialRouteName: 'Login'
-})
+  initialRouteName: 'Login'
+});
 
 export default LoginNavi;
