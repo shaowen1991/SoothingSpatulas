@@ -78,6 +78,7 @@ class Signup extends Component {
           Sign up:
         </Text>
 
+
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInFirstName) => this.setState({typeInFirstName})}
@@ -92,6 +93,7 @@ class Signup extends Component {
           autoCapitalize={'none'}
           placeholder={'Last'}
         />
+
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInUsername) => this.setState({typeInUsername})}
