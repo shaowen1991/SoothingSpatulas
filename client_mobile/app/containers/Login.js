@@ -9,14 +9,22 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
 import { updateUsername, updateLogin } from '../actions.js';
 
-
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
   usernameReducer
 });
 
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: (username, pw) => {
     /* -----------------------
@@ -29,13 +37,14 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      typeInUsername: '',
-      typeInPassword: ''
-    }
+
+  state = { 
+    typeInUsername: '',
+    typeInPassword: ''
   }
 
   static navigationOptions = {
@@ -82,7 +91,6 @@ class Login extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
