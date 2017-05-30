@@ -16,6 +16,7 @@
     "react-native-lock": "^0.6.0",
     "react-native-maps": "^0.15.2",
     "react-native-maps-google": "^1.1.4",
+    "react-native-animatable": "^1.2.0",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",

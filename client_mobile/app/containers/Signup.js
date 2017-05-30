@@ -9,9 +9,16 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
-import { updateUsername, updateLogin } from '../actions.js';
 import { firebaseApp } from '../config/config.js';
 
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import { updateUsername, updateLogin } from '../actions.js';
+
+/* ----------------------------------
+                Class
+---------------------------------- */
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -66,9 +73,11 @@ class Signup extends Component {
 
     return (
       <View style={styles.container}>
+
         <Text style={styles.instructions}>
           Sign up:
         </Text>
+
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInFirstName) => this.setState({typeInFirstName})}
@@ -90,6 +99,7 @@ class Signup extends Component {
           autoCapitalize={'none'}
           placeholder={'Email'}
         />
+
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInPassword) => this.setState({typeInPassword})}
@@ -98,6 +108,7 @@ class Signup extends Component {
           placeholder={'Password'}
           secureTextEntry={true}
         />
+
         <Button 
           title="Sign up"
           onPress={this.signupHanlder} />
@@ -105,7 +116,6 @@ class Signup extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

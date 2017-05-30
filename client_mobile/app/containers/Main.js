@@ -2,19 +2,59 @@ import React, { Component } from 'react';
 import { Alert, StyleSheet, View, Text, Button, AppRegistry, PermissionsAndroid, Platform, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
-import { updateLogout, updateUsername } from '../actions.js';
 import isEqual from 'lodash/isEqual';
 import $ from 'jquery';
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import {
+  updateLogout,
+  updateUsername,
+  openCheckIn,
+  closeCheckIn,
+  addTextComment
+} from '../actions.js';
 
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
+/* ----------------------------------
+   Import Presentational Component
+---------------------------------- */
+import {
+  CheckInFooter
+} from '../components';
+
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
+const mapStateToProps = ({
   loginReducer,
-  usernameReducer 
+  usernameReducer,
+  checkInOpenReducer,
+  testCommentsReducer 
+}) => ({
+  loginReducer,
+  usernameReducer,
+  checkInOpenReducer,
+  testCommentsReducer
 });
 
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLogoutClick: () => {
     dispatch(updateLogout());
     dispatch(updateUsername(''));
+  },
+  toggleCheckIn: (checkInOpenReducer) => {
+    if (checkInOpenReducer) {
+      dispatch(closeCheckIn());
+    }
+    else {
+      dispatch(openCheckIn());
+    }
+  },
+  onCommentSubmit: (user, text) => {
+    dispatch(addTextComment(user, text));
   }
 });
 
@@ -25,7 +65,7 @@ const defaultProps = {
   geolocationOptions: { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
 }
 
-export default class map extends Component {
+class Main extends Component  {
   constructor (props) {
     super (props);
     this.state = {
@@ -215,6 +255,15 @@ export default class map extends Component {
   }
 
   render() {
+    const {
+      usernameReducer,
+      onLogoutClick,
+      checkInOpenReducer,
+      toggleCheckIn,
+      onCommentSubmit,
+      testCommentsReducer
+    } = this.props;
+    console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
         <TextInput
@@ -280,6 +329,24 @@ export default class map extends Component {
             accessibilityLabel="Drop a pin to show this location, along with a comment and rating, on your profile."
           />
         </View>
+
+        <Text style={styles.welcome}>
+          Welcome to Momento! {usernameReducer}
+        </Text>
+
+        {testCommentsReducer.map((comment, id) => (
+          <Text key={id}>{comment.user} : {comment.text}</Text>
+        ))}
+
+        <Button onPress={onLogoutClick} title="Logout" />
+        <Button onPress={() => { toggleCheckIn(checkInOpenReducer) }} title='Check In' />
+
+        <CheckInFooter 
+          visible={checkInOpenReducer}
+          onCommentSubmit={(text) => { onCommentSubmit(usernameReducer, text) }}
+          toggleCheckIn={() => { toggleCheckIn(checkInOpenReducer) }}
+        />
+        
       </View>
     );
   }
