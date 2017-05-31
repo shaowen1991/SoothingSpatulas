@@ -17,7 +17,9 @@ class Signup extends Component {
     super(props);
     this.state = { 
       typeInUsername: '',
-      typeInPassword: ''
+      typeInPassword: '',
+      typeInFirstName: '',
+      typeInLastName: ''
     }
     this.signupHanlder = this.signupHanlder.bind(this);
   }
@@ -28,10 +30,10 @@ class Signup extends Component {
 
   signupHanlder() {
     var config = {
-      first: 'Testy',
-      last: 'McTesterson',
+      first: this.state.typeInFirstName,
+      last: this.state.typeInLastName,
       email: this.state.typeInUsername
-      }
+    }
     
     fetch("http://localhost:3000/api/users/", {
       method: "POST", 
@@ -75,10 +77,24 @@ class Signup extends Component {
         </Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
+          onChangeText={(typeInFirstName) => this.setState({typeInFirstName})}
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          placeholder={'First'}
+        />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
+          onChangeText={(typeInLastName) => this.setState({typeInLastName})}
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          placeholder={'Last'}
+        />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInUsername) => this.setState({typeInUsername})}
           autoCorrect={false}
           autoCapitalize={'none'}
-          placeholder={'Username'}
+          placeholder={'Email'}
         />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
