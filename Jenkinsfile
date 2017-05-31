@@ -16,10 +16,6 @@ node('master') {
       echo 'deploy to Docker!'
     }
 
-    stage('Cleanup'){
-      sh 'rm -rf node_modules'
-    }
-
   }
   catch (err) {
     throw err
