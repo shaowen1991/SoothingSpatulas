@@ -13,7 +13,7 @@ import { StackNavigator } from 'react-navigation';
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateLogin } from '../actions.js';
+import { updateUsername, updateLogin } from '../Actions.js';
 
 /* ----------------------------------
                 Class
