@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import { updateUsername, updateLogin } from '../actions.js';
 import { firebaseApp } from '../config/config.js';
-import axios from 'axios';
-import $ from 'jquery';
 
 class Signup extends Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class Signup extends Component {
     title: 'Sign Up',
   }
 
-  signupHanlder () {
+  signupHanlder() {
     var config = {
       first: 'Testy',
       last: 'McTesterson',
@@ -49,21 +47,6 @@ class Signup extends Component {
       .catch((err) => {
         console.log(err)
       })
-      
-    // fetch('http://localhost:3030/api/purchase', {
-    //   method: "POST",
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data)
-    // }).then((res) => {
-    //   console.log("this is res", res)
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
-        
-    
     
     firebaseApp.auth().createUserWithEmailAndPassword(this.state.typeInUsername, this.state.typeInPassword)
     .then(response => {
