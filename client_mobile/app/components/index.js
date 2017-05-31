@@ -1,5 +1,9 @@
-import CheckInFooter from './CheckInFooter';
+import ActionButtons from './Recorder/ActionButtons';
+import IconButton from './Recorder/IconButton';
+import RecordButton from './Recorder/RecordButton';
 
 export {
-  CheckInFooter
+  ActionButtons,
+  IconButton,
+  RecordButton
 };

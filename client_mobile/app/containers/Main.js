@@ -13,14 +13,12 @@ import {
   openCheckIn,
   closeCheckIn,
   addTextComment
-} from '../actions.js';
+} from '../Actions.js';
 
 /* ----------------------------------
-   Import Presentational Component
+         Import Components
 ---------------------------------- */
-import {
-  CheckInFooter
-} from '../components';
+import CheckInFooter from './CheckInFooter';
 
 /* ----------------------------------
     Mapping Redux Store States

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Text, Button, TextInput } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 
+import Recorder from './Recorder.js';
 const transitionProps = ['top', 'height', 'width']
 
 export default class CheckInFooter extends Component {
@@ -43,7 +44,7 @@ export default class CheckInFooter extends Component {
             toggleCheckIn();
             onCommentSubmit(this.state.typeInComment)}} 
           title='Check In'/>
-          
+        <Recorder />  
       </Animatable.View>
     )
   }
