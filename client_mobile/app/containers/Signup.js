@@ -43,19 +43,14 @@ class Signup extends Component {
       },
       body: JSON.stringify(config)
       })
-      .then((res) => {
-        console.log("this is res", res)
-      })
       .catch((err) => {
         console.log(err)
       })
     
     firebaseApp.auth().createUserWithEmailAndPassword(this.state.typeInUsername, this.state.typeInPassword)
     .then(response => {
-      console.log('past post');
       const { navigate } = this.props.navigation;
       Alert.alert('Success! Please Login');
-      console.log('sign up response: ', response);
       navigate('Login');
     })
     .catch(error => {
@@ -68,7 +63,6 @@ class Signup extends Component {
   render() {
     let props = this.props;
     const { navigate } = props.navigation;
-    console.log('Signup props: ', props);
 
     return (
       <View style={styles.container}>
