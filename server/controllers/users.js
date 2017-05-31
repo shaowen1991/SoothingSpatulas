@@ -12,6 +12,7 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
+  console.log('post request: ', req);
   models.User.forge({
     first: req.body.first,
     last: req.body.last,
