@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateLogin } from '../actions.js';
+import { updateUsername, updateLogin } from '../Actions.js';
 
 /* ----------------------------------
     Mapping Redux Store States
