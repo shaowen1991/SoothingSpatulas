@@ -70,7 +70,6 @@ function asyncRecognize (filename, encoding, sampleRateHertz, languageCode) {
           });
       }
     });
-
 }
 
 module.exports.asyncRecognize = asyncRecognize;
