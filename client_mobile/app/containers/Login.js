@@ -11,7 +11,15 @@ import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import { updateUsername, updateLogin } from '../actions.js';
 import { firebaseApp } from '../config/config.js';
+import Auth0Lock from 'react-native-lock';
+// import firebase from 'firebase';
+var credentials = require('./auth0-credentials');
+// var provider = new firebase.auth.FacebookAuthProvider();
 
+// const auth = firebaseApp.auth();
+// const provider = firebase.auth.FacebookAuthProvider;
+
+var lock = new Auth0Lock(credentials);
 
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
@@ -84,6 +92,23 @@ class Login extends Component {
         <Button 
           title="Sign up"
           onPress={() => navigate('Signup')}  />
+        <Button 
+          title="fb"
+          onPress={() => {
+            // firebase.auth().signInWithRedirect(provider)
+            lock.show({
+              closable: true
+            }, (err, profile, token) => {
+              if (err) {
+                console.log(err);
+                return;
+              }
+              // Authentication worked!
+              console.log('Logged in with Auth0!');
+              navigate('Main');
+            });
+          }}
+        />
       </View>
     );
   }
