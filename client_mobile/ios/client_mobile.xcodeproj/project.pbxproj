@@ -1007,6 +1007,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Debug;
@@ -1036,6 +1037,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Release;
@@ -1061,6 +1063,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Debug;
@@ -1085,6 +1088,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Release;
@@ -1123,6 +1127,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Debug;
@@ -1161,6 +1166,7 @@
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-audio-player-recorder/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 			};
 			name = Release;

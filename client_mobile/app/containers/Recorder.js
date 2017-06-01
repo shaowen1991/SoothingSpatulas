@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { connect } from 'react-redux';
-=======
->>>>>>> Implement voice recording feature in check-in.
 import {
   ScrollView,
   StyleSheet
@@ -11,10 +8,7 @@ import {
   AudioPlayer, 
   AudioRecorder, 
 } from 'react-native-audio-player-recorder';
-<<<<<<< HEAD
 // import { postAudioComments } from '../Network.js';
-=======
->>>>>>> Implement voice recording feature in check-in.
 
 /* ----------------------------------
          Import Components
@@ -31,7 +25,6 @@ import {
 import Constants from '../Constants';
 
 /* ----------------------------------
-<<<<<<< HEAD
        Import Redux Actions
 ---------------------------------- */
 import { 
@@ -76,11 +69,6 @@ const mapDispatchToProps = (dispatch) => ({
               Class
 ---------------------------------- */
 class Recorder extends Component {
-=======
-              Class
----------------------------------- */
-export default class Recorder extends Component {
->>>>>>> Implement voice recording feature in check-in.
   constructor(props) {
     super(props)
     this.state = {
@@ -89,7 +77,6 @@ export default class Recorder extends Component {
       isPlaying: false,
       currentTime: 0,
       audioLength: 0
-<<<<<<< HEAD
     };
     this.timer = null;
     this.userAudioPath = '';
@@ -120,37 +107,12 @@ export default class Recorder extends Component {
 
     this.prepareRecordingPath();
     AudioRecorder.startRecording();
-=======
-    }
-    this.timer = null
-  }
-
-  prepareRecordingPath(){
-    AudioRecorder.prepareRecordingAtPath(Constants.AUDIO_PATH, {
-      SampleRate: 22050,
-      Channels: 1,
-      AudioQuality: 'Low',
-      AudioEncoding: 'aac',
-      AudioEncodingBitRate: 32000
-    })
-  }
-
-  record = () => {
-    const { isPlaying } = this.state
-    if (isPlaying) {
-      this.stopPlaying()
-    }
-
-    this.prepareRecordingPath()
-    AudioRecorder.startRecording()
->>>>>>> Implement voice recording feature in check-in.
     this.setState({
       isPlaying: false,
       isRecording: true,
       isFinishRecorded: false,
       audioLength: 0,
       currentTime: 0
-<<<<<<< HEAD
     });
 
     this.timer = setInterval(() => {
@@ -211,37 +173,6 @@ export default class Recorder extends Component {
       currentTime: 0,
       audioLength: 0
     });
-=======
-    })
-
-    this.timer = setInterval(() => {
-      const time = this.state.currentTime + 1
-      this.setState({currentTime: time})
-      if (time === Constants.MAX_AUDIO_LENGTH) {
-        this.stopRecording()
-      }
-    }, 1000)
-  }
-
-  stopRecording = () => {
-    const { isRecording } = this.state
-    if (!isRecording) return
-
-    AudioRecorder.stopRecording()
-    this.setState({audioLength: this.state.currentTime + 1})
-    clearInterval(this.timer)
-    this.setState({ isRecording: false, isFinishRecorded: true, currentTime: 0})
-  }
-
-  startPlaying = () => {
-    AudioPlayer.play(Constants.AUDIO_PATH)
-    this.setState({isPlaying: true})
-  }
-
-  stopPlaying= () => {
-    AudioPlayer.stop()
-    this.setState({isPlaying: false})
->>>>>>> Implement voice recording feature in check-in.
   }
 
   render() {
@@ -249,16 +180,10 @@ export default class Recorder extends Component {
       isRecording, 
       isFinishRecorded, 
       isPlaying, 
-<<<<<<< HEAD
     } = this.state;
     const playStopIcon = isPlaying ? 'Stop' : 'Play to review';
     const playStopHandler = isPlaying ? this.stopPlaying : this.startPlaying;
     console.log('Recorder props: ', this.props);
-=======
-    } = this.state
-    const playStopIcon = isPlaying ? 'stop-circle-o' : 'play-circle-o'
-    const playStopHandler = isPlaying ? this.stopPlaying : this.startPlaying
->>>>>>> Implement voice recording feature in check-in.
 
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -274,10 +199,7 @@ export default class Recorder extends Component {
           playStopIcon={playStopIcon}
           playStopHandler={playStopHandler}
           stopRecording={this.stopRecording}
-<<<<<<< HEAD
           onAudioCommentSubmit={this.onAudioCommentSubmit}
-=======
->>>>>>> Implement voice recording feature in check-in.
         />
       </ScrollView>
     )
@@ -292,15 +214,10 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center'
   },
-<<<<<<< HEAD
 });
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recorder);
-=======
-})
-
->>>>>>> Implement voice recording feature in check-in.
 /* ----------------------------------
       In order to make this work
 
@@ -310,11 +227,7 @@ react-native link react-native-audio-player-recorder
 
 ### Configration for iOS and Android
 
-<<<<<<< HEAD
 On iOS you need to add a usage description to ios/build/Info.plist:
-=======
-On iOS you need to add a usage description to Info.plist:
->>>>>>> Implement voice recording feature in check-in.
 
 <key>NSMicrophoneUsageDescription</key>
 <string>This sample uses the microphone to record your speech and convert it to text.</string>
