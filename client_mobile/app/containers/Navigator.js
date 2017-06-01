@@ -13,8 +13,7 @@ class Navigator extends Component {
     console.log('Navigator props: ', this.props);
 
     return (
-      // loginReducer ? <Main /> : <LoginNavi />
-       <Main /> 
+      loginReducer ? <Main /> : <LoginNavi />
     );
   }
 }

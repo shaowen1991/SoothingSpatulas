@@ -28,7 +28,7 @@ export default function RecordButton(props) {
     );
   } 
   else {
-    console.log('-----> Not on recording');
+    console.log('-----> Off recording');
     return (
       <TouchableOpacity style={styles.button} onPressIn={onPressInHandler}>
         <Text style={styles.text}>{ text }</Text>

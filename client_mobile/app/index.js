@@ -32,24 +32,50 @@ const checkInOpenReducer = (state = false, action) => {
   }  
 };
 
-const testCommentsReducer = (state = [], action) => {
+const textCommentsReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_TEXT_COMMENT') : return [
       ...state,
       { 
-        user: action.user,
-        text: action.text
+        comment: action.comment,
+        latitude: action.latitude,
+        longitude: action.longitude,
+        rating: action.rating,
+        user_id: action.user_id 
       }
     ];
+    case ('UPDATE_TEXT_COMMENT') : return action.textComments;
     default : return state;
   }    
 };
+
+const testAudioReducer = (state = [], action) => {
+  switch (action.type) {
+    case ('ADD_AUDIO_COMMENT') : return [
+      ...state,
+      { 
+        user: action.user,
+        audioPath: action.audioPath
+      }
+    ];
+    default : return state;
+  }      
+}
+
+const testCommentIDReducer = (state = 0, action) => {
+  switch (action.type) {
+    case ('INCREMENT_ID') : return state + 1;
+    default : return state;
+  }    
+}
 
 const reducers = combineReducers({
   loginReducer,
   usernameReducer,
   checkInOpenReducer,
-  testCommentsReducer
+  textCommentsReducer,
+  testAudioReducer,
+  testCommentIDReducer
 });
 
 /* -----------------------

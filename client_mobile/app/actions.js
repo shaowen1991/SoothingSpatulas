@@ -22,11 +22,29 @@ const closeCheckIn = () => ({
   type: 'CLOSE_CHECKIN'
 });
 
-const addTextComment = (user, text) => ({
+const addTextComment = (comment, latitude, longitude, rating, user_id) => ({
   type: 'ADD_TEXT_COMMENT',
-  user: user,
-  text: text
+  comment: comment,
+  latitude: latitude,
+  longitude: longitude,
+  rating: rating,
+  user_id: user_id 
 });
+
+const updateTextCommentsDB = (textCommentsFromDB) => ({
+  type: 'UPDATE_TEXT_COMMENT',
+  textComments: textCommentsFromDB
+});
+
+const addAudioComment = (user, audioPath) => ({
+  type: 'ADD_AUDIO_COMMENT',
+  user: user,
+  audioPath: audioPath
+})
+
+const incrementID = () => ({
+  type: 'INCREMENT_ID'
+})
 
 export {
   updateUsername,
@@ -34,7 +52,10 @@ export {
   updateLogout,
   openCheckIn,
   closeCheckIn,
-  addTextComment
+  addTextComment,
+  updateTextCommentsDB,
+  addAudioComment,
+  incrementID
 };
 
 
