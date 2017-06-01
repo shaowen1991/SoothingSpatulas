@@ -27,19 +27,35 @@ const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoginClick: (username, pw) => {
-    firebaseApp.auth().signInWithEmailAndPassword(username, pw)
-    .then(response => {
-      dispatch(updateUsername(username));
+  // onLoginClick: (username, pw) => {
+  //   firebaseApp.auth().signInWithEmailAndPassword(username, pw)
+  //   .then(response => {
+  //     dispatch(updateUsername(username));
+  //     dispatch(updateLogin());
+  //   })
+  //   .catch(error => {
+  //     var errorCode = error.code;
+  //     var errorMessage = error.message;
+  //     Alert.alert(errorMessage)
+  //     console.log('error code: ', errorCode);
+  //     console.log('error message: ', errorMessage);
+  //   })
+  // }
+  onLoginClick: () => {
+    lock.show({
+      closable: true
+    }, (err, profile, token) => {
+      if (err) {
+        console.log('login error: ', err);
+        return;
+      }
+      // Authentication worked!
+      console.log('profile: ', profile);
+      console.log('token: ', token);
+      console.log('Logged in with Auth0!');
+      dispatch(updateUsername(profile.email));
       dispatch(updateLogin());
-    })
-    .catch(error => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      Alert.alert(errorMessage)
-      console.log('error code: ', errorCode);
-      console.log('error message: ', errorMessage);
-    })
+    });
   }
 });
 
@@ -95,18 +111,21 @@ class Login extends Component {
         <Button 
           title="fb"
           onPress={() => {
+            props.onLoginClick();
             // firebase.auth().signInWithRedirect(provider)
-            lock.show({
-              closable: true
-            }, (err, profile, token) => {
-              if (err) {
-                console.log(err);
-                return;
-              }
-              // Authentication worked!
-              console.log('Logged in with Auth0!');
-              navigate('Main');
-            });
+            // lock.show({
+            //   closable: true
+            // }, (err, profile, token) => {
+            //   if (err) {
+            //     console.log(err);
+            //     return;
+            //   }
+            //   // Authentication worked!
+            //   console.log('profile: ', profile);
+            //   console.log('token: ', token);
+            //   console.log('Logged in with Auth0!');
+            //   // navigate('Main');
+            // });
           }}
         />
       </View>
