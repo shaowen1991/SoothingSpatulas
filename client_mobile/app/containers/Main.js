@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { getTextComments, postTextComments } from '../Network.js';
+
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
@@ -9,7 +11,8 @@ import {
   updateUsername,
   openCheckIn,
   closeCheckIn,
-  addTextComment
+  addTextComment,
+  updateTextCommentsDB
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -24,12 +27,14 @@ const mapStateToProps = ({
   loginReducer,
   usernameReducer,
   checkInOpenReducer,
-  testCommentsReducer 
+  textCommentsReducer,
+  testAudioReducer
 }) => ({
   loginReducer,
   usernameReducer,
   checkInOpenReducer,
-  testCommentsReducer
+  textCommentsReducer,
+  testAudioReducer
 });
 
 /* ----------------------------------
@@ -48,8 +53,12 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
-  onCommentSubmit: (user, text) => {
-    dispatch(addTextComment(user, text));
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
+    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
+  },
+  updateTextCommentsFromDB: (comments) => {
+    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -57,6 +66,11 @@ const mapDispatchToProps = (dispatch) => ({
                 Class
 ---------------------------------- */
 class Main extends Component {
+  componentDidMount () {
+    console.log('component did mount')
+    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
+  }
+
   render() {
     const {
       usernameReducer,
@@ -64,10 +78,12 @@ class Main extends Component {
       checkInOpenReducer,
       toggleCheckIn,
       onCommentSubmit,
-      testCommentsReducer
+      textCommentsReducer,
+      testAudioReducer,
+      updateTextCommentsFromDB
     } = this.props;
-    console.log('Main props: ', this.props);
 
+    console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
 
@@ -75,8 +91,12 @@ class Main extends Component {
           Welcome to Momento! {usernameReducer}
         </Text>
 
-        {testCommentsReducer.map((comment, id) => (
-          <Text key={id}>{comment.user} : {comment.text}</Text>
+        {this.props.textCommentsReducer.map((comment, id) => (
+          <Text key={id}>{comment.user_id} : {comment.comment} {comment.latitude} {comment.longitude}</Text>
+        ))}
+
+        {testAudioReducer.map((comment, id) => (
+          <Text key={id}>{comment.user} : {comment.audioPath}</Text>
         ))}
 
         <Button onPress={onLogoutClick} title="Logout" />
@@ -84,7 +104,11 @@ class Main extends Component {
 
         <CheckInFooter 
           visible={checkInOpenReducer}
-          onCommentSubmit={(text) => { onCommentSubmit(usernameReducer, text) }}
+          //(comment, latitude, longitude, rating, user_id)
+          onCommentSubmit={(comment, latitude, longitude, rating) => { 
+            postTextComments({comment, latitude, longitude, rating, user_id: 1});
+            onCommentSubmit(comment, latitude, longitude, rating, 1) 
+          }}
           toggleCheckIn={() => { toggleCheckIn(checkInOpenReducer) }}
         />
         
