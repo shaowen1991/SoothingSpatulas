@@ -12,13 +12,19 @@ export default function ActionButtons(props) {
     isRecording, 
     playStopIcon, 
     playStopHandler, 
+    onAudioCommentSubmit
   } = props;
+
   if (isFinishRecorded) {
     return (
       <View style={styles.buttonGroup}>
         <IconButton 
           iconName={playStopIcon}
           onPressHandler={playStopHandler} 
+        />
+        <IconButton 
+          iconName={'Check in with it'}
+          onPressHandler={onAudioCommentSubmit} 
         />
       </View>
     );
