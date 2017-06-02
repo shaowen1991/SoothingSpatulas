@@ -18,17 +18,16 @@ module.exports.getAll = (req, res) => {
 module.exports.create = (req, res) => {
   console.log('req.body:', req.body);
   const filepath = path.join(__dirname, '../service/user_audio/' + 'temp.aac');
-  // const filepath = '../service/user_audio/' + 'temp.aac';
-
   console.log('saving file path: ', filepath);
+  
   fs.writeFile(filepath, req.body, (err) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send({err});
+      console.log('failed write file');
     }
     else {
-      fs.stat(filepath, (err, stats)=> {
-        console.log('file stats: ', stats);
-      })
+      res.status(201);
+      console.log('success write file');
       // let transcription = voiceRecognize.asyncRecognize('temp.aac', 'FLAC', 22050, 'en-US');
       // res.status(201).send({transcription: transcription});    
     }
