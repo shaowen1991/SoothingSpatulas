@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { Alert, StyleSheet, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-
 import { updateLogout, updateUsername } from '../actions.js';
+// import { firebaseApp } from '../config/config.js';
 
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
@@ -11,15 +11,17 @@ const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLogoutClick: () => {
-      dispatch(updateLogout());
-      dispatch(updateUsername(''));
+    dispatch(updateLogout());
+    dispatch(updateUsername(''));
   }
 });
 
 class Main extends Component {
   render() {
     let props = this.props;
+    // let user = firebaseApp.auth().currentUser.email;
     console.log('Main props: ', props);
+    // console.log('User: ', user);
 
     return (
       <View style={styles.container}>

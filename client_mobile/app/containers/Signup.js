@@ -10,14 +10,16 @@ import {
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import { updateUsername, updateLogin } from '../actions.js';
-
+import { firebaseApp } from '../config/config.js';
 
 class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       typeInUsername: '',
-      typeInPassword: ''
+      typeInPassword: '',
+      typeInFirstName: '',
+      typeInLastName: ''
     }
     this.signupHanlder = this.signupHanlder.bind(this);
   }
@@ -26,25 +28,41 @@ class Signup extends Component {
     title: 'Sign Up',
   }
 
-  signupHanlder () {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */    
-    let authed = true;
-    if (authed) {
+  signupHanlder() {
+    var config = {
+      first: this.state.typeInFirstName,
+      last: this.state.typeInLastName,
+      email: this.state.typeInUsername
+    }
+    
+    fetch("http://localhost:3000/api/users/", {
+      method: "POST", 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(config)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    
+    firebaseApp.auth().createUserWithEmailAndPassword(this.state.typeInUsername, this.state.typeInPassword)
+    .then(response => {
       const { navigate } = this.props.navigation;
       Alert.alert('Success! Please Login');
       navigate('Login');
-    }
-    else {
-      Alert.alert('Username already exist');
-    }
+    })
+    .catch(error => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      Alert.alert(errorMessage)
+    })
   }
 
   render() {
     let props = this.props;
     const { navigate } = props.navigation;
-    console.log('Signup props: ', props);
 
     return (
       <View style={styles.container}>
@@ -53,10 +71,24 @@ class Signup extends Component {
         </Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}
+          onChangeText={(typeInFirstName) => this.setState({typeInFirstName})}
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          placeholder={'First'}
+        />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
+          onChangeText={(typeInLastName) => this.setState({typeInLastName})}
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          placeholder={'Last'}
+        />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
           onChangeText={(typeInUsername) => this.setState({typeInUsername})}
           autoCorrect={false}
           autoCapitalize={'none'}
-          placeholder={'Username'}
+          placeholder={'Email'}
         />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 0}}

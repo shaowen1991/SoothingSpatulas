@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { 
+import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -8,9 +9,11 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-
 import { updateUsername, updateLogin } from '../actions.js';
+import Auth0Lock from 'react-native-lock';
 
+var credentials = require('../config/config.js');
+var lock = new Auth0Lock(credentials);
 
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
@@ -18,14 +21,39 @@ const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoginClick: (username, pw) => {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */
-    if (username !== '') {
-      dispatch(updateUsername(username));
+  onLoginClick: () => {
+    lock.show({
+      closable: true
+    }, (err, profile, token) => {
+      console.log('hitting the thing')
+      if (err) {
+        console.log('login error: ', err);
+        return;
+      }
+      console.log('profile2: ', profile);
+      console.log('token2: ', token);
+      console.log('Logged in with Auth02!');
+
+      var config = {
+        first: profile.nickname,
+        email: profile.email
+      }
+
+      fetch("http://localhost:3000/api/users/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config)
+      })
+      .catch((err) => {
+        console.log('user post error: ', err)
+      })
+
+      dispatch(updateUsername(profile.nickname));
       dispatch(updateLogin());
-    }
+    });
   }
 });
 
@@ -52,32 +80,12 @@ class Login extends Component {
         <Text style={styles.welcome}>
           Welcome to Memento!
         </Text>
-        <Text style={styles.instructions}>
-          Login or Sign up:
-        </Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
-          onChangeText={(typeInUsername) => this.setState({typeInUsername})}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          placeholder={'Username'}
-        />
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
-          onChangeText={(typeInPassword) => this.setState({typeInPassword})}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          placeholder={'Password'}
-          secureTextEntry={true}
-        />
         <Button 
-          title="Login"
+          title="Log In"
           onPress={() => {
-            props.onLoginClick(this.state.typeInUsername, this.state.typeInPassword);
-          }} />
-        <Button 
-          title="Sign up"
-          onPress={() => navigate('Signup')}  />
+            props.onLoginClick();
+          }}
+        />
       </View>
     );
   }
