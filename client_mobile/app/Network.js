@@ -46,6 +46,7 @@ const postAudioComments  = (filepath, filename) => {
 		{
 			filename: filename,
 			filepath: filepath,
+      filetype: 'audio/acc'
 		}
 	];
 
@@ -68,10 +69,10 @@ const postAudioComments  = (filepath, filename) => {
   
 		let status = response.status;
 		let responseString = response.data;
-		let json = JSON.parse( responseString );
+		// let json = JSON.parse( responseString );
 
 		console.log('upload complete with status ' + status);
-    console.log('post response: ', json);
+    // console.log('post response: ', json);
 	});
 }
 
