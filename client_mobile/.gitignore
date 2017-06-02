@@ -1,3 +1,9 @@
+#ios
+ios/
+
+#android
+android/
+
 # OSX
 #
 .DS_Store
