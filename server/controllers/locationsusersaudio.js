@@ -1,4 +1,8 @@
+'use strict';
 const models = require('../../db/models');
+const fs = require('fs');
+const path = require('path');
+const voiceRecognize = require('../service/voiceRecognize.js');
 
 module.exports.getAll = (req, res) => {
   models.LocationUser.fetchAll()
@@ -12,19 +16,22 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  models.LocationUser.forge({
-    comment: req.body.comment,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    rating: req.body.rating,
-    user_id: req.body.user_id
-  })
-  .save()
-  .then(result => {
-    res.status(201).send(result);
-  })
-  .catch(err => {
-    res.status(500).send(err);
+  console.log('req.body:', req.body);
+  const filepath = path.join(__dirname, '../service/user_audio/' + 'temp.aac');
+  // const filepath = '../service/user_audio/' + 'temp.aac';
+
+  console.log('saving file path: ', filepath);
+  fs.writeFile(filepath, req.body, (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    else {
+      fs.stat(filepath, (err, stats)=> {
+        console.log('file stats: ', stats);
+      })
+      // let transcription = voiceRecognize.asyncRecognize('temp.aac', 'FLAC', 22050, 'en-US');
+      // res.status(201).send({transcription: transcription});    
+    }
   });
 };
 
