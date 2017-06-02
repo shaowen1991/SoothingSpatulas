@@ -8,6 +8,7 @@ import {
   AudioPlayer, 
   AudioRecorder, 
 } from 'react-native-audio-player-recorder';
+// import { postAudioComments } from '../Network.js';
 
 /* ----------------------------------
          Import Components
@@ -156,6 +157,13 @@ class Recorder extends Component {
       Constants.AUDIO_PATH + '/' 
       + this.props.usernameReducer + '_' 
       + this.props.testCommentIDReducer + '.aac';
+
+
+    // const filename = this.props.usernameReducer + '_'  + this.props.testCommentIDReducer + '.aac';
+    // const filepath = Constants.AUDIO_PATH + '/' + filename;
+    // postAudioComments(filepath, filename);
+
+
     this.props.onAudioCommentSubmit(this.props.usernameReducer, this.userAudioPath);
     this.props.toggleCheckIn(this.props.checkInOpenReducer);
     this.setState({

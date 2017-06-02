@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import FileUpload from 'react-native-file-upload';
+import { DeviceEventEmitter } from 'react-native';
+var RNUploader = require('NativeModules').RNUploader;
 
 const getTextComments = (cb) => {
   fetch('http://localhost:3000/api/locationsusers')
@@ -38,28 +39,50 @@ const postTextComments = (textComment) => {
 };
 
 
-const fileUpload = (filePath) => {
-  var obj = {
-      uploadUrl: 'http://localhost:3000/api',
-      method: 'POST', // default 'POST',support 'POST' and 'PUT'
-      headers: {
-        'Accept': 'application/json',
-      },
-      fields: {
-          'hello': 'world',
-      },
-      files: [
-        {
-          name: 'one', // optional, if none then `filename` is used instead
-          filename: 'one.w4a', // require, file name
-          filepath: '/xxx/one.w4a', // require, file absoluete path
-          filetype: 'audio/x-m4a', // options, if none, will get mimetype from `filepath` extension
-        },
-      ]
-  };
-  FileUpload.upload(obj, function(err, result) {
-    console.log('upload:', err, result);
-  })
+const postAudioComments  = (filepath, filename) => {
+  console.log(filepath);
+  console.log(filename);
+	let files = [
+		{
+			filename: filename,
+			filepath: filepath,
+		}
+	];
+
+	let opts = {
+		url: 'http://localhost:3000/api/locationsusersaudio',
+		files: files, 
+		method: 'POST',                             // optional: POST or PUT
+		headers: { 
+      'Accept': 'audio/aac',
+      'Content-Type': 'audio/aac'
+    },
+		// params: { 'user_id': 1 }                 // optional
+	};
+
+	RNUploader.upload(opts, (err, response) => {
+		if( err ){
+			console.log('RNUploader err:', err);
+			return;
+		}
+  
+		let status = response.status;
+		let responseString = response.data;
+		let json = JSON.parse( responseString );
+
+		console.log('upload complete with status ' + status);
+    console.log('post response: ', json);
+	});
 }
 
-export { getTextComments, postTextComments };
+export { 
+  getTextComments,
+  postTextComments,
+  postAudioComments
+};
+
+/* --------------------------------------
+    In order to make uploader work
+      react-native link
+    If any can't find module, rebuild
+-------------------------------------- */
