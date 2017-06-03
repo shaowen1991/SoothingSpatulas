@@ -8,8 +8,8 @@ node('master') {
     }
 
     stage('deploy'){
-      sh 'yarn run docker-build; \
-          yarn run docker-down; \
+      sh 'yarn run docker-down; \
+          yarn run docker-build; \
           yarn run docker-up'
     }
 
