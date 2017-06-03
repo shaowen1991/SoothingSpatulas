@@ -8,18 +8,13 @@ node('master') {
     }
 
     stage('deploy'){
-      sh 'docker-compose down 2>/dev/null; \
-          docker build -t momento-image .; \
-          docker-compose up -d; \
-          docker ps -a; \
-          docker images; \
-          docker network ls'
+      sh 'yarn run docker-build; \
+          yarn run docker-down; \
+          yarn run docker-up'
     }
 
     stage('test'){
-      sh 'docker exec -it momento sh; \
-          yarn test; \
-          exit'
+      sh 'yarn run docker-test'
     }
 
   }
