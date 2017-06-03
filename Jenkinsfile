@@ -2,24 +2,19 @@
 
 node('master') {
   try {
-    stage('Build'){
-      echo 'INSTALLING...'
+    stage('build'){
       checkout scm
-      sh "yarn"
+      sh 'yarn'
     }
 
-    stage('Test'){
-      echo 'TESTING...'
+    stage('test'){
       sh 'yarn test'
     }
 
-    stage('Deploy'){
-      echo 'DEPLOYING...'
+    stage('deploy'){
+      sh 'echo "Clear momento-app container and image"'
       sh 'docker ps -a'
       sh 'docker images'
-
-
-      echo 'Clear momento-app container and image'
       sh 'docker network disconnect momento-net momento 2>/dev/null'
       sh 'docker stop momento 2>/dev/null'
       sh 'docker rm momento 2>/dev/null'
@@ -27,20 +22,11 @@ node('master') {
       sh 'docker ps -a'
       sh 'docker images'
 
-
-      echo 'Build momento-image and start momento'
+      sh 'echo "Build momento-image and start container"'
       sh 'docker build -t momento-image .'
       sh 'docker run --name momento -p 3000:3000 -d momento-image'
 
-
-      echo 'NOTE 1: manually set network and database since no compose file used'
-      echo 'see docker_details/dockerSolution.txt for more details'
-      echo 'NOTE 2: manually migrate and seed database as necessary'
-      echo 'in particular use "docker exec -it momento sh" to set database'
-      echo 'see docker_details/dockerSolution.txt for more details'
-
-
-      echo 'Connect momento-app container to network'
+      sh 'echo "Connect momento-app container to network"'
       sh 'docker network connect momento-net momento 2>/dev/null'
       sh 'docker network inspect momento-net 2>/dev/null'
       sh 'docker network ls'
