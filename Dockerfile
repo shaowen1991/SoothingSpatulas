@@ -16,7 +16,7 @@ RUN yarnDirectory=/opt/yarn && \
     rm /opt/yarn.tar.gz
 
 RUN yarn
-RUN yarn global add knex
+RUN yarn global add grunt-cli knex
 CMD [ "yarn", "start" ]
 
 EXPOSE 3000
