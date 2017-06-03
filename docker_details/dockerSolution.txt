@@ -10,7 +10,7 @@ docker images
 docker build -t momento-image .
 docker run --name momento -p 3000:3000 -d momento-image
 
-docker run --name momento-db -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=thesis -d postgres:9.6.3-alpine
+docker run --name momento-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=thesis -d postgres:9.6.3-alpine
 
 NOW LOGIN TO MIGRATE AND SEED THE DATABASE (docker exec -it momento sh)
 knex migrate:latest

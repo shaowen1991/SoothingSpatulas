@@ -7,9 +7,9 @@ node('master') {
       sh 'yarn'
     }
 
-    stage('test'){
-      sh 'yarn test'
-    }
+    //stage('test'){
+    // sh 'yarn test'
+    //}
 
     stage('deploy'){
       sh 'echo "Clear momento-app container and image"'
