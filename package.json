@@ -4,7 +4,13 @@
   "scripts": {
     "start": "nodemon server",
     "test": "grunt test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "docker-up": "./setup/up.sh",
+    "docker-down": "./setup/down.sh",
+    "docker-test": "./setup/test.sh",
+    "docker-build": "./setup/build.sh",
+    "docker-migrate": "./setup/migrate.sh",
+    "docker-seed": "./setup/seed.sh"
   },
   "author": "Hack Reactor",
   "license": "MIT",

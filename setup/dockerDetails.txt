@@ -1,4 +1,33 @@
-DOCKER BUILD
+---
+DOCKER AUTOMATIC BUILD
+---
+docker build -t momento-image .
+docker-compose up -d
+docker-compose down
+
+NOW LOGIN TO MIGRATE AND SEED THE DATABASE (docker exec -it momento sh)
+knex migrate:latest
+knex seed:run
+
+LOGIN TO RUN TESTS (docker exec -it momento sh)
+yarn test
+
+
+
+---
+DOCKER SWARM BUILD (currently in development)
+---
+docker stack rm momentoapp 2>/dev/null
+docker swarm leave --force 2>/dev/null
+docker swarm init
+docker stack deploy -c docker-compose.yml momentoapp
+docker stack ls
+docker stack ps momentoapp
+
+
+
+---
+DOCKER MANUAL BUILD (similar functionality as automatic build)
 ---
 docker stop $(docker ps -a -q) 2>/dev/null
 docker rm $(docker ps -a -q) 2>/dev/null
@@ -17,7 +46,6 @@ knex migrate:latest
 knex seed:run
 
 
----
 ONE-TIME NETWORK ACTIONS (network to talk to database)
 docker network create momento-net
 docker network rm momento-net
@@ -31,12 +59,3 @@ docker network disconnect momento-net momento 2>/dev/null
 docker network inspect momento-net 2>/dev/null
 docker network ls
 
-
----
-DOCKER STACK WITH DOCKER-COMPOSE.YML (currently in testing stage)
-docker stack rm momentoapp 2>/dev/null
-docker swarm leave --force 2>/dev/null
-docker swarm init
-docker stack deploy -c docker-compose.yml momentoapp
-docker stack ls
-docker stack ps momentoapp

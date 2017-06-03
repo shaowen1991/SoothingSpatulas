@@ -1,9 +1,10 @@
 version: "3"
 services:
   web:
-    image: imomento-app
+    container_name: momento
+    image: momento-image
     deploy:
-      replicas: 1
+      replicas: 2
       restart_policy:
         condition: on-failure
       resources:
@@ -14,7 +15,8 @@ services:
       - "3000:3000"
     networks:
       - webnet
-  postgres:
+  db:
+    container_name: momento-db
     image: postgres:9.6.3-alpine
     environment:
       POSTGRES_PASSWORD: postgres
@@ -23,11 +25,15 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     deploy:
+      restart_policy:
+        condition: on-failure
       placement:
         constraints: [node.role == manager]
     networks:
       - webnet
 networks:
   webnet:
+volumes:
+  db-data:
