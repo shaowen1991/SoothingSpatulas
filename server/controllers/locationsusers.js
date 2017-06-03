@@ -12,7 +12,6 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  console.log(req.body);
   models.LocationUser.forge({
     comment: req.body.comment,
     latitude: req.body.latitude,

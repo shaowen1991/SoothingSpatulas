@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateLogin } from '../actions.js';
+import { updateUsername, updateLogin } from '../Actions.js';
 import Auth0Lock from 'react-native-lock';
 
 var credentials = require('../config/config.js');
