@@ -7,19 +7,29 @@ import {
   TextInput,
   View
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+// import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-import { updateUsername, updateLogin } from '../actions.js';
+
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import { updateUsername, updateLogin } from '../Actions.js';
 import Auth0Lock from 'react-native-lock';
 
 var credentials = require('../config/config.js');
 var lock = new Auth0Lock(credentials);
 
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
 const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
   loginReducer,
   usernameReducer
 });
 
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: () => {
     lock.show({
@@ -57,22 +67,23 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      typeInUsername: '',
-      typeInPassword: ''
-    }
+
+  state = { 
+    typeInUsername: '',
+    typeInPassword: ''
   }
 
-  static navigationOptions = {
-    title: 'Login',
-  }
+  // static navigationOptions = {
+  //   title: 'Login',
+  // }
 
   render() {
     let props = this.props;
-    const { navigate } = props.navigation;
+    // const { navigate } = props.navigation;
     console.log('Login props: ', props);
 
     return (
@@ -90,7 +101,6 @@ class Login extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

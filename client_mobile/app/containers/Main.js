@@ -2,19 +2,66 @@ import React, { Component } from 'react';
 import { Alert, StyleSheet, View, Text, Button, AppRegistry, PermissionsAndroid, Platform, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
-import { updateLogout, updateUsername } from '../actions.js';
 import isEqual from 'lodash/isEqual';
 import $ from 'jquery';
+import { getTextComments, postTextComments } from '../Network.js';
 
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import {
+  updateLogout,
+  updateUsername,
+  openCheckIn,
+  closeCheckIn,
+  addTextComment,
+  updateTextCommentsDB
+} from '../Actions.js';
+
+/* ----------------------------------
+         Import Components
+---------------------------------- */
+import CheckInFooter from './CheckInFooter';
+
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
+const mapStateToProps = ({
   loginReducer,
-  usernameReducer 
+  usernameReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  testAudioReducer
+}) => ({
+  loginReducer,
+  usernameReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  testAudioReducer
 });
 
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLogoutClick: () => {
     dispatch(updateLogout());
     dispatch(updateUsername(''));
+  },
+  toggleCheckIn: (checkInOpenReducer) => {
+    if (checkInOpenReducer) {
+      dispatch(closeCheckIn());
+    }
+    else {
+      dispatch(openCheckIn());
+    }
+  },
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
+    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
+  },
+  updateTextCommentsFromDB: (comments) => {
+    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -25,7 +72,10 @@ const defaultProps = {
   geolocationOptions: { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
 }
 
-export default class map extends Component {
+/* ----------------------------------
+                Class
+---------------------------------- */
+class Main extends Component  {
   constructor (props) {
     super (props);
     this.state = {
@@ -79,6 +129,9 @@ export default class map extends Component {
   componentDidMount () {
     this.watchLocation();
     this.addPOI();
+    // jack's stuff
+    console.log('component did mount')
+    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
   }
 
   watchLocation () {
@@ -215,6 +268,18 @@ export default class map extends Component {
   }
 
   render() {
+    const {
+      usernameReducer,
+      onLogoutClick,
+      checkInOpenReducer,
+      toggleCheckIn,
+      onCommentSubmit,
+      textCommentsReducer,
+      testAudioReducer,
+      updateTextCommentsFromDB
+    } = this.props;
+
+    console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
         <TextInput
@@ -264,22 +329,45 @@ export default class map extends Component {
           description={this.state.placeThree.des}
         />
         </MapView>
-        <View style={{flex: 1, flexDirection: 'row'}}>  
+        <View style={styles.buttons}>  
           <Button 
             style={styles.leftButton}
             onPress={this.addPOI}
-            color="#fff"
-            title="        Nearby Locations"
+            color="black"
+            title="Nearby Locations"
             accessibilityLabel="Get nearby locations from a Google API"
           />
           <Button
             style={styles.rightButton}
-            onPress={this.onPinDrop.bind(this)}
+            onPress={() => { toggleCheckIn(checkInOpenReducer) }}
             title="Check In Here!          "
-            color="#fff"
+            color="black"
             accessibilityLabel="Drop a pin to show this location, along with a comment and rating, on your profile."
           />
         </View>
+            {/*onPress={this.onPinDrop.bind(this)}*/}
+
+        {/*{this.props.textCommentsReducer.map((comment, id) => (
+          <Text key={id}>{comment.user_id} : {comment.comment} {comment.latitude} {comment.longitude}</Text>
+        ))}
+
+        {testAudioReducer.map((comment, id) => (
+          <Text key={id}>{comment.user} : {comment.audioPath}</Text>
+        ))}*/}
+
+        {/*<Button onPress={onLogoutClick} title="Logout" />
+        <Button onPress={() => { toggleCheckIn(checkInOpenReducer) }} title='Check In' />*/}
+
+        <CheckInFooter 
+          visible={checkInOpenReducer}
+          //(comment, latitude, longitude, rating, user_id)
+          onCommentSubmit={(comment, latitude, longitude, rating) => { 
+            postTextComments({comment, latitude, longitude, rating, user_id: 1});
+            onCommentSubmit(comment, latitude, longitude, rating, 1) 
+          }}
+          toggleCheckIn={() => { toggleCheckIn(checkInOpenReducer) }}
+        />
+        
       </View>
     );
   }
@@ -287,23 +375,30 @@ export default class map extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    height:  "100%",
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#6b8e23'
   },
   map: {
-    height: "88.22%",
+    height: "85.22%",
     width: "100%"
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#fff'
   },
   rightButton: {
     flex: 1,
     width: "50%",
-    backgroundColor: "#6b8e23"
+    // backgroundColor: "#6b8e23"
   },
   leftButton: {
+    padding: "20%",
     width: "50%",
     flex: 1,
-    backgroundColor: "#6b8e23",
+    // backgroundColor: "#6b8e23",
     alignItems: "center",
     margin: "200%"
   },
@@ -315,3 +410,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

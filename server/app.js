@@ -10,6 +10,7 @@ app.use(middleware.morgan('dev'));
 app.use(middleware.cookieParser());
 app.use(middleware.bodyParser.urlencoded({extended: false}));
 app.use(middleware.bodyParser.json());
+app.use(middleware.bodyParser.raw({ type: 'audio/aac', limit: '50mb' }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -25,6 +26,7 @@ app.use('/api', routes.api);
 // app.use('/api/profiles', routes.profiles);
 app.use('/api/locations', routes.locations);
 app.use('/api/locationsusers', routes.locationsusers);
+app.use('/api/locationsusersaudio', routes.locationsusersaudio);
 app.use('/api/users', routes.users);
 
 module.exports = app;
