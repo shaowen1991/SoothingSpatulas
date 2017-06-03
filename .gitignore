@@ -1,9 +1,3 @@
-#ios
-client_mobile/ios/
-
-#android
-client_mobile/android/
-
 # OS X
 .DS_Store
 

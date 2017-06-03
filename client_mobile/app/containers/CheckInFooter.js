@@ -1,11 +1,65 @@
-import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, Text, Button, TextInput } from 'react-native'
-import * as Animatable from 'react-native-animatable'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Dimensions, 
+  View, 
+  Text, 
+  Button, 
+  TextInput 
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { connect } from 'react-redux';
 
+import { postTextComments } from '../Network.js';
 import Recorder from './Recorder.js';
 const transitionProps = ['top', 'height', 'width']
 
-export default class CheckInFooter extends Component {
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import {
+  openCheckIn,
+  closeCheckIn,
+  addTextComment
+} from '../Actions.js';
+
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
+const mapStateToProps = ({
+  usernameReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  audioCommentsReducer
+}) => ({
+  usernameReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  audioCommentsReducer
+});
+
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
+const mapDispatchToProps = (dispatch) => ({
+  toggleCheckIn: (checkInOpenReducer) => {
+    if (checkInOpenReducer) {
+      dispatch(closeCheckIn());
+    }
+    else {
+      dispatch(openCheckIn());
+    }
+  },
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
+    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
+  },
+});
+
+/* ----------------------------------
+                Class
+---------------------------------- */
+class CheckInFooter extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -14,19 +68,19 @@ export default class CheckInFooter extends Component {
     this.clearText = this.clearText.bind(this);
   }
 
-  static defaultProps = {
-    visible: false,
-  }
+  // static defaultProps = {
+  //   checkInOpenReducer: false,
+  // }
 
   clearText() {
     this._textInput.setNativeProps({text: ''});
   }
 
   render() {
-    const {visible, toggleCheckIn, onCommentSubmit} = this.props
+    const {checkInOpenReducer, toggleCheckIn, onCommentSubmit, onPinDrop} = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
-      top: visible ? 200 : windowHeight,
+      top: checkInOpenReducer ? 200 : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -41,7 +95,7 @@ export default class CheckInFooter extends Component {
       >
         <Button 
           onPress={() => {
-            toggleCheckIn();
+            toggleCheckIn(checkInOpenReducer);
             this.clearText();
           }}
           title='Back'
@@ -56,15 +110,33 @@ export default class CheckInFooter extends Component {
 
         <Button 
           onPress={() => {
-            toggleCheckIn();
+            toggleCheckIn(checkInOpenReducer);
             /* ---------------------------------------------
                  comment, latitude, longitude, rating
                   pass the text commet details here
+                  first method is send data to Redux
+                  second method is send data to DB
             ---------------------------------------------- */            
-            onCommentSubmit(this.state.typeInComment, '12.345', '67,89', 5);
+            onCommentSubmit(
+              this.state.typeInComment,
+              '12.345',
+              '67,89',
+              5,
+              1
+            );
+            postTextComments({
+              comment: this.state.typeInComment,
+              latitude: '12.345',
+              longitude: '67,89',
+              rating: 5, 
+              user_id: 1
+            });
+            onPinDrop();
             this.clearText();
           }} 
-          title='Check In'/>
+          title='Check In'
+        />
+
         <Recorder />  
       </Animatable.View>
     )
@@ -79,3 +151,5 @@ const styles = StyleSheet.create({
     borderColor: 'grey'
   },
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckInFooter);
