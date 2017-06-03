@@ -49,7 +49,7 @@ const textCommentsReducer = (state = [], action) => {
   }    
 };
 
-const testAudioReducer = (state = [], action) => {
+const audioCommentsReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_AUDIO_COMMENT') : return [
       ...state,
@@ -74,7 +74,7 @@ const reducers = combineReducers({
   usernameReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  testAudioReducer,
+  audioCommentsReducer,
   testCommentIDReducer
 });
 

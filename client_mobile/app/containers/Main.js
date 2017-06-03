@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View, Text, Button, AppRegistry, PermissionsAndroid, Platform, TextInput } from 'react-native';
+import { 
+  Alert, 
+  StyleSheet, 
+  View, 
+  Text, 
+  Button, 
+  AppRegistry, 
+  PermissionsAndroid, 
+  Platform, 
+  TextInput 
+} from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import isEqual from 'lodash/isEqual';
 import $ from 'jquery';
-import { getTextComments, postTextComments } from '../Network.js';
+
+import { getTextComments } from '../Network.js';
 
 /* ----------------------------------
        Import Redux Actions
@@ -14,7 +25,6 @@ import {
   updateUsername,
   openCheckIn,
   closeCheckIn,
-  addTextComment,
   updateTextCommentsDB
 } from '../Actions.js';
 
@@ -31,13 +41,13 @@ const mapStateToProps = ({
   usernameReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  testAudioReducer
+  audioCommentsReducer
 }) => ({
   loginReducer,
   usernameReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  testAudioReducer
+  audioCommentsReducer
 });
 
 /* ----------------------------------
@@ -56,15 +66,14 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
-    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
-  },
   updateTextCommentsFromDB: (comments) => {
     dispatch(updateTextCommentsDB(comments));
   }
 });
 
+/* ----------------------------------
+            Other Props
+---------------------------------- */
 const myLocationMarkerColor = 'orange';
 
 const defaultProps = {
@@ -129,8 +138,6 @@ class Main extends Component  {
   componentDidMount () {
     this.watchLocation();
     this.addPOI();
-    // jack's stuff
-    console.log('component did mount')
     getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
   }
 
@@ -273,13 +280,13 @@ class Main extends Component  {
       onLogoutClick,
       checkInOpenReducer,
       toggleCheckIn,
-      onCommentSubmit,
       textCommentsReducer,
-      testAudioReducer,
+      audioCommentsReducer,
       updateTextCommentsFromDB
     } = this.props;
 
     console.log('Main props: ', this.props);
+    console.log('------> comments: ', this.props.textCommentsReducer)
     return (
       <View style={styles.container}>
         <TextInput
@@ -346,27 +353,19 @@ class Main extends Component  {
           />
         </View>
             {/*onPress={this.onPinDrop.bind(this)}*/}
-
+            
         {/*{this.props.textCommentsReducer.map((comment, id) => (
           <Text key={id}>{comment.user_id} : {comment.comment} {comment.latitude} {comment.longitude}</Text>
         ))}
 
-        {testAudioReducer.map((comment, id) => (
+        {audioCommentsReducer.map((comment, id) => (
           <Text key={id}>{comment.user} : {comment.audioPath}</Text>
         ))}*/}
 
         {/*<Button onPress={onLogoutClick} title="Logout" />
         <Button onPress={() => { toggleCheckIn(checkInOpenReducer) }} title='Check In' />*/}
 
-        <CheckInFooter 
-          visible={checkInOpenReducer}
-          //(comment, latitude, longitude, rating, user_id)
-          onCommentSubmit={(comment, latitude, longitude, rating) => { 
-            postTextComments({comment, latitude, longitude, rating, user_id: 1});
-            onCommentSubmit(comment, latitude, longitude, rating, 1) 
-          }}
-          toggleCheckIn={() => { toggleCheckIn(checkInOpenReducer) }}
-        />
+        <CheckInFooter onPinDrop={this.onPinDrop.bind(this)}/>
         
       </View>
     );
