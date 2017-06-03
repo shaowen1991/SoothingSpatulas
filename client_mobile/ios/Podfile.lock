@@ -1,76 +1,61 @@
 PODS:
-  - GoogleMaps (2.1.1):
-    - GoogleMaps/Maps (= 2.1.1)
-  - GoogleMaps/Base (2.1.1)
-  - GoogleMaps/Maps (2.1.1):
-    - GoogleMaps/Base
-  - React (0.44.0):
-    - React/Core (= 0.44.0)
-  - react-native-google-maps (1.1.4):
-    - GoogleMaps (= 2.1.1)
-    - React
-  - react-native-maps (0.15.2):
-    - React
-  - React/Core (0.44.0):
-    - React/cxxreact
-    - Yoga (= 0.44.0.React)
-  - React/cxxreact (0.44.0):
-    - React/jschelpers
-  - React/jschelpers (0.44.0)
-  - React/RCTActionSheet (0.44.0):
-    - React/Core
-  - React/RCTGeolocation (0.44.0):
-    - React/Core
-  - React/RCTImage (0.44.0):
-    - React/Core
-    - React/RCTNetwork
-  - React/RCTLinkingIOS (0.44.0):
-    - React/Core
-  - React/RCTNetwork (0.44.0):
-    - React/Core
-  - React/RCTSettings (0.44.0):
-    - React/Core
-  - React/RCTText (0.44.0):
-    - React/Core
-  - React/RCTVibration (0.44.0):
-    - React/Core
-  - React/RCTWebSocket (0.44.0):
-    - React/Core
-  - Yoga (0.44.0.React)
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - Lock (1.29.1):
+    - Lock/Core (= 1.29.1)
+    - Lock/UI (= 1.29.1)
+    - Lock/WebView (= 1.29.1)
+  - Lock/Core (1.29.1):
+    - AFNetworking (~> 3.0)
+  - Lock/CoreUI (1.29.1):
+    - Lock/Core
+    - Masonry (~> 0.6)
+  - Lock/Email (1.29.1):
+    - Lock/UI
+  - Lock/Safari (1.29.1):
+    - Lock/CoreUI
+  - Lock/SMS (1.29.1):
+    - Lock/UI
+  - Lock/TouchID (1.29.1):
+    - Lock/UI
+    - SimpleKeychain (~> 0.2)
+    - TouchIDAuth (~> 0.1)
+  - Lock/UI (1.29.1):
+    - Lock/CoreUI
+  - Lock/WebView (1.29.1):
+    - Lock/CoreUI
+  - Masonry (0.6.4)
+  - SimpleKeychain (0.7.0)
+  - TouchIDAuth (0.2.0):
+    - SimpleKeychain (~> 0.3)
 
 DEPENDENCIES:
-  - GoogleMaps
-  - react-native-google-maps (from `../node_modules/react-native-maps-google`)
-  - react-native-maps (from `../node_modules/react-native-maps`)
-  - React/Core (from `../node_modules/react-native`)
-  - React/RCTActionSheet (from `../node_modules/react-native`)
-  - React/RCTGeolocation (from `../node_modules/react-native`)
-  - React/RCTImage (from `../node_modules/react-native`)
-  - React/RCTLinkingIOS (from `../node_modules/react-native`)
-  - React/RCTNetwork (from `../node_modules/react-native`)
-  - React/RCTSettings (from `../node_modules/react-native`)
-  - React/RCTText (from `../node_modules/react-native`)
-  - React/RCTVibration (from `../node_modules/react-native`)
-  - React/RCTWebSocket (from `../node_modules/react-native`)
-  - Yoga (from `../node_modules/react-native/ReactCommon/yoga/Yoga.podspec`)
-
-EXTERNAL SOURCES:
-  React:
-    :path: "../node_modules/react-native"
-  react-native-google-maps:
-    :path: "../node_modules/react-native-maps-google"
-  react-native-maps:
-    :path: "../node_modules/react-native-maps"
-  Yoga:
-    :path: "../node_modules/react-native/ReactCommon/yoga/Yoga.podspec"
+  - Lock (~> 1.29)
+  - Lock/Email
+  - Lock/Safari
+  - Lock/SMS
+  - Lock/TouchID
 
 SPEC CHECKSUMS:
-  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
-  React: d2077cc20245ccdc8bfe1fdc002f2003318ae8d8
-  react-native-google-maps: ba5537e2441666e951ba0b6e0dc140cf84074869
-  react-native-maps: fe2e4680b4d3fcfd84d636ccedd470fe358d55e1
-  Yoga: a92a5d8e128905bf9f29c82f870192a6e873dd98
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Lock: 8dcce0f7b77961141f11431f30d8fcc07a2708d3
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
+  TouchIDAuth: 0cf861f58a2cacfc1c12cb02de4850729d943c81
 
-PODFILE CHECKSUM: e4eea3d4e9e7b294ad9e89d043631a00cb4303e3
+PODFILE CHECKSUM: 4146f229d99115b7b30812fbfd3764c512ef9e5a
 
 COCOAPODS: 1.2.1

@@ -1,32 +1,12 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '9.0'
-
-target 'momento' do
-  # Uncomment this line if you're using Swift or would like to use dynamic frameworks
+target 'client_mobile' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
-
-  # Pods for momento
-
-  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga/Yoga.podspec'
-  pod 'React', path: '../node_modules/react-native', :subspecs => [
-  'Core',
-  'RCTActionSheet',
-  'RCTGeolocation',
-  'RCTImage',
-  'RCTLinkingIOS',
-  'RCTNetwork',
-  'RCTSettings',
-  'RCTText',
-  'RCTVibration',
-  'RCTWebSocket'
-  ]
-
-  pod 'GoogleMaps'
-  pod 'react-native-maps', path: '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', path: '../node_modules/react-native-maps-google'  # <~~ if you need 
-
-
 end
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-use_frameworks!
+
+# Auth0 Lock
+
+pod 'Lock', '~> 1.29'
+pod 'Lock/TouchID'
+pod 'Lock/SMS'
+pod 'Lock/Email'
+pod 'Lock/Safari'

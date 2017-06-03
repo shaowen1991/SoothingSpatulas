@@ -7,7 +7,7 @@ import {
   TextInput,
   View
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+// import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
 /* ----------------------------------
@@ -77,13 +77,13 @@ class Login extends Component {
     typeInPassword: ''
   }
 
-  static navigationOptions = {
-    title: 'Login',
-  }
+  // static navigationOptions = {
+  //   title: 'Login',
+  // }
 
   render() {
     let props = this.props;
-    const { navigate } = props.navigation;
+    // const { navigate } = props.navigation;
     console.log('Login props: ', props);
 
     return (

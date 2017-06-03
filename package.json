@@ -2,7 +2,7 @@
   "name": "course.thesis",
   "version": "1.0.0",
   "scripts": {
-    "start": "node server",
+    "start": "nodemon server",
     "test": "grunt test",
     "build": "webpack --watch"
   },

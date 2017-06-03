@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { TextInput } from 'react-native';
 
 import Main from './Main';
-import LoginNavi from './LoginNavi';
+import Login from './Login';
 
 const mapStateToProps = ({ loginReducer }) => ({ loginReducer });
 
@@ -13,7 +13,8 @@ class Navigator extends Component {
     console.log('Navigator props: ', this.props);
 
     return (
-      loginReducer ? <Main /> : <LoginNavi />
+      loginReducer ? <Main /> : <Login />
+      //  <Main />
     );
   }
 }
