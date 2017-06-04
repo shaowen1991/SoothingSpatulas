@@ -1,13 +1,13 @@
-# Project Name
+# MOMENTO
 
 The project description
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
+- Chris Keating
+- Jack Ren
+- Michael Sermersheim
+- Nick Anderson
 
 ## Roadmap
 
@@ -23,7 +23,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Installing Docker](#installing-docker)
 
 ## Usage
 
@@ -38,54 +38,26 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## Development
 
-### Installing System Dependencies
+### Installing Dependencies
 
 ```
 brew install yarn
-brew install redis
-brew install postgresql
 ```
 
 Yarn is a replacement for npm. It's faster and *guarantees* consistency -- as you deploy your code in various environments, you won't run the risk of slight variations in what gets installed.
 
-### Install Project Dependencies
 
-```
-yarn global add grunt-cli knex eslint
-```
+### Installing Docker
 
-## Database Initialization
+Install Docker Community Edition for your operating system. Follow instructions to install and start the Docker Community Edition. After downloading the SoothingSpatulas repository, open a terminal in the root directory of SoothingSpatulas. To get Docker Containers running, you'll want to do the commands in the order below.
 
-IMPORTANT: ensure `postgres` is running before performing these steps.
+To build the container images: `yarn docker-build`
 
-### Database Creation:
+To load build the container: `yarn docker-up`
 
-Use grunt to create a new database for your development and test environments:
+To create the datbase tables: `yarn docker-migrate`
 
-Development envronment: `grunt pgcreatedb:default`
+To seed the database tables: `yarn docker-seed`
 
-Other environments, specify like so: `NODE_ENV=test grunt pgcreatedb:default`
-
-### Run Migrations & Data Seeds
-
-In terminal, from the root directory:
-
-`knex migrate:latest --env NODE_ENV`
-
-`knex migrate:rollback --env NODE_ENV`
-
-`knex seed:run --env NODE_ENV`
-
-Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrate:latest` will run all migrations in the development environment, while `knex migrate:latest --env test` will migrate in the test environment.
-
-## Running the App
-
-To run webpack build: `yarn run build`
-
-To run server: `yarn run start`
-
-To run tests: `yarn run test`
-
-To run your redis server for the session store `redis-server`
 
 
