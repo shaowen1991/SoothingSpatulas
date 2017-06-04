@@ -51,13 +51,15 @@ Yarn is a replacement for npm. It's faster and *guarantees* consistency -- as yo
 
 Install Docker Community Edition for your operating system. Follow instructions to install and start the Docker Community Edition. After downloading the SoothingSpatulas repository, open a terminal in the root directory of SoothingSpatulas. To get Docker Containers running, you'll want to do the commands in the order below.
 
-To build the container images: `yarn docker-build`
+To build the container: `yarn docker-build`
 
-To load build the container: `yarn docker-up`
+To create the container: `yarn docker-up`
 
 To create the datbase tables: `yarn docker-migrate`
 
 To seed the database tables: `yarn docker-seed`
+
+To remove the container: 'yarn docker-down'
 
 
 
