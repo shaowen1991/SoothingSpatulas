@@ -3,6 +3,10 @@ services:
   web:
     container_name: momento
     image: momento-image
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
     deploy:
       replicas: 2
       restart_policy:
@@ -11,8 +15,6 @@ services:
         limits:
           cpus: "0.1"
           memory: 50M
-    ports:
-      - "3000:3000"
     networks:
       - webnet
   db:
