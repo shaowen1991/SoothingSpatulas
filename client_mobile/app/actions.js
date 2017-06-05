@@ -6,6 +6,11 @@ const updateUsername = (username) => ({
   username: username
 });
 
+const updateUserid = (userid) => ({
+  type: 'UPDATE_USERID',
+  username: userid
+});
+
 const updateLogin = () => ({
   type: 'LOG_IN'
 });
@@ -48,6 +53,7 @@ const incrementID = () => ({
 
 export {
   updateUsername,
+  updateUserid,
   updateLogin,
   updateLogout,
   openCheckIn,

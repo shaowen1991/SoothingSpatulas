@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateLogin } from '../Actions.js';
+import { updateUsername, updateUserid, updateLogin } from '../Actions.js';
 import Auth0Lock from 'react-native-lock';
 
 var credentials = require('../config/config.js');
@@ -22,9 +22,14 @@ var lock = new Auth0Lock(credentials);
 /* ----------------------------------
     Mapping Redux Store States
 ---------------------------------- */
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
+const mapStateToProps = ({ 
+  loginReducer, 
+  usernameReducer, 
+  useridReducer 
+}) => ({
   loginReducer,
-  usernameReducer
+  usernameReducer,
+  useridReducer
 });
 
 /* ----------------------------------
@@ -32,36 +37,61 @@ const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: () => {
-    lock.show({
-      closable: true
-    }, (err, profile, token) => {
-      console.log('hitting the thing')
+    lock.show(
+    {closable: true}, 
+    (err, profile, token) => {
+      // console.log('hitting the thing')
       if (err) {
         console.log('login error: ', err);
         return;
       }
-      console.log('profile2: ', profile);
-      console.log('token2: ', token);
-      console.log('Logged in with Auth02!');
+      // console.log('profile2: ', profile);
+      // console.log('token2: ', token);
+      // console.log('Logged in with Auth02!');
 
       var config = {
         first: profile.nickname,
         email: profile.email
       }
 
-      fetch("http://localhost:3000/api/users/", {
-        method: "POST",
+      fetch("http://localhost:3000/api/users/id", {
+        method: "GET",
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json'            
         },
-        body: JSON.stringify(config)
+        params: {
+          'email' : profile.email
+        }
+      })
+      .then((response) => {
+        if (response.status === 404 || response.status === 500) {
+          console.log('@@@@@ err: ', response);
+          console.log('@@@@@ email: ', profile.email);
+        }
+        else {
+          console.log('@@@@@ userid: ', response);
+        }
       })
       .catch((err) => {
-        console.log('user post error: ', err)
+        console.log('user id fetch err: ', err);
+        // fetch("http://localhost:3000/api/users/", {
+        //   method: "POST",
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(config)
+        // })
+        // .catch((err) => {
+        //   console.log('user post error: ', err)
+        // })
       })
+      
 
+      
       dispatch(updateUsername(profile.nickname));
+      // dispatch(updateUserid())
       dispatch(updateLogin());
     });
   }
