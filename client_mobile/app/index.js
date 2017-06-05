@@ -24,6 +24,13 @@ const usernameReducer = (state = '', action) => {
   }
 };
 
+const useridReducer = (state = '', action) => {
+  switch (action.type) {
+    case ('UPDATE_USERID') : return action.userid;
+    default : return state;
+  }
+};
+
 const checkInOpenReducer = (state = false, action) => {
   switch (action.type) {
     case ('OPEN_CHECKIN') : return true;
@@ -72,6 +79,7 @@ const testCommentIDReducer = (state = 0, action) => {
 const reducers = combineReducers({
   loginReducer,
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
   audioCommentsReducer,
