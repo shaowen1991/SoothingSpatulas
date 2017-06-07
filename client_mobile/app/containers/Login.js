@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   Button,
   StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
-// import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
+import Auth0Lock from 'react-native-lock';
+
+const credentials = require('../config/config.js');
+const lock = new Auth0Lock(credentials);
 
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateUserid, updateLogin } from '../Actions.js';
-import Auth0Lock from 'react-native-lock';
-
-var credentials = require('../config/config.js');
-var lock = new Auth0Lock(credentials);
+import { 
+  updateUsername, 
+  updateUserid, 
+  updateLogin 
+} from '../Actions.js';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -40,58 +42,57 @@ const mapDispatchToProps = (dispatch) => ({
     lock.show(
     {closable: true}, 
     (err, profile, token) => {
-      // console.log('hitting the thing')
       if (err) {
-        console.log('login error: ', err);
+        console.log('-------> login error: ', err);
         return;
       }
-      // console.log('profile2: ', profile);
-      // console.log('token2: ', token);
-      // console.log('Logged in with Auth02!');
 
-      var config = {
+      let userLoginInfo = {
         first: profile.nickname,
         email: profile.email
       }
-
-      fetch("http://localhost:3000/api/users/id", {
+      /* ----------------------------------------------------
+        Firstly, check if this email is in the our DB or not.
+        If it is in DB, get the userid and update Redux.
+        If it is not in DB, invoke a POST new user request
+      ---------------------------------------------------- */
+      fetch("http://localhost:3000/api/users/email/" + profile.email, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'            
-        },
-        params: {
-          'email' : profile.email
         }
       })
-      .then((response) => {
-        if (response.status === 404 || response.status === 500) {
-          console.log('@@@@@ err: ', response);
-          console.log('@@@@@ email: ', profile.email);
-        }
-        else {
-          console.log('@@@@@ userid: ', response);
-        }
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log('-------> get login user data: ', responseJSON);
+        dispatch(updateUserid(responseJSON.id));
       })
       .catch((err) => {
-        console.log('user id fetch err: ', err);
-        // fetch("http://localhost:3000/api/users/", {
-        //   method: "POST",
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify(config)
-        // })
-        // .catch((err) => {
-        //   console.log('user post error: ', err)
-        // })
+        console.log('-------> user id fetch err: ', err);
+        /* ----------------------------------------------------
+          In this POST request, send new user login info to DB
+          and get the user object back from response, 
+          which include the userid
+        ---------------------------------------------------- */
+        fetch("http://localhost:3000/api/users/", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userLoginInfo)
+        })
+        .then((response) => response.json())
+        .then((responseJSON) => {
+          console.log('-------> new user posted: ',responseJSON);
+          dispatch(updateUserid(responseJSON.id));
+        })
+        .catch((err) => {
+          console.log('-------> new user post error: ', err)
+        })
       })
-      
-
-      
       dispatch(updateUsername(profile.nickname));
-      // dispatch(updateUserid())
       dispatch(updateLogin());
     });
   }
@@ -101,20 +102,14 @@ const mapDispatchToProps = (dispatch) => ({
                 Class
 ---------------------------------- */
 class Login extends Component {
-
   state = { 
     typeInUsername: '',
     typeInPassword: ''
   }
 
-  // static navigationOptions = {
-  //   title: 'Login',
-  // }
-
   render() {
-    let props = this.props;
-    // const { navigate } = props.navigation;
-    console.log('Login props: ', props);
+    const { onLoginClick } = this.props;
+    console.log('Login props: ', this.props);
 
     return (
       <View style={styles.container}>
@@ -123,9 +118,7 @@ class Login extends Component {
         </Text>
         <Button 
           title="Log In"
-          onPress={() => {
-            props.onLoginClick();
-          }}
+          onPress={() => {onLoginClick()}}
         />
       </View>
     );
@@ -137,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5F5F5',
   },
   welcome: {
     fontSize: 20,
