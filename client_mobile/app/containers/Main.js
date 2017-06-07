@@ -20,7 +20,10 @@ import {
   updateUserid,
   openCheckIn,
   closeCheckIn,
-  moveRegion
+  moveRegion,
+  openProfileView,
+  closeProfileView,
+  updateTextCommentsDB
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -28,8 +31,9 @@ import {
 ---------------------------------- */
 import Map from './Map';
 import CheckInFooter from './CheckInFooter';
+import Profile from './Profile';
 import SearchMain from './SearchMain';
-import { NavigationIcon, BackToMyLocationIcon, CheckInButton }  from '../components';
+import { NavigationIcon, BackToMyLocationIcon, CheckInButton, ProfileIcon }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -39,6 +43,7 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
+  profileViewOpen,
   textCommentsReducer,
   audioCommentsReducer,
   myLocationReducer,
@@ -48,6 +53,7 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
+  profileViewOpen,
   textCommentsReducer,
   audioCommentsReducer,
   myLocationReducer,
@@ -64,6 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateUserid(0));
   },
   toggleCheckIn: (checkInOpenReducer) => {
+    console.log('checkin hamburger')
     if (checkInOpenReducer) {
       dispatch(closeCheckIn());
     }
@@ -73,6 +80,21 @@ const mapDispatchToProps = (dispatch) => ({
   },
   backToMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
+  },
+  toggleProfileView: (profileViewOpen) => {
+    console.log('profile hamburger')
+    console.log('hamburger props: ', this.props)
+    console.log('hamburger dispatch:', dispatch)
+    console.log('hamburger dispatch:', profileViewOpen)
+    if (profileViewOpen) {
+      dispatch(closeProfileView());
+    }
+    else {
+      dispatch(openProfileView());
+    }
+  },
+  updateTextCommentsFromDB: (comments) => {
+    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -86,7 +108,9 @@ class Main extends Component  {
       usernameReducer,
       onLogoutClick,
       checkInOpenReducer,
+      profileViewOpen,
       toggleCheckIn,
+      toggleProfileView,
       textCommentsReducer,
       audioCommentsReducer,
       myLocationReducer,
@@ -107,6 +131,10 @@ class Main extends Component  {
           myLocationReducer={myLocationReducer}
           regionReducer={regionReducer}
           backToMyLocation={backToMyLocation}
+        <ProfileIcon 
+          icon={profileViewOpen ? 'arrow-left' : 'hamburger'}
+          profileViewOpen={profileViewOpen}
+          onPress={toggleProfileView}
         />
         <SearchMain />
         <Map 
@@ -118,7 +146,7 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
         /> 
         <CheckInFooter />
-
+        <Profile />
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );

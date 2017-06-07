@@ -30,6 +30,13 @@ const closeCheckIn = () => ({
   type: 'CLOSE_CHECKIN'
 });
 
+const openProfileView = () => ({
+  type: 'OPEN_PROFILE'
+});
+
+const closeProfileView = () => ({
+  type: 'CLOSE_PROFILE'
+});
 /* Comments Actions
 --------------------------------*/
 const addTextComment = (comment, latitude, longitude, rating, user_id, username) => ({
@@ -137,6 +144,8 @@ export {
   updateLogout,
   openCheckIn,
   closeCheckIn,
+  openProfileView,
+  closeProfileView,
   // Comments Actions
   addTextComment,
   updateTextCommentsDB,

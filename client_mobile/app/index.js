@@ -42,6 +42,14 @@ const checkInOpenReducer = (state = false, action) => {
   }  
 };
 
+const profileViewOpen = (state = false, action) => {
+  switch (action.type) {
+    case ('OPEN_PROFILE') : return true;
+    case ('CLOSE_PROFILE') : return false;
+    default : return state;
+  }  
+};
+
 /* Comments Reducers
 --------------------------------*/
 const textCommentsReducer = (state = [], action) => {
@@ -166,6 +174,7 @@ const reducers = combineReducers({
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
+  profileViewOpen,
   // Comments Reducers
   textCommentsReducer,
   audioCommentsReducer,
