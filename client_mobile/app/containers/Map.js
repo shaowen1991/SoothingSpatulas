@@ -18,8 +18,6 @@ import { getTextComments } from '../Network.js';
        Import Redux Actions
 ---------------------------------- */
 import {
-  openCheckIn,
-  closeCheckIn,
   updateTextCommentsDB,
   moveRegion,
   moveMyLocation,
@@ -29,13 +27,11 @@ import {
     Mapping Redux Store States
 ---------------------------------- */
 const mapStateToProps = ({
-  checkInOpenReducer,
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
   nearbyPlacesReducer
 }) => ({
-  checkInOpenReducer,
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
@@ -46,19 +42,14 @@ const mapStateToProps = ({
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  toggleCheckIn: (checkInOpenReducer) => {
-    if (checkInOpenReducer) {
-      dispatch(closeCheckIn());
-    }
-    else {
-      dispatch(openCheckIn());
-    }
-  },
   moveRegion: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
   },
   moveMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveMyLocation(latitude, longitude, latitudeDelta, longitudeDelta));
+  },
+  updateTextCommentsFromDB: (comments) => {
+    dispatch(updateTextCommentsDB(comments));
   }
 });
 /* ----------------------------------
@@ -85,6 +76,7 @@ class Map extends Component  {
 
   componentDidMount () {
     this.watchLocation();
+    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
   }
 
   watchLocation () {
@@ -113,8 +105,6 @@ class Map extends Component  {
   render() {
     const {
       onLogoutClick,
-      toggleCheckIn,
-      checkInOpenReducer,
       myLocationReducer,
       pinCoordinatesReducer,
       nearbyPlacesReducer
@@ -130,7 +120,6 @@ class Map extends Component  {
     // console.log('Map props: ', this.props);
     // console.log('Map state: ', this.state);
     return (
-      <View>
         <MapView 
           style={styles.map}
           initialRegion={Object.keys(myLocationReducer).length === 0 ? initialRegion : myLocationReducer}
@@ -147,7 +136,7 @@ class Map extends Component  {
           showsTraffic={true}
           loadingEnabled={true}
         >
-          {/*user pin drop*/}
+          {/* user pin drop */}
           {(Object.keys(pinCoordinatesReducer)).length > 0 ?
             <MapView.Marker
               key="1"
@@ -158,7 +147,7 @@ class Map extends Component  {
             :
             null
           }
-          {/*nearby locations*/}
+          {/* nearby locations */}
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker
               key={key}
@@ -168,15 +157,6 @@ class Map extends Component  {
             />          
           ))}
         </MapView>
-
-        <Button
-          style={styles.checkinButton}
-          onPress={() => { toggleCheckIn(checkInOpenReducer) }}
-          title="Check In"
-          color="black"
-          accessibilityLabel="Drop a pin to show this location, along with a comment and rating, on your profile."
-        />
-      </View>
     );
   }
 }

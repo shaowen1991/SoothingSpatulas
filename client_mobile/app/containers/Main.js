@@ -10,7 +10,6 @@ import {
   TextInput 
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getTextComments } from '../Network.js';
 
 /* ----------------------------------
        Import Redux Actions
@@ -20,8 +19,7 @@ import {
   updateUsername,
   updateUserid,
   openCheckIn,
-  closeCheckIn,
-  updateTextCommentsDB
+  closeCheckIn
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -30,7 +28,7 @@ import {
 import Map from './Map';
 import CheckInFooter from './CheckInFooter';
 import SearchMain from './SearchMain';
-import { NavigationIcon }  from '../components';
+import { NavigationIcon, CheckInButton }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -67,9 +65,6 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(openCheckIn());
     }
-  },
-  updateTextCommentsFromDB: (comments) => {
-    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -78,10 +73,6 @@ const mapDispatchToProps = (dispatch) => ({
 ---------------------------------- */
 class Main extends Component  {
 
-  componentDidMount () {
-    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
-  }
-
   render() {
     const {
       usernameReducer,
@@ -89,8 +80,7 @@ class Main extends Component  {
       checkInOpenReducer,
       toggleCheckIn,
       textCommentsReducer,
-      audioCommentsReducer,
-      updateTextCommentsFromDB
+      audioCommentsReducer
     } = this.props;
 
     console.log('Main props: ', this.props);
@@ -102,8 +92,16 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
           onPress={toggleCheckIn}
         />
-        <SearchMain style={styles.searchBar}/>
-        <Map style={styles.map}/>  
+        <SearchMain 
+          style={styles.searchBar}
+        />
+        <Map 
+          style={styles.map}
+        /> 
+        <CheckInButton 
+          toggleCheckIn={toggleCheckIn}
+          checkInOpenReducer={checkInOpenReducer}
+        /> 
         <CheckInFooter />
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
