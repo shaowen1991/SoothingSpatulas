@@ -7,7 +7,7 @@ import {
   Button, 
   PermissionsAndroid, 
   Platform, 
-  TextInput 
+  TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -92,17 +92,14 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
           onPress={toggleCheckIn}
         />
-        <SearchMain 
-          style={styles.searchBar}
-        />
-        <Map 
-          style={styles.map}
-        /> 
+        <SearchMain />
+        <Map /> 
         <CheckInButton 
           toggleCheckIn={toggleCheckIn}
           checkInOpenReducer={checkInOpenReducer}
         /> 
         <CheckInFooter />
+
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
@@ -115,18 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEE',
     // marginTop: "5%",
     // height:  "100%",
-  },
-  searchBar: {
-    flex: 1,
-    // width: "100%",
-    zIndex: 10
-  },
-  map: {
-    flex: 1,
-    zIndex: -1
-    // height: "85.22%",
-    // width: "100%"
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

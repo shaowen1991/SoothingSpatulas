@@ -4,10 +4,13 @@ import {
   View, 
   Text, 
   Button, 
-  TextInput 
+  TextInput,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import * as Animatable from 'react-native-animatable';
+import AssetMap from '../config/AssetMap';
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
@@ -120,7 +123,7 @@ class SearchMain extends Component  {
     console.log('SearchMain props: ', this.props);
     console.log('SearchMain state: ', this.state);
     return (
-      <View style={styles.container}>
+      <Animatable.View style={styles.container}>
         <TextInput
           style={styles.textBox}
           ref={component => this._textInput = component}
@@ -130,36 +133,38 @@ class SearchMain extends Component  {
           autoCorrect={false}
         />
  
-        <Button 
+        <TouchableOpacity 
           style={styles.searchButton}
           onPress={this.addPOI}
-          color="black"
-          title="Go"
           accessibilityLabel="Get nearby locations from a Google API"
-        />
-      </View>
+        >
+          <Image
+            style={styles.image}
+            source={AssetMap.search}
+          />
+        </TouchableOpacity>
+      </Animatable.View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     flexDirection: 'row',
     backgroundColor: '#F5F5F5',
     position: 'absolute',
     top: 70,
     left: 22,
-    zIndex: 10,
+    right: 22,
+    zIndex: 5,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,  
-    // borderColor: 'gray', 
-    // borderWidth: 1, 
-    // flex: 1,
     // justifyContent: 'center',
   },
   searchButton: {
-    width: "5%",
+    width: "4%",
     height: "100%",
     // alignItems: "center",
     // justifyContent: 'center',
@@ -169,11 +174,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   textBox: {
-    width: "80%",
+    width: "87%",
     height: "100%",
     padding: 10,
     backgroundColor: "#fff"
     // marginTop: "5%",
+  },
+  image: {
+    width: 21,
+    height: 21,
   }
 });
 

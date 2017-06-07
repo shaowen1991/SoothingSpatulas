@@ -162,30 +162,11 @@ class Map extends Component  {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height:  "100%",
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5F5F5',
-    zIndex: 1
-  },
   map: {
+    flex: 1,
     height: "94%",
-    width: "100%"
-  },
-  checkinButton: {
-    height: "6%",
-    top: 120,
-    flexDirection: 'row',
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
-    zIndex: 10,
-    width: "50%",
-    // backgroundColor: "#6b8e23"
-    // flex: 1,
+    width: "100%",
+    zIndex: -1
   }
 });
 

@@ -174,7 +174,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: 'grey'
+    borderColor: 'grey',
+    zIndex: 10
   },
 })
 
