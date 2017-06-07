@@ -13,6 +13,7 @@ exports.up = function (knex, Promise) {
       table.string('comment', 200).nullable();
       table.string('latitude', 100).nullable();
       table.string('longitude', 100).nullable();
+      table.string('name', 100).nullable();
       table.integer('rating').nullable();
       table.integer('user_id').references('users.id').onDelete('CASCADE');
       table.timestamps(true, true);
@@ -23,6 +24,8 @@ exports.up = function (knex, Promise) {
       table.string('latitude', 100).nullable();
       table.string('longitude', 100).nullable();
       table.string('name', 100).nullable();
+      table.string('city', 100).nullable();
+      table.string('state', 2).nullable();
     })
   ]);
 };
