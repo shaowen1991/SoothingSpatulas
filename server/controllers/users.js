@@ -46,20 +46,18 @@ module.exports.getOne = (req, res) => {
 };
 
 module.exports.getIdByEmail = (req, res) => {
-  console.log(req.params.email);
   // select id from users where email = req.email;
-  models.User.where({ email: req.params.email} ).select('id')
-    .then(id => {
-      if (!id) {
-        throw id;
+  models.User.where({ email: req.params.email }).fetch()
+    .then(user => {
+      if (!user) {
+        throw user;
       }
-      res.status(200).send(id)
+      res.status(200).send(user);
     })
     .error(err => {
       res.status(500).send(err);
     })
     .catch(() => {
-      console.log('shit')
       res.sendStatus(404);
     });
 };
