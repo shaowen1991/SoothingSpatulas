@@ -28,5 +28,6 @@ app.use('/api/locations', routes.locations);
 app.use('/api/locationsusers', routes.locationsusers);
 app.use('/api/locationsusersaudio', routes.locationsusersaudio);
 app.use('/api/users', routes.users);
+app.use('/api/channel', routes.channels);
 
 module.exports = app;
