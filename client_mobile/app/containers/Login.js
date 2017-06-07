@@ -1,39 +1,100 @@
 import React, { Component } from 'react';
-import { 
+import {
   Button,
   StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
+import Auth0Lock from 'react-native-lock';
+
+const credentials = require('../config/config.js');
+const lock = new Auth0Lock(credentials);
 
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
-import { updateUsername, updateLogin } from '../Actions.js';
+import { 
+  updateUsername, 
+  updateUserid, 
+  updateLogin 
+} from '../Actions.js';
 
 /* ----------------------------------
     Mapping Redux Store States
 ---------------------------------- */
-const mapStateToProps = ({ loginReducer, usernameReducer }) => ({
+const mapStateToProps = ({ 
+  loginReducer, 
+  usernameReducer, 
+  useridReducer 
+}) => ({
   loginReducer,
-  usernameReducer
+  usernameReducer,
+  useridReducer
 });
 
 /* ----------------------------------
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  onLoginClick: (username, pw) => {
-    /* -----------------------
-          Apply Auth here
-    ----------------------- */
-    if (username !== '') {
-      dispatch(updateUsername(username));
+  onLoginClick: () => {
+    lock.show(
+    {closable: true}, 
+    (err, profile, token) => {
+      if (err) {
+        console.log('-------> login error: ', err);
+        return;
+      }
+
+      let userLoginInfo = {
+        first: profile.nickname,
+        email: profile.email
+      }
+      /* ----------------------------------------------------
+        Firstly, check if this email is in the our DB or not.
+        If it is in DB, get the userid and update Redux.
+        If it is not in DB, invoke a POST new user request
+      ---------------------------------------------------- */
+      fetch("http://localhost:3000/api/users/email/" + profile.email, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'            
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log('-------> get login user data: ', responseJSON);
+        dispatch(updateUserid(responseJSON.id));
+      })
+      .catch((err) => {
+        console.log('-------> user id fetch err: ', err);
+        /* ----------------------------------------------------
+          In this POST request, send new user login info to DB
+          and get the user object back from response, 
+          which include the userid
+        ---------------------------------------------------- */
+        fetch("http://localhost:3000/api/users/", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userLoginInfo)
+        })
+        .then((response) => response.json())
+        .then((responseJSON) => {
+          console.log('-------> new user posted: ',responseJSON);
+          dispatch(updateUserid(responseJSON.id));
+        })
+        .catch((err) => {
+          console.log('-------> new user post error: ', err)
+        })
+      })
+      dispatch(updateUsername(profile.nickname));
       dispatch(updateLogin());
-    }
+    });
   }
 });
 
@@ -41,52 +102,24 @@ const mapDispatchToProps = (dispatch) => ({
                 Class
 ---------------------------------- */
 class Login extends Component {
-
   state = { 
     typeInUsername: '',
     typeInPassword: ''
   }
 
-  static navigationOptions = {
-    title: 'Login',
-  }
-
   render() {
-    let props = this.props;
-    const { navigate } = props.navigation;
-    console.log('Login props: ', props);
+    const { onLoginClick } = this.props;
+    console.log('Login props: ', this.props);
 
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to Memento!
         </Text>
-        <Text style={styles.instructions}>
-          Login or Sign up:
-        </Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
-          onChangeText={(typeInUsername) => this.setState({typeInUsername})}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          placeholder={'Username'}
-        />
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 0}}
-          onChangeText={(typeInPassword) => this.setState({typeInPassword})}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          placeholder={'Password'}
-          secureTextEntry={true}
-        />
         <Button 
-          title="Login"
-          onPress={() => {
-            props.onLoginClick(this.state.typeInUsername, this.state.typeInPassword);
-          }} />
-        <Button 
-          title="Sign up"
-          onPress={() => navigate('Signup')}  />
+          title="Log In"
+          onPress={() => {onLoginClick()}}
+        />
       </View>
     );
   }
@@ -97,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5F5F5',
   },
   welcome: {
     fontSize: 20,

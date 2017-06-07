@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { 
+  Alert, 
+  StyleSheet, 
+  View, 
+  Text, 
+  Button, 
+  PermissionsAndroid, 
+  Platform, 
+  TextInput 
+} from 'react-native';
 import { connect } from 'react-redux';
-import { getTextComments, postTextComments } from '../Network.js';
+import { getTextComments } from '../Network.js';
 
 /* ----------------------------------
        Import Redux Actions
@@ -9,16 +18,19 @@ import { getTextComments, postTextComments } from '../Network.js';
 import {
   updateLogout,
   updateUsername,
+  updateUserid,
   openCheckIn,
   closeCheckIn,
-  addTextComment,
   updateTextCommentsDB
 } from '../Actions.js';
 
 /* ----------------------------------
          Import Components
 ---------------------------------- */
+import Map from './Map';
 import CheckInFooter from './CheckInFooter';
+import SearchMain from './SearchMain';
+import { NavigationIcon }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -26,15 +38,17 @@ import CheckInFooter from './CheckInFooter';
 const mapStateToProps = ({
   loginReducer,
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  testAudioReducer
+  audioCommentsReducer
 }) => ({
   loginReducer,
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  testAudioReducer
+  audioCommentsReducer
 });
 
 /* ----------------------------------
@@ -44,6 +58,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLogoutClick: () => {
     dispatch(updateLogout());
     dispatch(updateUsername(''));
+    dispatch(updateUserid(0));
   },
   toggleCheckIn: (checkInOpenReducer) => {
     if (checkInOpenReducer) {
@@ -53,10 +68,6 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
-    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
-  },
   updateTextCommentsFromDB: (comments) => {
     dispatch(updateTextCommentsDB(comments));
   }
@@ -65,9 +76,9 @@ const mapDispatchToProps = (dispatch) => ({
 /* ----------------------------------
                 Class
 ---------------------------------- */
-class Main extends Component {
+class Main extends Component  {
+
   componentDidMount () {
-    console.log('component did mount')
     getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
   }
 
@@ -77,41 +88,24 @@ class Main extends Component {
       onLogoutClick,
       checkInOpenReducer,
       toggleCheckIn,
-      onCommentSubmit,
       textCommentsReducer,
-      testAudioReducer,
+      audioCommentsReducer,
       updateTextCommentsFromDB
     } = this.props;
 
     console.log('Main props: ', this.props);
+    console.log('------> comments: ', this.props.textCommentsReducer)
     return (
       <View style={styles.container}>
-
-        <Text style={styles.welcome}>
-          Welcome to Momento! {usernameReducer}
-        </Text>
-
-        {this.props.textCommentsReducer.map((comment, id) => (
-          <Text key={id}>{comment.user_id} : {comment.comment} {comment.latitude} {comment.longitude}</Text>
-        ))}
-
-        {testAudioReducer.map((comment, id) => (
-          <Text key={id}>{comment.user} : {comment.audioPath}</Text>
-        ))}
-
-        <Button onPress={onLogoutClick} title="Logout" />
-        <Button onPress={() => { toggleCheckIn(checkInOpenReducer) }} title='Check In' />
-
-        <CheckInFooter 
-          visible={checkInOpenReducer}
-          //(comment, latitude, longitude, rating, user_id)
-          onCommentSubmit={(comment, latitude, longitude, rating) => { 
-            postTextComments({comment, latitude, longitude, rating, user_id: 1});
-            onCommentSubmit(comment, latitude, longitude, rating, 1) 
-          }}
-          toggleCheckIn={() => { toggleCheckIn(checkInOpenReducer) }}
+        <NavigationIcon 
+          icon={checkInOpenReducer ? 'arrow-left' : 'hamburger'}
+          checkInOpenReducer={checkInOpenReducer}
+          onPress={toggleCheckIn}
         />
-        
+        <SearchMain style={styles.searchBar}/>
+        <Map style={styles.map}/>  
+        <CheckInFooter />
+        {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
   }
@@ -120,19 +114,20 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#EEE',
+    // marginTop: "5%",
+    // height:  "100%",
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  searchBar: {
+    flex: 1,
+    // width: "100%",
+    zIndex: 10
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  map: {
+    flex: 1,
+    zIndex: -1
+    // height: "85.22%",
+    // width: "100%"
   },
 });
 

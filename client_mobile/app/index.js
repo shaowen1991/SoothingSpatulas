@@ -9,6 +9,9 @@ const initialState = {};
 /* -----------------------
        Redux Reducers
 ----------------------- */
+
+/* General Reducers
+--------------------------------*/
 const loginReducer = (state = false, action) => {
   switch (action.type) {
     case ('LOG_IN') : return true;
@@ -24,6 +27,13 @@ const usernameReducer = (state = '', action) => {
   }
 };
 
+const useridReducer = (state = 0, action) => {
+  switch (action.type) {
+    case ('UPDATE_USERID') : return action.userid;
+    default : return state;
+  }
+};
+
 const checkInOpenReducer = (state = false, action) => {
   switch (action.type) {
     case ('OPEN_CHECKIN') : return true;
@@ -32,6 +42,8 @@ const checkInOpenReducer = (state = false, action) => {
   }  
 };
 
+/* Comments Reducers
+--------------------------------*/
 const textCommentsReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_TEXT_COMMENT') : return [
@@ -41,7 +53,8 @@ const textCommentsReducer = (state = [], action) => {
         latitude: action.latitude,
         longitude: action.longitude,
         rating: action.rating,
-        user_id: action.user_id 
+        user_id: action.user_id,
+        username: action.username
       }
     ];
     case ('UPDATE_TEXT_COMMENT') : return action.textComments;
@@ -49,7 +62,7 @@ const textCommentsReducer = (state = [], action) => {
   }    
 };
 
-const testAudioReducer = (state = [], action) => {
+const audioCommentsReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_AUDIO_COMMENT') : return [
       ...state,
@@ -69,20 +82,89 @@ const testCommentIDReducer = (state = 0, action) => {
   }    
 }
 
+/* Map Reducers
+--------------------------------*/
+const regionReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ('MOVE_REGION') : return {
+      latitude: action.latitude, 
+      longitude: action.longitude,
+      latitudeDelta: action.latitudeDelta,
+      longitudeDelta: action.longitudeDelta     
+    };
+    case ('CLEAR_REGION') : return {};
+    default : return state;
+  } 
+}
+
+const myLocationReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ('MOVE_MY_LOCATION') : return {
+      latitude: action.latitude, 
+      longitude: action.longitude,
+      latitudeDelta: action.latitudeDelta,
+      longitudeDelta: action.longitudeDelta     
+    };
+    case ('CLEAR_MY_LOCATION') : return {};
+    default : return state;
+  } 
+}
+
+const pinCoordinatesReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ('DROP_PIN') : return {
+      coordinates: {
+        latitude: action.coordinates.latitude, 
+        longitude: action.coordinates.longitude
+      },
+      name: action.name,
+      des: action.des  
+    }
+    case ('CLEAR_PIN') : return {};
+    default : return state;
+  }
+}
+
+const nearbyPlacesReducer = (state = [], action) => {
+  switch (action.type) {
+    case ('ADD_NEARBY_PLACE') : return [
+      ...state,
+      {
+        coordinates: {
+          latitude: action.coordinates.latitude, 
+          longitude: action.coordinates.longitude
+        },
+        name: action.name,
+        des: action.des,
+        img: action.img       
+      }
+    ];
+    case ('CLEAR_NEARBY_PLACE') : return [];
+    default : return state;
+  }     
+}
+
 const reducers = combineReducers({
+  // General Reducers
   loginReducer,
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
+  // Comments Reducers
   textCommentsReducer,
-  testAudioReducer,
-  testCommentIDReducer
+  audioCommentsReducer,
+  testCommentIDReducer,
+  // Map Reducers
+  regionReducer,
+  myLocationReducer,
+  pinCoordinatesReducer,
+  nearbyPlacesReducer
 });
 
 /* -----------------------
        Redux Store
 ----------------------- */
 const store = createStore(reducers, initialState);
-
 
 export default class App extends Component {
   render() {

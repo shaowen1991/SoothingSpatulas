@@ -1,0 +1,61 @@
+---
+DOCKER AUTOMATIC BUILD
+---
+docker build -t momento-image .
+docker-compose up -d
+docker-compose down
+
+NOW LOGIN TO MIGRATE AND SEED THE DATABASE (docker exec -it momento sh)
+knex migrate:latest
+knex seed:run
+
+LOGIN TO RUN TESTS (docker exec -it momento sh)
+yarn test
+
+
+
+---
+DOCKER SWARM BUILD (currently in development)
+---
+docker stack rm momentoapp 2>/dev/null
+docker swarm leave --force 2>/dev/null
+docker swarm init
+docker stack deploy -c docker-compose.yml momentoapp
+docker stack ls
+docker stack ps momentoapp
+
+
+
+---
+DOCKER MANUAL BUILD (similar functionality as automatic build)
+---
+docker stop $(docker ps -a -q) 2>/dev/null
+docker rm $(docker ps -a -q) 2>/dev/null
+docker rmi $(docker images -q) 2>/dev/null
+docker ps -a
+docker images
+
+
+docker build -t momento-image .
+docker run --name momento -p 3000:3000 -d momento-image
+
+docker run --name momento-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=thesis -d postgres:9.6.3-alpine
+
+NOW LOGIN TO MIGRATE AND SEED THE DATABASE (docker exec -it momento sh)
+knex migrate:latest
+knex seed:run
+
+
+ONE-TIME NETWORK ACTIONS (network to talk to database)
+docker network create momento-net
+docker network rm momento-net
+
+ONE-TIME NETWORK CONNECTION FOR LINK TO DATABASE
+docker network connect momento-net momento-db
+
+REPEAT NETWORK CONNECTION/DISCONNECTION
+docker network connect momento-net momento
+docker network disconnect momento-net momento 2>/dev/null
+docker network inspect momento-net 2>/dev/null
+docker network ls
+

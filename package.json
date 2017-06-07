@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon server",
-    "start-prod": "NODE_ENV=production node server",
     "test": "grunt test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "docker-up": "./setup/up.sh",
+    "docker-down": "./setup/down.sh",
+    "docker-test": "./setup/test.sh",
+    "docker-build": "./setup/build.sh",
+    "docker-migrate": "./setup/migrate.sh",
+    "docker-seed": "./setup/seed.sh"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -24,6 +29,7 @@
     "express": "^4.15.2",
     "express-session": "^1.15.1",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
+    "jquery": "^3.2.1",
     "knex": "^0.12.9",
     "morgan": "^1.8.1",
     "nodemon": "^1.11.0",
@@ -43,7 +49,7 @@
     "babel-preset-latest": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "chai": "^3.5.0",
-    "grunt": "~0.4.5",
+    "grunt": "^1.0.1",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
     "mocha": "^3.2.0",

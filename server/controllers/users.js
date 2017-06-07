@@ -45,6 +45,23 @@ module.exports.getOne = (req, res) => {
     });
 };
 
+module.exports.getIdByEmail = (req, res) => {
+  // select id from users where email = req.email;
+  models.User.where({ email: req.params.email }).fetch()
+    .then(user => {
+      if (!user) {
+        throw user;
+      }
+      res.status(200).send(user);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
 module.exports.update = (req, res) => {
   models.User.where({ id: req.params.id }).fetch()
     .then(user => {

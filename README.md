@@ -1,17 +1,13 @@
-# Project Name
+# MOMENTO
 
-The project description
+Discover places near you and find others who share the same interests near you!
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
-
-## Roadmap
-
-View the project roadmap [here](LINK_TO_DOC)
+- Chris Keating
+- Jack Ren
+- Michael Sermersheim
+- Nick Anderson
 
 ## Contributing
 
@@ -23,7 +19,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Installing Docker](#installing-docker-for-production)
 
 ## Usage
 
@@ -48,11 +44,20 @@ brew install postgresql
 
 Yarn is a replacement for npm. It's faster and *guarantees* consistency -- as you deploy your code in various environments, you won't run the risk of slight variations in what gets installed.
 
-### Install Project Dependencies
+### Install Dependencies
 
 ```
 yarn global add grunt-cli knex eslint
 ```
+
+## App Configuration
+
+Override settings `config/default.json` in any environment by making a copy of `config/ENV.example.json` and naming it `config/ENV.json` and setting the appropriate variable.
+
+For environments that require use of environment variables, you can supply variables as defined in `config/custom-environment-variables.json`.
+
+See https://www.npmjs.com/package/config
+And https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables
 
 ## Database Initialization
 
@@ -80,12 +85,30 @@ Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrat
 
 ## Running the App
 
-To run webpack build: `yarn run build`
+To run webpack build: `yarn build`
 
-To run server: `yarn run start`
+To run server: `yarn start`
 
-To run tests: `yarn run test`
+To run tests: `yarn test`
 
-To run your redis server for the session store `redis-server`
+To run your redis server for the session store: `redis-server`
 
+### Installing Docker for Production
 
+Install Docker Community Edition for your operating system. Follow instructions to install and start the Docker Community Edition. After downloading the SoothingSpatulas repository, open a terminal in the root directory of SoothingSpatulas. To get Docker Containers running, you'll want to do the commands in the order below.
+
+IMPORTANT: if you were running Postgres in development, then you'll need to run `brew services stop postgresql` prior to running Docker. Otherwise, Docker will note that another application is binded to port 5432.
+
+To build the container: `yarn docker-build`
+
+To load the container: `yarn docker-up`
+
+To create the datbase tables: `yarn docker-migrate`
+
+To seed the database tables: `yarn docker-seed`
+
+To test the application: `yarn docker-test`
+
+To remove the container: `yarn docker-down`
+
+Please be aware that you are turning off the containers when you run the `yarn docker-down` command -- this will take the application and database offline. If you simply wish to update the application container, then you can run `yarn docker-build` and follow that with `yarn docker-up` -- this will update the container and bring your containers back online.

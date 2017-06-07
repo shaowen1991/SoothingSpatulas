@@ -1,0 +1,41 @@
+version: "3"
+services:
+  web:
+    container_name: momento
+    image: momento-image
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    networks:
+      - webnet
+  db:
+    container_name: momento-db
+    image: postgres:9.6.3-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: thesis
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
+volumes:
+  db-data:

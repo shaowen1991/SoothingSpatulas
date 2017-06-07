@@ -3,8 +3,10 @@ package com.client_mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.rnim.rn.audio.ReactNativeAudioPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.auth0.lock.react.LockReactPackage;
 import com.rnfs.RNFSPackage;
+import com.rnim.rn.audio.ReactNativeAudioPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -25,8 +27,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeAudioPackage(),
-            new RNFSPackage()
+            new MapsPackage(),
+            new LockReactPackage()
+            new RNFSPackage(),
+            new ReactNativeAudioPackage()
       );
     }
   };

@@ -1,32 +1,110 @@
-import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, Text, Button, TextInput } from 'react-native'
-import * as Animatable from 'react-native-animatable'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Dimensions, 
+  View, 
+  Text, 
+  Button, 
+  TextInput 
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { connect } from 'react-redux';
 
+import { postTextComments } from '../Network.js';
 import Recorder from './Recorder.js';
 const transitionProps = ['top', 'height', 'width']
 
-export default class CheckInFooter extends Component {
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
+import {
+  openCheckIn,
+  closeCheckIn,
+  addTextComment,
+  dropCheckInPin
+} from '../Actions.js';
+
+/* ----------------------------------
+    Mapping Redux Store States
+---------------------------------- */
+const mapStateToProps = ({
+  usernameReducer,
+  useridReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  audioCommentsReducer,
+  pinCoordinatesReducer,
+  myLocationReducer
+}) => ({
+  usernameReducer,
+  useridReducer,
+  checkInOpenReducer,
+  textCommentsReducer,
+  audioCommentsReducer,
+  pinCoordinatesReducer,
+  myLocationReducer
+});
+
+/* ----------------------------------
+     Mapping Redux Store Actions
+---------------------------------- */
+const mapDispatchToProps = (dispatch) => ({
+  toggleCheckIn: (checkInOpenReducer) => {
+    if (checkInOpenReducer) {
+      dispatch(closeCheckIn());
+    }
+    else {
+      dispatch(openCheckIn());
+    }
+  },
+  dropCheckInPin: (latitude, longitude, name, des) => {
+    console.log('dispatch dropCheckInPin', latitude, longitude, name, des);
+    dispatch(dropCheckInPin(latitude, longitude, name, des));
+  },
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id, username) => {
+    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id, username);
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, username));
+  },
+});
+
+/* ----------------------------------
+                Class
+---------------------------------- */
+class CheckInFooter extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       typeInComment: ''
     }
     this.clearText = this.clearText.bind(this);
-  }
-
-  static defaultProps = {
-    visible: false,
+    this.onPinDrop = this.onPinDrop.bind(this);
   }
 
   clearText() {
     this._textInput.setNativeProps({text: ''});
   }
 
+  onPinDrop (username, comment) {
+    this.props.dropCheckInPin(
+      this.props.myLocationReducer.latitude, 
+      this.props.myLocationReducer.longitude,
+      username,
+      comment
+    )
+  }
+
   render() {
-    const {visible, toggleCheckIn, onCommentSubmit} = this.props
+    const {
+      checkInOpenReducer, 
+      toggleCheckIn, 
+      onCommentSubmit, 
+      myLocationReducer, 
+      usernameReducer,
+      useridReducer,
+    } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
-      top: visible ? 200 : windowHeight,
+      top: checkInOpenReducer ? 200 : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -41,7 +119,7 @@ export default class CheckInFooter extends Component {
       >
         <Button 
           onPress={() => {
-            toggleCheckIn();
+            toggleCheckIn(checkInOpenReducer);
             this.clearText();
           }}
           title='Back'
@@ -56,15 +134,35 @@ export default class CheckInFooter extends Component {
 
         <Button 
           onPress={() => {
-            toggleCheckIn();
+            toggleCheckIn(checkInOpenReducer);
             /* ---------------------------------------------
                  comment, latitude, longitude, rating
                   pass the text commet details here
+                  
+                  first method is send data to Redux
+                  second method is send data to DB
             ---------------------------------------------- */            
-            onCommentSubmit(this.state.typeInComment, '12.345', '67,89', 5);
+            onCommentSubmit(
+              this.state.typeInComment,
+              myLocationReducer.latitude,
+              myLocationReducer.longitude,
+              5,
+              useridReducer,
+              usernameReducer
+            );
+            postTextComments({
+              comment: this.state.typeInComment,
+              latitude: myLocationReducer.latitude,
+              longitude: myLocationReducer.longitude,
+              rating: 5, 
+              user_id: useridReducer
+            });
+            this.onPinDrop(usernameReducer, this.state.typeInComment);
             this.clearText();
           }} 
-          title='Check In'/>
+          title='Check In'
+        />
+
         <Recorder />  
       </Animatable.View>
     )
@@ -79,3 +177,5 @@ const styles = StyleSheet.create({
     borderColor: 'grey'
   },
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckInFooter);

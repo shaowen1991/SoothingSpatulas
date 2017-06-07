@@ -9,9 +9,8 @@ function asyncRecognize (filename, encoding, sampleRateHertz, languageCode) {
   -------------------------------------------------------- */
   const inputFilename = path.join(__dirname, '../service/user_audio/' + filename);
   const outputFilename = path.join(__dirname, '../service/user_audio_converted/' + filename.substring(0, filename.length - 3) + 'flac');
-
   //ffmpeg -i ./resources/temp.aac -y ./resources/temp.flac -ar 16000
-  // exec('ffmpeg -i ' + inputFilename + ' -c:a flac ' + outputFilename,
+
   exec('ffmpeg -i ' + inputFilename + ' -y ' + ' -ar 16000' + outputFilename,
     function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
@@ -72,7 +71,6 @@ function asyncRecognize (filename, encoding, sampleRateHertz, languageCode) {
           });
       }
     });
-
 }
 
 module.exports.asyncRecognize = asyncRecognize;
