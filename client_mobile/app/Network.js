@@ -6,36 +6,31 @@ var RNUploader = require('NativeModules').RNUploader;
 
 const getTextComments = (cb) => {
   fetch('http://localhost:3000/api/locationsusers')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('GET locationsusers: ', responseJson);
-        cb(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });  
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('GET locationsusers: ', responseJson);
+      cb(responseJson);
+    })
+    .catch((error) => {
+      console.error(error);
+    });  
 };  
 
 const postTextComments = (textComment) => {
-    fetch('http://localhost:3000/api/locationsusers', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        comment: textComment.comment,
-        latitude: textComment.latitude,
-        longitude: textComment.longitude,
-        rating: textComment.rating,
-        user_id: textComment.user_id      
-        // comment: 'This is Jack from HR!',
-        // latitude: '66.6666',
-        // longitude: '-99.4223',
-        // rating: 5,
-        // user_id: 1
-      })
+  fetch('http://localhost:3000/api/locationsusers', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      comment: textComment.comment,
+      latitude: textComment.latitude,
+      longitude: textComment.longitude,
+      rating: textComment.rating,
+      user_id: textComment.user_id
     })
+  })
 };
 
 

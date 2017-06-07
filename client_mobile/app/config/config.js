@@ -1,4 +1,4 @@
 module.exports = {
-  clientId: "MCtGbO133kVB92KmyyOVHOe6-chZqfz_",
-  domain: "momento.auth0.com"
+  clientId: "6N6KHIM25nm42aIDk098EN0tLghNdIEt",
+  domain: "momentotest.auth0.com"
 };

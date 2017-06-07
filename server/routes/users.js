@@ -10,6 +10,6 @@ router.route('/:id').get(UserController.getOne);
 router.route('/:id').put(UserController.update);
 router.route('/:id').delete(UserController.deleteOne);
 
-router.route('/id').get(UserController.getIdByEmail);
+router.route('/email/:email').get(UserController.getIdByEmail);
 
 module.exports = router;

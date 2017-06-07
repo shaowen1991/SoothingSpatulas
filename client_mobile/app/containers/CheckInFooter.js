@@ -20,7 +20,8 @@ const transitionProps = ['top', 'height', 'width']
 import {
   openCheckIn,
   closeCheckIn,
-  addTextComment
+  addTextComment,
+  dropCheckInPin
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -28,14 +29,20 @@ import {
 ---------------------------------- */
 const mapStateToProps = ({
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  audioCommentsReducer
+  audioCommentsReducer,
+  pinCoordinatesReducer,
+  myLocationReducer
 }) => ({
   usernameReducer,
+  useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  audioCommentsReducer
+  audioCommentsReducer,
+  pinCoordinatesReducer,
+  myLocationReducer
 });
 
 /* ----------------------------------
@@ -50,9 +57,13 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id) => {
-    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id);
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id));
+  dropCheckInPin: (latitude, longitude, name, des) => {
+    console.log('dispatch dropCheckInPin', latitude, longitude, name, des);
+    dispatch(dropCheckInPin(latitude, longitude, name, des));
+  },
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id, username) => {
+    console.log('dispatch onCommentSubmit', comment, latitude, longitude, rating, user_id, username);
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, username));
   },
 });
 
@@ -66,18 +77,31 @@ class CheckInFooter extends Component {
       typeInComment: ''
     }
     this.clearText = this.clearText.bind(this);
+    this.onPinDrop = this.onPinDrop.bind(this);
   }
-
-  // static defaultProps = {
-  //   checkInOpenReducer: false,
-  // }
 
   clearText() {
     this._textInput.setNativeProps({text: ''});
   }
 
+  onPinDrop (username, comment) {
+    this.props.dropCheckInPin(
+      this.props.myLocationReducer.latitude, 
+      this.props.myLocationReducer.longitude,
+      username,
+      comment
+    )
+  }
+
   render() {
-    const {checkInOpenReducer, toggleCheckIn, onCommentSubmit, onPinDrop} = this.props
+    const {
+      checkInOpenReducer, 
+      toggleCheckIn, 
+      onCommentSubmit, 
+      myLocationReducer, 
+      usernameReducer,
+      useridReducer,
+    } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
       top: checkInOpenReducer ? 200 : windowHeight,
@@ -114,24 +138,26 @@ class CheckInFooter extends Component {
             /* ---------------------------------------------
                  comment, latitude, longitude, rating
                   pass the text commet details here
+                  
                   first method is send data to Redux
                   second method is send data to DB
             ---------------------------------------------- */            
             onCommentSubmit(
               this.state.typeInComment,
-              '12.345',
-              '67,89',
+              myLocationReducer.latitude,
+              myLocationReducer.longitude,
               5,
-              1
+              useridReducer,
+              usernameReducer
             );
             postTextComments({
               comment: this.state.typeInComment,
-              latitude: '12.345',
-              longitude: '67,89',
+              latitude: myLocationReducer.latitude,
+              longitude: myLocationReducer.longitude,
               rating: 5, 
-              user_id: 1
+              user_id: useridReducer
             });
-            onPinDrop();
+            this.onPinDrop(usernameReducer, this.state.typeInComment);
             this.clearText();
           }} 
           title='Check In'
