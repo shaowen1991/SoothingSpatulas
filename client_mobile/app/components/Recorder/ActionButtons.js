@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import {
-  View,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
-
+import * as Animatable from 'react-native-animatable';
 import IconButton from './IconButton';
 
 export default function ActionButtons(props) {
@@ -11,26 +11,21 @@ export default function ActionButtons(props) {
     isFinishRecorded, 
     isRecording, 
     playStopIcon, 
-    playStopHandler, 
-    onAudioCommentSubmit
+    playStopHandler
   } = props;
 
   if (isFinishRecorded) {
     return (
-      <View style={styles.buttonGroup}>
+      <Animatable.View style={styles.playerButton}>
         <IconButton 
           iconName={playStopIcon}
           onPressHandler={playStopHandler} 
         />
-        <IconButton 
-          iconName={'Check in with it'}
-          onPressHandler={onAudioCommentSubmit} 
-        />
-      </View>
+      </Animatable.View>
     );
   }
   else {
-    return <View />;
+    return <View style={styles.playerButton}/>;
   }
 }
 
@@ -42,8 +37,7 @@ ActionButtons.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  buttonGroup: {
-    flex: 1,
-    flexDirection: 'row',
-  },
+  playerButton: {
+    width: 100,
+  }
 });

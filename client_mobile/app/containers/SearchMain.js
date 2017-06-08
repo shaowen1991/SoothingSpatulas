@@ -4,9 +4,17 @@ import {
   View, 
   Text, 
   Button, 
-  TextInput 
+  TextInput,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
+/* ----------------------------------
+      Import Constants and Asset
+---------------------------------- */
+import Constants from '../Constants';
+import AssetMap from '../config/AssetMap';
 
 /* ----------------------------------
        Import Redux Actions
@@ -120,7 +128,7 @@ class SearchMain extends Component  {
     console.log('SearchMain props: ', this.props);
     console.log('SearchMain state: ', this.state);
     return (
-      <View style={styles.container}>
+      <Animatable.View style={styles.container}>
         <TextInput
           style={styles.textBox}
           ref={component => this._textInput = component}
@@ -130,14 +138,17 @@ class SearchMain extends Component  {
           autoCorrect={false}
         />
  
-        <Button 
+        <TouchableOpacity 
           style={styles.searchButton}
           onPress={this.addPOI}
-          color="black"
-          title="Go"
           accessibilityLabel="Get nearby locations from a Google API"
-        />
-      </View>
+        >
+          <Image
+            style={styles.image}
+            source={AssetMap.search}
+          />
+        </TouchableOpacity>
+      </Animatable.View>
     );
   }
 }
@@ -145,35 +156,31 @@ class SearchMain extends Component  {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#F5F5F5',
     position: 'absolute',
     top: 70,
     left: 22,
-    zIndex: 10,
+    right: 22,
+    zIndex: 5,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,  
-    // borderColor: 'gray', 
-    // borderWidth: 1, 
-    // flex: 1,
-    // justifyContent: 'center',
   },
   searchButton: {
-    width: "5%",
+    width: "20%",
     height: "100%",
-    // alignItems: "center",
-    // justifyContent: 'center',
-    // margin: "200%",
-    // flex: 1,
+    alignItems: "center",
     padding: 10,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: Constants.ICON_GREY_COLOR,
   },
   textBox: {
     width: "80%",
     height: "100%",
     padding: 10,
     backgroundColor: "#fff"
-    // marginTop: "5%",
+  },
+  image: {
+    width: 21,
+    height: 21,
   }
 });
 

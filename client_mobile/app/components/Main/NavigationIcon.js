@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { StyleSheet, TouchableOpacity, Image } from 'react-native'
 
-import AssetMap from '../config/AssetMap'
+import AssetMap from '../../config/AssetMap'
 
 // Expand the touch target around the icon
 const hitSlop = {

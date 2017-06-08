@@ -17,6 +17,7 @@ const getTextComments = (cb) => {
 };  
 
 const postTextComments = (textComment) => {
+  console.log('post comment db');
   fetch('http://localhost:3000/api/locationsusers', {
     method: 'POST',
     headers: {
@@ -31,6 +32,11 @@ const postTextComments = (textComment) => {
       user_id: textComment.user_id
     })
   })
+  .then((response) => response.json())
+  .then((responseJson) => console.log('-------> Post comment db', responseJson))
+  .catch((error) => {
+    console.error(error);
+  });  
 };
 
 

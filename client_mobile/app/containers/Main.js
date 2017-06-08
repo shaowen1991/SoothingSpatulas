@@ -7,11 +7,9 @@ import {
   Button, 
   PermissionsAndroid, 
   Platform, 
-  TextInput 
+  TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
-
-import { getTextComments } from '../Network.js';
 
 /* ----------------------------------
        Import Redux Actions
@@ -21,8 +19,7 @@ import {
   updateUsername,
   updateUserid,
   openCheckIn,
-  closeCheckIn,
-  updateTextCommentsDB
+  closeCheckIn
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -31,7 +28,7 @@ import {
 import Map from './Map';
 import CheckInFooter from './CheckInFooter';
 import SearchMain from './SearchMain';
-import { NavigationIcon }  from '../components';
+import { NavigationIcon, CheckInButton }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -68,9 +65,6 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(openCheckIn());
     }
-  },
-  updateTextCommentsFromDB: (comments) => {
-    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -79,10 +73,6 @@ const mapDispatchToProps = (dispatch) => ({
 ---------------------------------- */
 class Main extends Component  {
 
-  componentDidMount () {
-    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
-  }
-
   render() {
     const {
       usernameReducer,
@@ -90,8 +80,7 @@ class Main extends Component  {
       checkInOpenReducer,
       toggleCheckIn,
       textCommentsReducer,
-      audioCommentsReducer,
-      updateTextCommentsFromDB
+      audioCommentsReducer
     } = this.props;
 
     console.log('Main props: ', this.props);
@@ -99,13 +88,18 @@ class Main extends Component  {
     return (
       <View style={styles.container}>
         <NavigationIcon 
-          icon={checkInOpenReducer ? 'arrow-left' : 'hamburger'}
+          icon={checkInOpenReducer ? 'arrowLeft' : 'hamburger'}
           checkInOpenReducer={checkInOpenReducer}
           onPress={toggleCheckIn}
         />
-        <SearchMain style={styles.searchBar}/>
-        <Map style={styles.map}/>  
+        <SearchMain />
+        <Map /> 
+        <CheckInButton 
+          toggleCheckIn={toggleCheckIn}
+          checkInOpenReducer={checkInOpenReducer}
+        /> 
         <CheckInFooter />
+
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
@@ -115,21 +109,8 @@ class Main extends Component  {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEE',
-    // marginTop: "5%",
-    // height:  "100%",
-  },
-  searchBar: {
-    flex: 1,
-    // width: "100%",
-    zIndex: 10
-  },
-  map: {
-    flex: 1,
-    zIndex: -1
-    // height: "85.22%",
-    // width: "100%"
-  },
+    backgroundColor: '#EEE'
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
