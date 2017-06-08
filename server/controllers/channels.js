@@ -1,5 +1,3 @@
-// REFACTOR FROM KNEX TO USING MODEL
-
 const knex = require('knex')(require('../../knexfile'));
 
 module.exports.getAll = (req, res) => {
