@@ -18,6 +18,7 @@ const lock = new Auth0Lock(credentials);
 import { 
   updateUsername, 
   updateUserid, 
+  updateUserPic,
   updateLogin 
 } from '../Actions.js';
 
@@ -48,7 +49,8 @@ const mapDispatchToProps = (dispatch) => ({
       }
 
       let userLoginInfo = {
-        first: profile.nickname,
+        first: profile.extraInfo.given_name,
+        last: profile.extraInfo.family_name,
         email: profile.email
       }
       /* ----------------------------------------------------
@@ -92,7 +94,8 @@ const mapDispatchToProps = (dispatch) => ({
           console.log('-------> new user post error: ', err)
         })
       })
-      dispatch(updateUsername(profile.nickname));
+      dispatch(updateUsername(profile.extraInfo.given_name));
+      dispatch(updateUserPic(profile.picture));
       dispatch(updateLogin());
     });
   }

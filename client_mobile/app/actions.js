@@ -14,6 +14,11 @@ const updateUserid = (userid) => ({
   userid: userid
 });
 
+const updateUserPic = (userpic) => ({
+  type: 'UPDATE_USERPIC',
+  userpic: userpic
+});
+
 const updateLogin = () => ({
   type: 'LOG_IN'
 });
@@ -140,6 +145,7 @@ export {
   // General Actions
   updateUsername,
   updateUserid,
+  updateUserPic,
   updateLogin,
   updateLogout,
   openCheckIn,

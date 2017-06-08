@@ -60,7 +60,14 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {}
+
+    this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
+
+  userCheckinHistory() {
+
+  }
+
   render() {
     const {
       profileViewOpen,
@@ -106,7 +113,19 @@ class Profile extends Component {
             </View>
           </TabBarIOS.Item>
         </TabBarIOS>
+      <Animatable.View
+        style={[styles.container, style]}
+        duration={300}
+        easing={"ease-out"}
+        transition={transitionProps}
+      >
+        <View>
+          <Text>Profile</Text>
+          <Text>User History</Text>
+        </View>
+      </Animatable.View>
     );
+    )
   }
 }
 

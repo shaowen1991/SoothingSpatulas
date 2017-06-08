@@ -18,6 +18,7 @@ import {
   updateLogout,
   updateUsername,
   updateUserid,
+  updateUserPic,
   openCheckIn,
   closeCheckIn,
   moveRegion,
