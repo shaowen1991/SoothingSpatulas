@@ -39,10 +39,12 @@ import {
 
 const mapStateToProps = ({
   profileViewOpen,
-  usernameReducer
+  usernameReducer,
+  useridReducer
 }) => ({
   profileViewOpen,
-  usernameReducer
+  usernameReducer,
+  useridReducer
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -64,14 +66,29 @@ class Profile extends Component {
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
 
-  userCheckinHistory() {
-
+  userCheckinHistory(userid) {
+    console.log('userid: ', userid)
+    fetch("http://localhost:3000/api/locationsusers/" + userid, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'            
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log('-------> get user location data: ', responseJSON);
+      })
+      .catch((err) => {
+        console.log('-------> user id fetch err: ', err);
+      })
   }
 
   render() {
     const {
       profileViewOpen,
-      toggleProfileView
+      toggleProfileView,
+      useridReducer
     } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
@@ -121,7 +138,10 @@ class Profile extends Component {
       >
         <View>
           <Text>Profile</Text>
-          <Text>User History</Text>
+          <Button 
+            onPress={() => {this.userCheckinHistory(useridReducer)}}
+            title='history'
+          />
         </View>
       </Animatable.View>
     );

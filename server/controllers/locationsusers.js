@@ -47,22 +47,6 @@ module.exports.getOne = (req, res) => {
     });
 };
 
-module.exports.userGetAll = (req, res) => {
-  models.LocationUser.where({ id: req.params.id }).fetchAll()
-    .then(locationsUser => {
-      if (!locationsUser) {
-        throw locationsUser;
-      }
-      res.status(200).send(locationsUser);
-    })
-    .error(err => {
-      res.status(500).send(err);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
 module.exports.update = (req, res) => {
   models.LocationUser.where({ id: req.params.id }).fetch()
     .then(locationUser => {
