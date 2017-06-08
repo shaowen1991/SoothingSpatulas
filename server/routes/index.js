@@ -5,4 +5,5 @@ module.exports.locations = require('./locations');
 module.exports.locationsusers = require('./locationsusers');
 module.exports.locationsusersaudio = require('./locationsusersaudio');
 module.exports.users = require('./users');
+module.exports.connections = require('./connections');
 module.exports.channels = require('./channels');
