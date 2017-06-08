@@ -45,19 +45,20 @@ RecordButton.propTypes = {
 
 const styles = StyleSheet.create({
   button: {
-    width: 100,
-    height: 100,
-    borderRadius: 90,
+    width: 180,
+    height: 70,
+    // top: 1,
+    // marginRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    borderWidth: 2,
-    borderColor: Constants.CUSTOM_RED,
-    marginBottom: 10,
+    // padding: 10,
+    backgroundColor: Constants.CUSTOM_RED,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3, 
   },
   text: {
-    paddingTop: 5,
-    fontSize: 10,
-    color: '#bbbbbb',
+    fontSize: 12,
+    color: '#fff',
   },
 });

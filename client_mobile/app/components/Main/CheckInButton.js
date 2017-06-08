@@ -9,8 +9,15 @@ import {
   Text
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+/* ----------------------------------
+         Import Constants
+---------------------------------- */
+import Constants from '../../Constants';
 import AssetMap from '../../config/AssetMap';
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 export default class CheckInButton extends Component {
 
   static defaultProps = {
@@ -21,16 +28,12 @@ export default class CheckInButton extends Component {
     const {toggleCheckIn, checkInOpenReducer} = this.props
     const {height: windowHeight, width: windowWidth} = Dimensions.get('window')
 
-    const containerStyle = {
-      top: checkInOpenReducer ? windowHeight - 160 : windowHeight + 30,
-    }
-
     const gradientStyle = {
       width: windowWidth,
     }
  
     return (
-      <Animatable.View style={[styles.container]}>
+      <Animatable.View style={styles.container}>
         <Image
           style={[styles.gradient, gradientStyle]}
           source={AssetMap.bottom_gradient}
@@ -38,7 +41,7 @@ export default class CheckInButton extends Component {
         <TouchableOpacity
           style={styles.checkinButton}
           onPress={() => { toggleCheckIn(checkInOpenReducer) }}
-          accessibilityLabel="Drop a pin to show this location, along with a comment and rating, on your profile."
+          accessibilityLabel="Toggle check in footer"
         >
           <Text style={styles.text}>{"Check In"}</Text>
         </TouchableOpacity>
@@ -49,8 +52,6 @@ export default class CheckInButton extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex:1,
-    // height: "6%",
     position: 'absolute',
     top: "85%",
     left: 30,
@@ -62,33 +63,24 @@ const styles = StyleSheet.create({
   },
   checkinButton: {
     height: "100%",
-    width: "50%",
+    width: "70%",
+    zIndex: 6,
     padding: 10,
-    // top: "50%",
-    // backgroundColor: 'transparent',
-    backgroundColor: '#fff',
+    backgroundColor: Constants.ICON_GREY_COLOR,
     justifyContent: 'center',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,
-    zIndex: 6,
     alignItems: "center",
-    // backgroundColor: "#6b8e23",
-    // flex: 1
   },
   gradient: {
     position: 'absolute',
-    // left: -30,
-    // right: -30,
     top: -40,
-    // bottom: 0,
-    // height: "500%",
-    // width: "100%",
     zIndex: 5,
     resizeMode: 'stretch',
   },
   text: {
     fontSize: 16,
-    color: 'black',
+    color: 'white',
   },
 })

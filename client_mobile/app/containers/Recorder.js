@@ -8,6 +8,7 @@ import {
   AudioPlayer, 
   AudioRecorder, 
 } from 'react-native-audio-player-recorder';
+import * as Animatable from 'react-native-animatable';
 // import { postAudioComments } from '../Network.js';
 
 /* ----------------------------------
@@ -175,24 +176,18 @@ class Recorder extends Component {
     });
   }
 
-  render() {
+  render () {
     const { 
       isRecording, 
       isFinishRecorded, 
       isPlaying, 
     } = this.state;
-    const playStopIcon = isPlaying ? 'Stop' : 'Play to review';
+    const playStopIcon = isPlaying ? 'stop' : 'play';
     const playStopHandler = isPlaying ? this.stopPlaying : this.startPlaying;
     console.log('Recorder props: ', this.props);
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <RecordButton 
-          isRecording={isRecording} 
-          isFinishRecorded={isFinishRecorded}
-          onPressInHandler={this.record} 
-          onPressOutHandler={this.stopRecording}
-        />
+      <Animatable.View style={styles.container}>
         <ActionButtons 
           isFinishRecorded={isFinishRecorded} 
           isRecording={isRecording}
@@ -201,19 +196,29 @@ class Recorder extends Component {
           stopRecording={this.stopRecording}
           onAudioCommentSubmit={this.onAudioCommentSubmit}
         />
-      </ScrollView>
+        <RecordButton 
+          isRecording={isRecording} 
+          isFinishRecorded={isFinishRecorded}
+          onPressInHandler={this.record} 
+          onPressOutHandler={this.stopRecording}
+        />
+      </Animatable.View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constants.PLATFORM_MARGIN_TOP + 26,
-    flex: 1
-  },
-  content: {
+    position: 'absolute',
+    flexDirection: 'row',
+    left: 22,
+    right: 22,
+    top: 60,
+    height: 100,
+    zIndex: 6,
+    backgroundColor: '#F5F5F5',
     alignItems: 'center'
-  },
+  }
 });
 
 

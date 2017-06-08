@@ -10,7 +10,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
+/* ----------------------------------
+      Import Constants and Asset
+---------------------------------- */
+import Constants from '../Constants';
 import AssetMap from '../config/AssetMap';
+
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
@@ -150,9 +155,8 @@ class SearchMain extends Component  {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#F5F5F5',
+    
     position: 'absolute',
     top: 70,
     left: 22,
@@ -161,24 +165,19 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,  
-    // justifyContent: 'center',
   },
   searchButton: {
-    width: "4%",
+    width: "20%",
     height: "100%",
-    // alignItems: "center",
-    // justifyContent: 'center',
-    // margin: "200%",
-    // flex: 1,
+    alignItems: "center",
     padding: 10,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: Constants.ICON_GREY_COLOR,
   },
   textBox: {
-    width: "87%",
+    width: "80%",
     height: "100%",
     padding: 10,
     backgroundColor: "#fff"
-    // marginTop: "5%",
   },
   image: {
     width: 21,

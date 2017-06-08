@@ -5,9 +5,11 @@ console.log('Audio Path: ', AudioUtils.DocumentDirectoryPath);
 const Constants = {
   MAX_AUDIO_LENGTH: 60,
   AUDIO_PATH: AudioUtils.DocumentDirectoryPath,
-  CUSTOM_RED: '#f22335',
+  CUSTOM_RED: '#C62828',
+  ICON_GREY_COLOR: '#212121',
+  ICON_NOT_AVAILABLE_COLOR: '#E0E0E0',
+  BACK_GROUND_GREY: '#F5F5F5',
   PLATFORM_MARGIN_TOP: Platform.OS === 'ios' ? 64 : 54,
-  ICON_GREY_COLOR: '#6b6b6b',
 };
 
 export default Constants;

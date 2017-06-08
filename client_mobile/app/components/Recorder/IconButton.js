@@ -1,19 +1,22 @@
 import React, { PropTypes } from 'react';
 import {
-  View,
   TouchableOpacity,
   StyleSheet,
-  Text
+  Image
 } from 'react-native';
 
 import Constants from '../../Constants';
+import AssetMap from '../../config/AssetMap';
 
 export default function IconButton(props) {
   const { onPressHandler, iconName } = props;
   
   return (
     <TouchableOpacity style={styles.actionBtn} onPress={onPressHandler}>
-      <Text>{iconName}</Text>
+      <Image
+        style={styles.icon}
+        source={AssetMap[iconName]}
+      />
     </TouchableOpacity>
   );
 }
@@ -25,7 +28,10 @@ IconButton.propTypes = {
 
 const styles = StyleSheet.create({
   actionBtn: {
-    flex: 0.5,
     alignItems: 'center',
+  },
+  icon: {
+    width: 40,
+    height: 40,
   },
 });

@@ -88,7 +88,7 @@ class Main extends Component  {
     return (
       <View style={styles.container}>
         <NavigationIcon 
-          icon={checkInOpenReducer ? 'arrow-left' : 'hamburger'}
+          icon={checkInOpenReducer ? 'arrowLeft' : 'hamburger'}
           checkInOpenReducer={checkInOpenReducer}
           onPress={toggleCheckIn}
         />
@@ -109,9 +109,7 @@ class Main extends Component  {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEE',
-    // marginTop: "5%",
-    // height:  "100%",
+    backgroundColor: '#EEE'
   }
 });
 
