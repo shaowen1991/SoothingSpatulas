@@ -10,7 +10,8 @@
     "docker-test": "./setup/test.sh",
     "docker-build": "./setup/build.sh",
     "docker-migrate": "./setup/migrate.sh",
-    "docker-seed": "./setup/seed.sh"
+    "docker-seed": "./setup/seed.sh",
+    "docker-reset": "./setup/reset.sh"
   },
   "author": "Hack Reactor",
   "license": "MIT",

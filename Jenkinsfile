@@ -13,10 +13,6 @@ node('master') {
           yarn run docker-up'
     }
 
-    stage('test'){
-      sh 'yarn run docker-test'
-    }
-
   }
   catch (err) {
     throw err

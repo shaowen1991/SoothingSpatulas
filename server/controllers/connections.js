@@ -33,8 +33,8 @@ module.exports.create = (req, res) => {
               }
 
               return models.Connection.forge({
-                  users_a_id: userB.id,
-                  users_b_id: userA.id,
+                  users_a_id: userB.get('id'),
+                  users_b_id: userA.get('id'),
                   connection_name: userA.get('first') + ' ' + userA.get('last')
                 })
                 .save();
@@ -55,11 +55,21 @@ module.exports.create = (req, res) => {
 
 module.exports.deleteOne = (req, res) => {
   models.Connection.where({ id: req.params.id }).fetch()
-    .then(connection => {
-      if (!connection) {
-        throw connection;
+    .then(connectionA => {
+      if (!connectionA) {
+        throw connectionA;
       }
-      return connection.destroy();
+
+      models.Connection.where({ users_a_id: connectionA.get('users_b_id'), users_b_id: connectionA.get('users_a_id') }).fetch()
+        .then(connectionB => {
+          if (!connectionB) {
+            throw connectionB;
+          }
+
+          return connectionB.destroy();
+        });
+
+      return connectionA.destroy();
     })
     .then(() => {
       res.sendStatus(200);
