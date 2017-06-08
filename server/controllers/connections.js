@@ -12,24 +12,36 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  models.User.where({ email: req.params.email }).fetch()
-    .then(user => {
-      if (!user) {
-        throw user;
+  models.User.where({ email: req.body.email }).fetch()
+    .then(userB => {
+      if (!userB) {
+        throw userB;
       }
 
       models.Connection.forge({
-          users_a_id: req.params.id,
-          users_b_id: user.id,
-          connection_name: user.first + ' ' + user.last
+          users_a_id: req.body.id,
+          users_b_id: userB.get('id'),
+          connection_name: userB.get('first') + ' ' + userB.get('last')
         })
         .save()
-        .then(result => {
-          res.status(201).send(result);
-        })
-        .catch(err => {
-          res.status(500).send(err);
-        });
+        .then((result) => {
+
+          models.User.where({ id: req.body.id }).fetch()
+            .then(userA => {
+              if (!userA) {
+                throw userA;
+              }
+
+              return models.Connection.forge({
+                  users_a_id: userB.id,
+                  users_b_id: userA.id,
+                  connection_name: userA.get('first') + ' ' + userA.get('last')
+                })
+                .save();
+            });
+
+            res.status(200).send(result);
+          });
     })
     .error(err => {
       res.status(500).send(err);
