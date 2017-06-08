@@ -127,7 +127,7 @@ class CheckInFooter extends Component {
 
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
-      top: checkInOpenReducer ? 500 : windowHeight,
+      top: checkInOpenReducer ? windowHeight - 220 : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -364,7 +364,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   starContainer: {
-    padding: 6,
+    padding: "0.6%",
+    flexDirection: 'row',
     alignItems: "center",
   },
   starFull: {

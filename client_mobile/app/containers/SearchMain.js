@@ -156,7 +156,6 @@ class SearchMain extends Component  {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    
     position: 'absolute',
     top: 70,
     left: 22,
