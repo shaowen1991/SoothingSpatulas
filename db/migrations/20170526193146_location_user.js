@@ -15,7 +15,8 @@ exports.up = function (knex, Promise) {
       table.string('longitude', 100).nullable();
       table.string('name', 100).nullable();
       table.integer('rating').nullable();
-      table.integer('user_id').references('users.id').onDelete('CASCADE');
+      table.integer('user_id').references('users.id');
+      table.integer('location_id').references('locations.id');
       table.timestamps(true, true);
     }),
     knex.schema.createTableIfNotExists('locations', function (table) {
@@ -32,8 +33,8 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('locations'),
     knex.schema.dropTable('locations_users'),
+    knex.schema.dropTable('locations'),
     knex.schema.dropTable('users')
   ]);
 };
