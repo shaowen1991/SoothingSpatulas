@@ -18,7 +18,9 @@ module.exports.create = (req, res) => {
     latitude: req.body.latitude,
     longitude: req.body.longitude,
     rating: req.body.rating,
-    user_id: req.body.user_id
+    user_id: req.body.user_id,
+    name: req.body.name,
+    location_id: req.body.location_id
   })
   .save()
   .then(result => {

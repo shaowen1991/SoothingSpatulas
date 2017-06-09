@@ -5,8 +5,6 @@ project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../
 include ':react-native-lock'
 project(':react-native-lock').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-lock/android')
 
-include ':react-native-fs'
-project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 
 include ':react-native-audio-player-recorder'
 project(':react-native-audio-player-recorder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-audio-player-recorder/android')

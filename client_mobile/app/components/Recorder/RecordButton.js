@@ -8,6 +8,9 @@ import {
 
 import Constants from '../../Constants';
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 export default function RecordButton(props) {
   const { isRecording, isFinishRecorded, onPressInHandler, onPressOutHandler} = props;
   
@@ -45,8 +48,8 @@ RecordButton.propTypes = {
 
 const styles = StyleSheet.create({
   button: {
-    width: 180,
-    height: 70,
+    width: "50%",
+    height: 100,
     // top: 1,
     // marginRight: 5,
     alignItems: 'center',

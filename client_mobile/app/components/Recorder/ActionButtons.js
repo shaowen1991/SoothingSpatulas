@@ -6,6 +6,9 @@ import {
 import * as Animatable from 'react-native-animatable';
 import IconButton from './IconButton';
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 export default function ActionButtons(props) {
   const {
     isFinishRecorded, 
@@ -38,6 +41,6 @@ ActionButtons.propTypes = {
 
 const styles = StyleSheet.create({
   playerButton: {
-    width: 100,
+    width: "25%",
   }
 });

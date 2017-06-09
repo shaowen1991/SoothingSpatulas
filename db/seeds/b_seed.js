@@ -29,7 +29,8 @@ function createLocationUser(knex, locationuser) {
       longitude: locationuser.longitude,
       name: locationuser.name,
       rating: locationuser.rating,
-      user_id: locationuser.user_id
+      user_id: locationuser.user_id,
+      location_id: locationuser.location_id
     })
     .catch((error) => {
       console.log('ERROR:', error);

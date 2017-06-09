@@ -135,13 +135,29 @@ const nearbyPlacesReducer = (state = [], action) => {
           longitude: action.coordinates.longitude
         },
         name: action.name,
-        des: action.des,
-        img: action.img       
+        address: action.address,
+        img: action.img,
+        category: action.category,    
       }
     ];
     case ('CLEAR_NEARBY_PLACE') : return [];
     default : return state;
   }     
+}
+
+const selectedPlaceReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ('SELECT_PLACE') : return {
+      latitude: action.latitude, 
+      longitude: action.longitude,
+      category: action.category,
+      name: action.name,
+      city: action.city,
+      state: action.state
+    };
+    case ('CLEAR_SELECTED_PLACE') : return {};
+    default : return state;
+  }   
 }
 
 const reducers = combineReducers({
@@ -157,6 +173,7 @@ const reducers = combineReducers({
   // Map Reducers
   regionReducer,
   myLocationReducer,
+  selectedPlaceReducer,
   pinCoordinatesReducer,
   nearbyPlacesReducer
 });

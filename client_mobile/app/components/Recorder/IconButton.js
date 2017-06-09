@@ -8,6 +8,9 @@ import {
 import Constants from '../../Constants';
 import AssetMap from '../../config/AssetMap';
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 export default function IconButton(props) {
   const { onPressHandler, iconName } = props;
   

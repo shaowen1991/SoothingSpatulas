@@ -16,7 +16,9 @@ module.exports.create = (req, res) => {
     category: req.body.category,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    name: req.body.name
+    name: req.body.name,
+    city: req.body.city,
+    state: req.body.state
   })
   .save()
   .then(result => {
@@ -29,6 +31,23 @@ module.exports.create = (req, res) => {
 
 module.exports.getOne = (req, res) => {
   models.Location.where({ id: req.params.id }).fetch()
+    .then(location => {
+      if (!location) {
+        throw location;
+      }
+      res.status(200).send(location);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
+module.exports.getIdByName = (req, res) => {
+  // select id from locations where name = req.name;
+  models.Location.where({ name: req.params.name }).fetch()
     .then(location => {
       if (!location) {
         throw location;

@@ -97,19 +97,34 @@ const clearCheckInPin = () => ({
   type: 'CLEAR_PIN'
 })
 
-const addNearbyPlace = (latitude, longitude, name, des, img) => ({
+const addNearbyPlace = (latitude, longitude, name, address, img, category) => ({
   type: 'ADD_NEARBY_PLACE',
   coordinates: {
     latitude: latitude, 
     longitude: longitude
   },
   name: name,
-  des: des,
-  img: img 
+  address: address,
+  img: img,
+  category: category,
 })
 
 const clearNearbyPlace = () => ({
   type: 'CLEAR_NEARBY_PLACE'
+})
+
+const selectPlace = (latitude, longitude, category, name, city, state) => ({
+  type: 'SELECT_PLACE',
+  latitude: latitude, 
+  longitude: longitude,
+  category: category,
+  name: name,
+  city: city,
+  state: state
+})  
+
+const clearSelectedPlace = () => ({
+  type: 'CLEAR_SELECTED_PLACE'
 })
 
 /* Export Actions
@@ -135,7 +150,9 @@ export {
   dropCheckInPin,
   clearCheckInPin,
   addNearbyPlace,
-  clearNearbyPlace
+  clearNearbyPlace,
+  selectPlace,
+  clearSelectedPlace
 };
 
 
