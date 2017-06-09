@@ -40,7 +40,7 @@ const postTextComments = (textComment) => {
 };
 
 
-const postAudioComments  = (filepath, filename) => {
+const postAudioComments = (filepath, filename) => {
   console.log(filepath);
   console.log(filename);
 	let files = [
@@ -77,10 +77,45 @@ const postAudioComments  = (filepath, filename) => {
 	});
 }
 
+const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
+    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
+    .then((response) => {
+      if(response.status === 200) {
+        response
+        .text()
+        .then((responseText) => {
+          let parsedResults = JSON.parse(responseText).results
+          // console.log('parsedResults: ', parsedResults)
+          
+          for (let entry of parsedResults) {
+            console.log('Entry: ', entry.geometry.location.lat,
+              entry.geometry.location.lng,
+              entry.name)
+            addNearbyPlace(
+              entry.geometry.location.lat,
+              entry.geometry.location.lng,
+              entry.name,
+              `${entry.name} description`,
+              ''
+            )
+          }
+        })
+        .catch(function (error) {
+          console.log('addPOI error: ', error);
+        })
+      }
+      else throw new Error('Something went wrong on api server!');
+    })
+    .catch(function(error) {
+        console.log('error', error);
+    })
+}
+
 export { 
   getTextComments,
   postTextComments,
-  postAudioComments
+  postAudioComments,
+  getNearbyPlaces
 };
 
 /* --------------------------------------

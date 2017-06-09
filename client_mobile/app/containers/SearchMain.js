@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
+import { getNearbyPlaces } from '../Network.js';
+
 /* ----------------------------------
       Import Constants and Asset
 ---------------------------------- */
@@ -57,60 +59,13 @@ class SearchMain extends Component  {
   addPOI () {
     var lat = this.props.myLocationReducer.latitude;
     var lng = this.props.myLocationReducer.longitude;
-    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${this.state.searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
-    .then((response) => {
-      if(response.status === 200) {
-        response
-        .text()
-        .then((responseText) => {
-          var parsedResults = JSON.parse(responseText).results
-          console.log('parsedResults: ', parsedResults)
-          
-          for (let entry of parsedResults) {
-            this.props.addNearbyPlace(
-              entry.geometry.location.lat,
-              entry.geometry.location.lng,
-              entry.name,
-              `${entry.name} description`,
-              ''
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log('addPOI error: ', error);
-        })
-      }
-      else throw new Error('Something went wrong on api server!');
-    })
-    // .then(function(response) {
-    //     console.debug(response);
-    //     // ...
-    // })
-    .catch(function(error) {
-        console.log('error', error);
-    })
-
-    // $.ajax({
-    //   type: 'GET',
-    //   url: '/coordinates',
-    //   contentType: 'application/json',
-    //   data: ({lat: this.state.lat, lng: this.state.lng}),
-    //   dataType: 'text',
-    //   success: (data) => {
-    //     var result = JSON.parse(data);
-    //     console.log('data: ', data)
-    //     this.setState({
-    //       data: result
-    //     })
-    //   },
-    //   error: (err) => {
-    //     alert('ERROR')
-    //     console.log('error is ', err)
-    //   }
-    // })
+    getNearbyPlaces(this.state.searchTerm, lat, lng,
+     (latitude, longitude, name, des, img) => {
+      this.props.addNearbyPlace(latitude, longitude, name, des, img);
+     });
   }
 
-  render() {
+  render () {
     const {
       onLogoutClick,
       toggleCheckIn,
