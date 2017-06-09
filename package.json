@@ -10,6 +10,7 @@
     "docker-test": "./setup/test.sh",
     "docker-build": "./setup/build.sh",
     "docker-migrate": "./setup/migrate.sh",
+    "docker-migrate-rollback": "./setup/migrate-rollback.sh",
     "docker-seed": "./setup/seed.sh",
     "docker-reset": "./setup/reset.sh"
   },

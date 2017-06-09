@@ -112,3 +112,5 @@ To test the application: `yarn docker-test`
 To remove the container: `yarn docker-down`
 
 Please be aware that you are turning off the containers when you run the `yarn docker-down` command -- this will take the application and database offline. If you simply wish to update the application container, then you can run `yarn docker-build` and follow that with `yarn docker-up` -- this will update the container and bring your containers back online.
+
+To completely clear all containers and images: `yarn docker-reset`
