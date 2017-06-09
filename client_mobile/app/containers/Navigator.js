@@ -4,6 +4,7 @@ import { TextInput } from 'react-native';
 
 import Main from './Main';
 import Login from './Login';
+import Profile from './Profile'
 
 const mapStateToProps = ({ loginReducer }) => ({ loginReducer });
 
@@ -13,8 +14,8 @@ class Navigator extends Component {
     console.log('Navigator props: ', this.props);
 
     return (
-      loginReducer ? <Main /> : <Login />
-      //  <Main />
+      // loginReducer ? <Profile /> : <Login />
+       <Profile />
     );
   }
 }

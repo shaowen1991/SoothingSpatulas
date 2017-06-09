@@ -135,6 +135,7 @@ class Map extends Component  {
           rotateEnabled={false}
           showsTraffic={true}
           loadingEnabled={true}
+          showMyLocationButton={true}
         >
           {/* user pin drop */}
           {(Object.keys(pinCoordinatesReducer)).length > 0 ?
