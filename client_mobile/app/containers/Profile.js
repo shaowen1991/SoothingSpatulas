@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-class Test extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -172,4 +172,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Test;
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
