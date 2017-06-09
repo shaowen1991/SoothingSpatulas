@@ -39,8 +39,11 @@ const mapStateToProps = ({
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  addNearbyPlace: (latitude, longitude, name, des, img) => {
-    dispatch(addNearbyPlace(latitude, longitude, name, des, img));
+  addNearbyPlace: (latitude, longitude, name, address, img, category) => {
+    dispatch(addNearbyPlace(latitude, longitude, name, address, img, category));
+  },
+  clearNearbyPlace: () => {
+    dispatch(clearNearbyPlace());
   }
 });
 
@@ -59,10 +62,11 @@ class SearchMain extends Component  {
   addPOI () {
     var lat = this.props.myLocationReducer.latitude;
     var lng = this.props.myLocationReducer.longitude;
+    this.props.clearNearbyPlace();
     getNearbyPlaces(this.state.searchTerm, lat, lng,
-     (latitude, longitude, name, des, img) => {
-      this.props.addNearbyPlace(latitude, longitude, name, des, img);
-     });
+     (latitude, longitude, name, address, img, category) => {
+        this.props.addNearbyPlace(latitude, longitude, name, address, img, category);
+      });
   }
 
   render () {

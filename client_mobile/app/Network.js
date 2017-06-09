@@ -29,7 +29,8 @@ const postTextComments = (textComment) => {
       latitude: textComment.latitude,
       longitude: textComment.longitude,
       rating: textComment.rating,
-      user_id: textComment.user_id
+      user_id: textComment.user_id,
+      name: textComment.name
     })
   })
   .then((response) => response.json())
@@ -54,12 +55,12 @@ const postAudioComments = (filepath, filename) => {
 	let opts = {
 		url: 'http://localhost:3000/api/locationsusersaudio',
 		files: files, 
-		method: 'POST',                             // optional: POST or PUT
+		method: 'POST',                             
 		headers: { 
       'Accept': 'audio/aac',
       'Content-Type': 'audio/aac'
     },
-		// params: { 'user_id': 1 }                 // optional
+		// params: { 'user_id': 1 }               
 	};
 
 	RNUploader.upload(opts, (err, response) => {
@@ -77,44 +78,67 @@ const postAudioComments = (filepath, filename) => {
 	});
 }
 
+const postLocation = (location) => {
+  console.log('post location db', location);
+  fetch('http://localhost:3000/api/locations', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      category: location.category,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      name: location.name,
+      city: location.city,
+      state: location.state
+    })
+  })
+  .then((response) => response.json())
+  .then((responseJson) => console.log('-------> Post location db', responseJson))
+  .catch((error) => {
+    console.error(error);
+  });  
+};
+
 const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
-    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
-    .then((response) => {
-      if(response.status === 200) {
-        response
-        .text()
-        .then((responseText) => {
-          let parsedResults = JSON.parse(responseText).results
-          // console.log('parsedResults: ', parsedResults)
-          
-          for (let entry of parsedResults) {
-            console.log('Entry: ', entry.geometry.location.lat,
-              entry.geometry.location.lng,
-              entry.name)
-            addNearbyPlace(
-              entry.geometry.location.lat,
-              entry.geometry.location.lng,
-              entry.name,
-              `${entry.name} description`,
-              ''
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log('addPOI error: ', error);
-        })
-      }
-      else throw new Error('Something went wrong on api server!');
-    })
-    .catch(function(error) {
-        console.log('error', error);
-    })
+  fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
+  .then((response) => {
+    if(response.status === 200) {
+      response
+      .text()
+      .then((responseText) => {
+        let parsedResults = JSON.parse(responseText).results
+        
+        for (let entry of parsedResults) {
+          console.log('Entry: ', entry)
+          addNearbyPlace(
+            entry.geometry.location.lat,
+            entry.geometry.location.lng,
+            entry.name,
+            entry.vicinity,
+            '',
+            entry.types
+          )
+        }
+      })
+      .catch(function (error) {
+        console.log('addPOI error: ', error);
+      })
+    }
+    else throw new Error('Something went wrong on api server!');
+  })
+  .catch(function(error) {
+      console.log('error', error);
+  })
 }
 
 export { 
   getTextComments,
   postTextComments,
   postAudioComments,
+  postLocation,
   getNearbyPlaces
 };
 

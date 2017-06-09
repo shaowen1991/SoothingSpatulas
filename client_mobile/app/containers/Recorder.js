@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 import { 
   AudioPlayer, 
@@ -185,9 +186,12 @@ class Recorder extends Component {
     const playStopIcon = isPlaying ? 'stop' : 'play';
     const playStopHandler = isPlaying ? this.stopPlaying : this.startPlaying;
     console.log('Recorder props: ', this.props);
-
+    const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+    const style = {
+      width: windowWidth,
+    }
     return (
-      <Animatable.View style={styles.container}>
+      <Animatable.View style={[styles.container, style]}>
         <ActionButtons 
           isFinishRecorded={isFinishRecorded} 
           isRecording={isRecording}
@@ -211,9 +215,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     flexDirection: 'row',
-    left: 22,
-    right: 22,
-    top: 60,
+    top: 100,
     height: 100,
     zIndex: 6,
     backgroundColor: '#F5F5F5',

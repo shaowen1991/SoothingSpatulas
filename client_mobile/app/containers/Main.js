@@ -90,10 +90,13 @@ class Main extends Component  {
         <NavigationIcon 
           icon={checkInOpenReducer ? 'arrowLeft' : 'hamburger'}
           checkInOpenReducer={checkInOpenReducer}
-          onPress={toggleCheckIn}
+          toggleCheckIn={toggleCheckIn}
         />
         <SearchMain />
-        <Map /> 
+        <Map 
+          toggleCheckIn={toggleCheckIn}
+          checkInOpenReducer={checkInOpenReducer}
+        /> 
         <CheckInButton 
           toggleCheckIn={toggleCheckIn}
           checkInOpenReducer={checkInOpenReducer}

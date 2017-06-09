@@ -16,7 +16,9 @@ module.exports.create = (req, res) => {
     category: req.body.category,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    name: req.body.name
+    name: req.body.name,
+    city: req.body.city,
+    state: req.body.state
   })
   .save()
   .then(result => {

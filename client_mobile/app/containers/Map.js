@@ -15,12 +15,19 @@ import $ from 'jquery';
 import { getTextComments } from '../Network.js';
 
 /* ----------------------------------
+         Import Components
+---------------------------------- */
+import { NearbyPlacesCallout }  from '../components';
+
+/* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
 import {
   updateTextCommentsDB,
   moveRegion,
   moveMyLocation,
+  selectPlace,
+  clearSelectedPlace
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -30,12 +37,14 @@ const mapStateToProps = ({
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
-  nearbyPlacesReducer
+  nearbyPlacesReducer,
+  selectedPlaceReducer
 }) => ({
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
-  nearbyPlacesReducer
+  nearbyPlacesReducer,
+  selectedPlaceReducer
 });
 
 /* ----------------------------------
@@ -50,6 +59,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateTextCommentsFromDB: (comments) => {
     dispatch(updateTextCommentsDB(comments));
+  },
+  selectPlace: (latitude, longitude, category, name, city, state) => {
+    dispatch(selectPlace(latitude, longitude, category, name, city, state));
+  },
+  clearSelectedPlace: () => {
+    dispatch(clearSelectedPlace());
   }
 });
 /* ----------------------------------
@@ -104,10 +119,15 @@ class Map extends Component  {
 
   render() {
     const {
+      toggleCheckIn,
       onLogoutClick,
+      selectPlace,
+      checkInOpenReducer,
       myLocationReducer,
       pinCoordinatesReducer,
-      nearbyPlacesReducer
+      nearbyPlacesReducer,
+      selectedPlaceReducer,
+      clearSelectedPlace
     } = this.props;
     
     const initialRegion = {
@@ -117,7 +137,7 @@ class Map extends Component  {
       longitudeDelta: .005
     }
 
-    // console.log('Map props: ', this.props);
+    console.log('Map props: ', this.props);
     // console.log('Map state: ', this.state);
     return (
         <MapView 
@@ -133,13 +153,14 @@ class Map extends Component  {
           showCompass={true}
           showsBuildings={true}
           rotateEnabled={false}
-          showsTraffic={true}
+          showsTraffic={false}
           loadingEnabled={true}
         >
           {/* user pin drop */}
           {(Object.keys(pinCoordinatesReducer)).length > 0 ?
             <MapView.Marker
               key="1"
+              pinColor={'D32F2F'}
               coordinate={pinCoordinatesReducer.coordinates}
               title={pinCoordinatesReducer.name}
               description={pinCoordinatesReducer.des}
@@ -151,10 +172,35 @@ class Map extends Component  {
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker
               key={key}
+              pinColor={'#0097A7'}
               coordinate={place.coordinates}
-              title={place.name}
-              description={place.des}
-            />          
+            >
+              <MapView.Callout>
+                <NearbyPlacesCallout
+                  title={place.name}
+                  address={place.address}
+                  onSelect={() => {
+                    // checkInOpen state indicate we have a select place or not
+                    if (!checkInOpenReducer) { 
+                      selectPlace(
+                        place.coordinates.latitude, 
+                        place.coordinates.longitude, 
+                        place.category, 
+                        place.name,
+                        // parse the city name from address
+                        place.address.split(', ')[1] ? place.address.split(', ')[1] : place.address.split(', ')[0], 
+                        ''
+                      );
+                    }
+                    else {
+                      clearSelectedPlace();
+                    }
+                    toggleCheckIn(checkInOpenReducer);
+                  }}
+                  checkInOpenReducer={checkInOpenReducer}
+                />
+              </MapView.Callout>
+            </MapView.Marker>        
           ))}
         </MapView>
     );
@@ -167,7 +213,7 @@ const styles = StyleSheet.create({
     height: "94%",
     width: "100%",
     zIndex: -1
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

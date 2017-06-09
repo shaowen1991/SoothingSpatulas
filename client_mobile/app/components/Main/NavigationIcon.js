@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react'
-import { StyleSheet, TouchableOpacity, Image } from 'react-native'
+import React, { Component, PropTypes } from 'react';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-import AssetMap from '../../config/AssetMap'
+import AssetMap from '../../config/AssetMap';
 
 // Expand the touch target around the icon
 const hitSlop = {
@@ -11,14 +11,13 @@ const hitSlop = {
   right: 10,
 }
 
+/* ----------------------------------
+                Class
+---------------------------------- */
 export default class NavigationIcon extends Component {
 
-  static propTypes = {
-    icon: PropTypes.string.isRequired,
-  }
-
   static defaultProps = {
-    onPress: () => {}
+    toggleCheckIn: () => {}
   }
 
   render() {
@@ -27,13 +26,13 @@ export default class NavigationIcon extends Component {
        It will open the checkInFooter
        Need to change it to open the Menu
     --------------------------------------------- */
-    const {onPress, icon, checkInOpenReducer} = this.props
+    const {toggleCheckIn, icon, checkInOpenReducer} = this.props
     
     return (
       <TouchableOpacity
         style={styles.container}
         hitSlop={hitSlop}
-        onPress={() => {onPress(checkInOpenReducer)}}
+        onPress={() => {toggleCheckIn(checkInOpenReducer)}}
       >
         <Image
           style={styles.icon}
