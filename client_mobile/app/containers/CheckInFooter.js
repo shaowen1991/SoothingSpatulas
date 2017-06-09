@@ -334,13 +334,13 @@ class CheckInFooter extends Component {
                     name: selectedPlaceReducer.name,
                     city: selectedPlaceReducer.city,
                     state: ''
-                  }, this.postTextComment, this.clearText);
+                  }, this.postTextComment);
                 }
                 /* ---------------------------------------------------------
                       if no location selected, post comment directly
                 --------------------------------------------------------- */
                 else {
-                  this.postTextComment(null, this.clearText);
+                  this.postTextComment(null);
                 }
                 this.onPinDrop(usernameReducer, this.state.typeInComment);
               }
