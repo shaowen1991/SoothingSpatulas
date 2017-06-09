@@ -13,6 +13,7 @@ import isEqual from 'lodash/isEqual';
 import $ from 'jquery';
 
 import { getTextComments } from '../Network.js';
+import Constants from '../Constants';
 
 /* ----------------------------------
          Import Components

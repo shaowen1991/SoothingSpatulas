@@ -45,6 +45,23 @@ module.exports.getOne = (req, res) => {
     });
 };
 
+module.exports.getIdByName = (req, res) => {
+  // select id from locations where name = req.name;
+  models.Location.where({ name: req.params.name }).fetch()
+    .then(location => {
+      if (!location) {
+        throw location;
+      }
+      res.status(200).send(location);
+    })
+    .error(err => {
+      res.status(500).send(err);
+    })
+    .catch(() => {
+      res.sendStatus(404);
+    });
+};
+
 module.exports.update = (req, res) => {
   models.Location.where({ id: req.params.id }).fetch()
     .then(location => {

@@ -11,7 +11,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 
-import { postTextComments, postLocation } from '../Network.js';
+import { postTextComments, postLocation, getLocationId } from '../Network.js';
 import Recorder from './Recorder.js';
 import AssetMap from '../config/AssetMap';
 
@@ -92,7 +92,9 @@ class CheckInFooter extends Component {
     this.clearText = this.clearText.bind(this);
     this.onPinDrop = this.onPinDrop.bind(this);
     this.setRating = this.setRating.bind(this);
+    this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
+    this.postTextComment = this.postTextComment.bind(this);
   }
 
   clearText () {
@@ -102,6 +104,11 @@ class CheckInFooter extends Component {
 
   setRating (rate) {
     this.setState({ rating: rate });
+  }
+
+  clearTextAndRating () {
+    this.clearText();
+    this.setRating(0);
   }
 
   toggleTypeOfComment () {
@@ -120,6 +127,22 @@ class CheckInFooter extends Component {
       username,
       comment
     )
+  }
+
+  postTextComment (location_id) {
+    postTextComments({
+      comment: this.state.typeInComment,
+      latitude: this.props.myLocationReducer.latitude,
+      longitude: this.props.myLocationReducer.longitude,
+      rating: this.state.rating,
+      name: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.name : null,
+      user_id: this.props.useridReducer,
+      location_id: location_id
+    }, this.clearTextAndRating);
+    /* ----------------------------------------------------
+            put clearTextAndRating as callback
+    to ensure it only be called after data inserted to db
+    ---------------------------------------------------- */
   }
 
   render() {
@@ -290,7 +313,7 @@ class CheckInFooter extends Component {
                   comment, latitude, longitude, rating, userid, username
                           pass the text commet details here
                         first method is send data to Redux
-                          second method is send data to DB
+                          second if-block is send data to DB
                 ----------------------------------------------------- */            
                 onCommentSubmit(
                   this.state.typeInComment,
@@ -300,31 +323,26 @@ class CheckInFooter extends Component {
                   useridReducer,
                   usernameReducer
                 );
-                postTextComments({
-                  comment: this.state.typeInComment,
-                  latitude: myLocationReducer.latitude,
-                  longitude: myLocationReducer.longitude,
-                  rating: this.state.rating,
-                  name: selectedPlaceReducer.name ? selectedPlaceReducer.name : null,
-                  user_id: useridReducer
-                });
                 /* ---------------------------------------------------------
                   only post new location to db when a location is selected
                 --------------------------------------------------------- */
                 if (selectedPlaceReducer.name) {
-                  console.log('########', selectedPlaceReducer)
-                  postLocation({
+                  getLocationId({
                     category: selectedPlaceReducer.category,
                     latitude: selectedPlaceReducer.latitude,
                     longitude: selectedPlaceReducer.longitude,
                     name: selectedPlaceReducer.name,
                     city: selectedPlaceReducer.city,
                     state: ''
-                  });
+                  }, this.postTextComment, this.clearText);
+                }
+                /* ---------------------------------------------------------
+                      if no location selected, post comment directly
+                --------------------------------------------------------- */
+                else {
+                  this.postTextComment(null, this.clearText);
                 }
                 this.onPinDrop(usernameReducer, this.state.typeInComment);
-                this.clearText();
-                this.setRating(0);
               }
             }} 
           >

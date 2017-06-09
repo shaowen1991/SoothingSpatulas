@@ -16,7 +16,7 @@ const getTextComments = (cb) => {
     });  
 };  
 
-const postTextComments = (textComment) => {
+const postTextComments = (textComment, cb) => {
   console.log('post comment db');
   fetch('http://localhost:3000/api/locationsusers', {
     method: 'POST',
@@ -30,11 +30,18 @@ const postTextComments = (textComment) => {
       longitude: textComment.longitude,
       rating: textComment.rating,
       user_id: textComment.user_id,
-      name: textComment.name
+      name: textComment.name,
+      location_id: textComment.location_id
     })
   })
   .then((response) => response.json())
-  .then((responseJson) => console.log('-------> Post comment db', responseJson))
+  .then((responseJson) => {
+    console.log('-------> Post comment db', responseJson);
+    /* ----------------------------------------------------
+    Invoke clearTextAndRating callback after data inserted
+    ---------------------------------------------------- */
+    cb();
+  })
   .catch((error) => {
     console.error(error);
   });  
@@ -78,8 +85,8 @@ const postAudioComments = (filepath, filename) => {
 	});
 }
 
-const postLocation = (location) => {
-  console.log('post location db', location);
+const postLocation = (location, cb) => {
+  console.log('post location db');
   fetch('http://localhost:3000/api/locations', {
     method: 'POST',
     headers: {
@@ -96,10 +103,37 @@ const postLocation = (location) => {
     })
   })
   .then((response) => response.json())
-  .then((responseJson) => console.log('-------> Post location db', responseJson))
+  .then((responseJSON) => {
+    console.log('-------> post location db', responseJSON);
+    cb(responseJSON.id);
+  })
   .catch((error) => {
-    console.error(error);
+    console.error('-------> new location post error: ', error);
   });  
+};
+
+const getLocationId = (location, cb) => {
+  fetch("http://localhost:3000/api/locations/name/" + location.name, {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'            
+    }
+  })
+  .then((response) => response.json())
+  .then((responseJSON) => {
+    console.log('-------> get location id: ', responseJSON);
+    cb(responseJSON.id);
+  })
+  .catch((err) => {
+    console.log('-------> location id fetch err: ', err);
+    /* ----------------------------------------------------
+      In this POST request, send new location info to DB
+      and get the location object back from response, 
+      which include the locationid
+    ---------------------------------------------------- */
+    postLocation(location, cb);
+  })
 };
 
 const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
@@ -139,6 +173,7 @@ export {
   postTextComments,
   postAudioComments,
   postLocation,
+  getLocationId,
   getNearbyPlaces
 };
 

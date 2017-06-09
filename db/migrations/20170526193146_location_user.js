@@ -24,7 +24,7 @@ exports.up = function (knex, Promise) {
       table.string('category', 100).nullable();
       table.string('latitude', 100).nullable();
       table.string('longitude', 100).nullable();
-      table.string('name', 100).nullable();
+      table.string('name', 100).nullable().unique();
       table.string('city', 100).nullable();
       table.string('state', 2).nullable();
     })
