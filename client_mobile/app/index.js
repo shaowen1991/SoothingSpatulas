@@ -165,7 +165,20 @@ const selectedPlaceReducer = (state = {}, action) => {
     };
     case ('CLEAR_SELECTED_PLACE') : return {};
     default : return state;
-  }   
+  } 
+}  
+/* User Reducers
+--------------------------------*/
+const userHistoryReducer = (state = [], checkin) => {
+  switch (checkin.type) {
+    case ('USER_HISTORY') : return [
+      ...state,
+      {
+        comment: checkin.comment
+      }
+    ];
+    default : return state;
+  }
 }
 
 const reducers = combineReducers({
@@ -184,7 +197,9 @@ const reducers = combineReducers({
   myLocationReducer,
   selectedPlaceReducer,
   pinCoordinatesReducer,
-  nearbyPlacesReducer
+  nearbyPlacesReducer,
+  // User Reducers
+  userHistoryReducer
 });
 
 /* -----------------------

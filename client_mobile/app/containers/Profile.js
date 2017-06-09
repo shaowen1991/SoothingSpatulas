@@ -32,19 +32,25 @@ import { connect } from 'react-redux';
 
 const transitionProps = ['top', 'height', 'width']
 
+/* ----------------------------------
+       Import Redux Actions
+---------------------------------- */
 import {
   openProfileView,
-  closeProfileView
+  closeProfileView,
+  storeUserHistoryToState
 } from '../Actions.js';
 
 const mapStateToProps = ({
   profileViewOpen,
   usernameReducer,
-  useridReducer
+  useridReducer,
+  userHistoryReducer
 }) => ({
   profileViewOpen,
   usernameReducer,
-  useridReducer
+  useridReducer,
+  userHistoryReducer
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -55,19 +61,25 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(openProfileView());
     }
+  },
+  storeUserHistoryToState: (userhistory) => {
+    console.log('dispatching userhist: ', userhistory)
+    dispatch(storeUserHistoryToState(usercomment))
   }
 })
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      userHist: []
+    }
 
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
 
   userCheckinHistory(userid) {
-    console.log('userid: ', userid)
+    var histArray = [];
     fetch("http://localhost:3000/api/locationsusers/" + userid, {
         method: "GET",
         headers: {
@@ -77,18 +89,28 @@ class Profile extends Component {
       })
       .then((response) => response.json())
       .then((responseJSON) => {
-        console.log('-------> get user location data: ', responseJSON);
+        console.log('-------> get user location data comment: ', responseJSON);
+        // function here to deal with responseJSON
+        // storeUserHistoryToState(responseJSON)
+        // refactor to non-redux
+        histArray.push(responseJSON)
+        this.setState({
+          userHist: histArray
+        })
       })
       .catch((err) => {
         console.log('-------> user id fetch err: ', err);
       })
   }
 
+
+
   render() {
     const {
       profileViewOpen,
       toggleProfileView,
-      useridReducer
+      useridReducer,
+      userHistoryReducer
     } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
@@ -142,6 +164,13 @@ class Profile extends Component {
             onPress={() => {this.userCheckinHistory(useridReducer)}}
             title='history'
           />
+          <Text> {this.state.userHist.length} of checkins </Text>
+          {this.state.userHist.map((place, key) => (
+            <Text key={key}>
+              comment: {place.comment}
+              rating: {place.rating}
+            </Text>
+          ))}
         </View>
       </Animatable.View>
     );

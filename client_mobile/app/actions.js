@@ -137,6 +137,11 @@ const selectPlace = (latitude, longitude, category, name, city, state) => ({
 
 const clearSelectedPlace = () => ({
   type: 'CLEAR_SELECTED_PLACE'
+/* User Actions
+--------------------------------*/
+const storeUserHistoryToState = (userhistory) => ({
+  type: 'USER_HISTORY',
+  userhistory: userhistory
 })
 
 /* Export Actions
@@ -166,8 +171,13 @@ export {
   clearCheckInPin,
   addNearbyPlace,
   clearNearbyPlace,
+<<<<<<< HEAD
   selectPlace,
   clearSelectedPlace
+=======
+  // User Actions
+  storeUserHistoryToState
+>>>>>>> pulling in user data
 };
 
 
