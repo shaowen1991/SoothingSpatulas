@@ -29,7 +29,8 @@ import {
   closeCheckIn,
   addTextComment,
   dropCheckInPin,
-  clearSelectedPlace
+  clearSelectedPlace,
+  clearNearbyPlace
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -75,6 +76,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   clearSelectedPlace: () => {
     dispatch(clearSelectedPlace());
+  },
+  clearNearbyPlace: () => {
+    dispatch(clearNearbyPlace());
   }
 });
 
@@ -122,8 +126,8 @@ class CheckInFooter extends Component {
 
   onPinDrop (username, comment) {
     this.props.dropCheckInPin(
-      this.props.myLocationReducer.latitude, 
-      this.props.myLocationReducer.longitude,
+      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
+      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
       username,
       comment
     )
@@ -132,8 +136,8 @@ class CheckInFooter extends Component {
   postTextComment (location_id) {
     postTextComments({
       comment: this.state.typeInComment,
-      latitude: this.props.myLocationReducer.latitude,
-      longitude: this.props.myLocationReducer.longitude,
+      latitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
+      longitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
       rating: this.state.rating,
       name: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.name : null,
       user_id: this.props.useridReducer,
@@ -154,7 +158,8 @@ class CheckInFooter extends Component {
       usernameReducer,
       useridReducer,
       selectedPlaceReducer,
-      clearSelectedPlace
+      clearSelectedPlace,
+      clearNearbyPlace
     } = this.props
 
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -343,6 +348,7 @@ class CheckInFooter extends Component {
                   this.postTextComment(null);
                 }
                 this.onPinDrop(usernameReducer, this.state.typeInComment);
+                clearNearbyPlace();
               }
             }} 
           >
