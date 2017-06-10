@@ -34,6 +34,13 @@ const useridReducer = (state = 0, action) => {
   }
 };
 
+const userPicReducer = (state = '', action) => {
+  switch (action.type) {
+    case ('UPDATE_USERPIC') : return action.userpic;
+    default : return state;
+  }
+};
+
 const checkInOpenReducer = (state = false, action) => {
   switch (action.type) {
     case ('OPEN_CHECKIN') : return true;
@@ -186,6 +193,7 @@ const reducers = combineReducers({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
   profileViewOpen,
   // Comments Reducers

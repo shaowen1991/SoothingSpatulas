@@ -28,11 +28,13 @@ import {
 const mapStateToProps = ({ 
   loginReducer, 
   usernameReducer, 
-  useridReducer 
+  useridReducer,
+  userPicReducer
 }) => ({
   loginReducer,
   usernameReducer,
-  useridReducer
+  useridReducer,
+  userPicReducer
 });
 
 /* ----------------------------------
@@ -47,7 +49,7 @@ const mapDispatchToProps = (dispatch) => ({
         console.log('-------> login error: ', err);
         return;
       }
-
+      console.log('PROFILEEEEEE; ', profile)
       let userLoginInfo = {
         first: profile.extraInfo.given_name,
         last: profile.extraInfo.family_name,
@@ -95,7 +97,7 @@ const mapDispatchToProps = (dispatch) => ({
         })
       })
       dispatch(updateUsername(profile.extraInfo.given_name));
-      dispatch(updateUserPic(profile.picture));
+      dispatch(updateUserPic(profile.extraInfo.picture_large));
       dispatch(updateLogin());
     });
   }

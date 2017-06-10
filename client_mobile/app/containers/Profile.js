@@ -31,11 +31,13 @@ const mapStateToProps = ({
   profileViewOpen,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   userHistoryReducer
 }) => ({
   profileViewOpen,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   userHistoryReducer
 });
 
@@ -59,7 +61,8 @@ class Profile extends Component {
     super(props);
     this.state = {
       selectedTab: 'most-viewed',
-      userHist: []
+      userHist: [],
+      userPic: this.props.userPic
     }
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
@@ -100,11 +103,12 @@ class Profile extends Component {
       profileViewOpen,
       toggleProfileView,
       useridReducer,
+      userPicReducer,
       userHistoryReducer
     } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
-      top: profileViewOpen ? 200 : windowHeight,
+      top: profileViewOpen ? 0 : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -122,7 +126,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('most-viewed')}}
           >
           <View>
-            <ProfileHeader/>
+            <ProfileHeader userPic={this.state.userPic}/>
             <Trends/>
           </View>
           </TabBarIOS.Item>
@@ -132,7 +136,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('contacts')}}
           >
           <View>
-            <ProfileHeader/>
+            <ProfileHeader userPic={this.state.userPic}/>
             <FriendList/>
             <Button 
               onPress={() => {this.userCheckinHistory(useridReducer)}}
@@ -153,7 +157,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('history')}}
             >
             <View>
-              <ProfileHeader/>
+              <ProfileHeader userPic={this.state.userPic}/>
               <HistoryList/>
             </View>
           </TabBarIOS.Item>
@@ -168,7 +172,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: 'grey'
+    borderColor: 'grey',
+    zIndex: 6
   },
 })
 

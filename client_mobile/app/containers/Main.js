@@ -43,6 +43,7 @@ const mapStateToProps = ({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
   profileViewOpen,
   textCommentsReducer,
@@ -53,6 +54,7 @@ const mapStateToProps = ({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
   profileViewOpen,
   textCommentsReducer,
@@ -69,6 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateLogout());
     dispatch(updateUsername(''));
     dispatch(updateUserid(0));
+    dispatch(updateUserPic(''));
   },
   toggleCheckIn: (checkInOpenReducer) => {
     console.log('checkin hamburger')
@@ -107,6 +110,7 @@ class Main extends Component  {
   render() {
     const {
       usernameReducer,
+      userPicReducer,
       onLogoutClick,
       checkInOpenReducer,
       profileViewOpen,
@@ -147,7 +151,7 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
         /> 
         <CheckInFooter />
-        <Profile />
+        <Profile userPic={this.props.userPicReducer}/>
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
