@@ -136,6 +136,7 @@ class Main extends Component  {
           myLocationReducer={myLocationReducer}
           regionReducer={regionReducer}
           backToMyLocation={backToMyLocation}
+        />
         <ProfileIcon 
           icon={profileViewOpen ? 'arrow-left' : 'hamburger'}
           profileViewOpen={profileViewOpen}

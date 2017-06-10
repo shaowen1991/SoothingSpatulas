@@ -13,7 +13,7 @@ export {
   RecordButton,
   NavigationIcon,
   BackToMyLocationIcon,
-  NearbyPlacesCallout
+  NearbyPlacesCallout,
   CheckInButton,
   ProfileIcon
 };
