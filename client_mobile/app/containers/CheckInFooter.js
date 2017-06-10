@@ -180,8 +180,8 @@ class CheckInFooter extends Component {
         JSON.stringify(myLocationReducer.longitude).substring(0, 10);
     }
 
-    console.log('CheckInFooter props: ', this.props);
-    console.log('CheckInFooter states: ', this.state);
+    // console.log('CheckInFooter props: ', this.props);
+    // console.log('CheckInFooter states: ', this.state);
     return (
       <Animatable.View
         style={[styles.container, style]}

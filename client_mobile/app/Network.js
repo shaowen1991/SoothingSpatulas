@@ -4,6 +4,9 @@ import React from 'react';
 import { DeviceEventEmitter } from 'react-native';
 var RNUploader = require('NativeModules').RNUploader;
 
+/* ----------------------------------
+    Comments (locationsusers *)
+---------------------------------- */
 const getTextComments = (cb) => {
   fetch('http://localhost:3000/api/locationsusers')
     .then((response) => response.json())
@@ -47,7 +50,6 @@ const postTextComments = (textComment, cb) => {
   });  
 };
 
-
 const postAudioComments = (filepath, filename) => {
   console.log(filepath);
   console.log(filename);
@@ -85,6 +87,9 @@ const postAudioComments = (filepath, filename) => {
 	});
 }
 
+/* ----------------------------------
+             Locations
+---------------------------------- */
 const postLocation = (location, cb) => {
   console.log('post location db');
   fetch('http://localhost:3000/api/locations', {

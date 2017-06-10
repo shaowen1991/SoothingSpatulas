@@ -14,29 +14,26 @@ const hitSlop = {
 /* ----------------------------------
                 Class
 ---------------------------------- */
-export default class NavigationIcon extends Component {
-
-  static defaultProps = {
-    toggleCheckIn: () => {}
-  }
+export default class BackToMyLocationIcon extends Component {
 
   render() {
-    /* ---------------------------------------------
-       Currently, this onPress is a testing function
-       It will open the checkInFooter
-       Need to change it to open the Menu
-    --------------------------------------------- */
-    const {toggleCheckIn, icon, checkInOpenReducer} = this.props
+    const { myLocationReducer, regionReducer, backToMyLocation } = this.props;
     
     return (
       <TouchableOpacity
         style={styles.container}
         hitSlop={hitSlop}
-        onPress={() => {toggleCheckIn(checkInOpenReducer)}}
+        onPress={() => {
+          backToMyLocation(
+            myLocationReducer.latitude,
+            myLocationReducer.longitude,
+            regionReducer.latitudeDelta,
+            regionReducer.longitudeDelta
+          )}}
       >
         <Image
           style={styles.icon}
-          source={AssetMap[icon]}
+          source={AssetMap.mapMarker}
         />
       </TouchableOpacity>
     )
@@ -47,8 +44,8 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 36,
-    left: 22,
-    zIndex: 10,
+    right: 22,
+    zIndex: 5,
   },
   icon: {
     width: 21,
