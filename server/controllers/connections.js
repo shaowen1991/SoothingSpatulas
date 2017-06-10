@@ -11,7 +11,7 @@ module.exports.getAll = (req, res) => {
     });
 };
 
-module.exports.getAllByUser = (req, res) => {
+module.exports.getByUser = (req, res) => {
   models.Connection.where({ users_a_id: req.params.id }).fetchAll()
     .then(connections => {
       res.status(200).send(connections);
