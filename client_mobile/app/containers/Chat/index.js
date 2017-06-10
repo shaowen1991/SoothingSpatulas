@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView,
   NavigatorIOS
 } from 'react-native';
 import ChatList from './ChatList'
