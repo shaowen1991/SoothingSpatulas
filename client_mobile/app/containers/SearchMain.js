@@ -84,8 +84,8 @@ class SearchMain extends Component  {
       longitudeDelta: .005
     }
 
-    console.log('SearchMain props: ', this.props);
-    console.log('SearchMain state: ', this.state);
+    // console.log('SearchMain props: ', this.props);
+    // console.log('SearchMain state: ', this.state);
     return (
       <Animatable.View style={styles.container}>
         <TextInput
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 70,
+    top: 100,
     left: 22,
     right: 22,
     zIndex: 5,

@@ -98,7 +98,7 @@ class Map extends Component  {
   watchLocation () {
     navigator.geolocation.watchPosition((position) => {
       if (!isEqual(this.props.myLocationReducer, position.coords)) {
-        console.log('move',position.coords);
+        // console.log('Move to: ', position.coords);
         this.props.moveMyLocation(
           position.coords.latitude,
           position.coords.longitude,
@@ -128,7 +128,8 @@ class Map extends Component  {
       pinCoordinatesReducer,
       nearbyPlacesReducer,
       selectedPlaceReducer,
-      clearSelectedPlace
+      clearSelectedPlace,
+      regionReducer
     } = this.props;
     
     const initialRegion = {
@@ -145,6 +146,7 @@ class Map extends Component  {
           style={styles.map}
           initialRegion={Object.keys(myLocationReducer).length === 0 ? initialRegion : myLocationReducer}
           onRegionChange={this.onRegionChange}
+          region={Object.keys(regionReducer).length === 0 ? initialRegion : regionReducer}
           userLocationAnnotationTitle="You"
           key="AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc"
           mapType="standard"

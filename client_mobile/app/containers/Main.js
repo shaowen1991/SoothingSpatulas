@@ -19,7 +19,8 @@ import {
   updateUsername,
   updateUserid,
   openCheckIn,
-  closeCheckIn
+  closeCheckIn,
+  moveRegion
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -28,7 +29,7 @@ import {
 import Map from './Map';
 import CheckInFooter from './CheckInFooter';
 import SearchMain from './SearchMain';
-import { NavigationIcon, CheckInButton }  from '../components';
+import { NavigationIcon, BackToMyLocationIcon, CheckInButton }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -39,14 +40,18 @@ const mapStateToProps = ({
   useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  audioCommentsReducer
+  audioCommentsReducer,
+  myLocationReducer,
+  regionReducer
 }) => ({
   loginReducer,
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
   textCommentsReducer,
-  audioCommentsReducer
+  audioCommentsReducer,
+  myLocationReducer,
+  regionReducer
 });
 
 /* ----------------------------------
@@ -65,6 +70,9 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(openCheckIn());
     }
+  },
+  backToMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
+    dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
   }
 });
 
@@ -80,17 +88,25 @@ class Main extends Component  {
       checkInOpenReducer,
       toggleCheckIn,
       textCommentsReducer,
-      audioCommentsReducer
+      audioCommentsReducer,
+      myLocationReducer,
+      backToMyLocation,
+      regionReducer
     } = this.props;
 
-    console.log('Main props: ', this.props);
-    console.log('------> comments: ', this.props.textCommentsReducer)
+    // console.log('Main props: ', this.props);
+    // console.log('------> comments: ', this.props.textCommentsReducer)
     return (
       <View style={styles.container}>
         <NavigationIcon 
           icon={checkInOpenReducer ? 'arrowLeft' : 'hamburger'}
           checkInOpenReducer={checkInOpenReducer}
           toggleCheckIn={toggleCheckIn}
+        />
+        <BackToMyLocationIcon 
+          myLocationReducer={myLocationReducer}
+          regionReducer={regionReducer}
+          backToMyLocation={backToMyLocation}
         />
         <SearchMain />
         <Map 

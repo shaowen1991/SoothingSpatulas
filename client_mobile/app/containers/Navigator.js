@@ -16,7 +16,8 @@ class Navigator extends Component {
     return (
       // loginReducer ? <Profile /> : <Login />
       //  <Profile />
-      loginReducer ? <Main /> : <Login />
+      // loginReducer ? <Main /> : <Login />
+      <Main/>
     );
   }
 }
