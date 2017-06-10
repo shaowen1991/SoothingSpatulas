@@ -18,6 +18,7 @@ const lock = new Auth0Lock(credentials);
 import { 
   updateUsername, 
   updateUserid, 
+  updateUserPic,
   updateLogin 
 } from '../Actions.js';
 
@@ -27,11 +28,13 @@ import {
 const mapStateToProps = ({ 
   loginReducer, 
   usernameReducer, 
-  useridReducer 
+  useridReducer,
+  userPicReducer
 }) => ({
   loginReducer,
   usernameReducer,
-  useridReducer
+  useridReducer,
+  userPicReducer
 });
 
 /* ----------------------------------
@@ -46,9 +49,10 @@ const mapDispatchToProps = (dispatch) => ({
         console.log('-------> login error: ', err);
         return;
       }
-
+      console.log('PROFILEEEEEE; ', profile)
       let userLoginInfo = {
-        first: profile.nickname,
+        first: profile.extraInfo.given_name,
+        last: profile.extraInfo.family_name,
         email: profile.email
       }
       /* ----------------------------------------------------
@@ -92,7 +96,8 @@ const mapDispatchToProps = (dispatch) => ({
           console.log('-------> new user post error: ', err)
         })
       })
-      dispatch(updateUsername(profile.nickname));
+      dispatch(updateUsername(profile.extraInfo.given_name));
+      dispatch(updateUserPic(profile.extraInfo.picture_large));
       dispatch(updateLogin());
     });
   }
@@ -114,7 +119,7 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Memento!
+          Welcome to Momento!
         </Text>
         <Button 
           title="Log In"

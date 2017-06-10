@@ -14,6 +14,11 @@ const updateUserid = (userid) => ({
   userid: userid
 });
 
+const updateUserPic = (userpic) => ({
+  type: 'UPDATE_USERPIC',
+  userpic: userpic
+});
+
 const updateLogin = () => ({
   type: 'LOG_IN'
 });
@@ -30,6 +35,13 @@ const closeCheckIn = () => ({
   type: 'CLOSE_CHECKIN'
 });
 
+const openProfileView = () => ({
+  type: 'OPEN_PROFILE'
+});
+
+const closeProfileView = () => ({
+  type: 'CLOSE_PROFILE'
+});
 /* Comments Actions
 --------------------------------*/
 const addTextComment = (comment, latitude, longitude, rating, user_id, username) => ({
@@ -126,6 +138,12 @@ const selectPlace = (latitude, longitude, category, name, city, state) => ({
 const clearSelectedPlace = () => ({
   type: 'CLEAR_SELECTED_PLACE'
 })
+/* User Actions
+--------------------------------*/
+const storeUserHistoryToState = (userhistory) => ({
+  type: 'USER_HISTORY',
+  userhistory: userhistory
+})
 
 /* Export Actions
 --------------------------------*/
@@ -133,10 +151,13 @@ export {
   // General Actions
   updateUsername,
   updateUserid,
+  updateUserPic,
   updateLogin,
   updateLogout,
   openCheckIn,
   closeCheckIn,
+  openProfileView,
+  closeProfileView,
   // Comments Actions
   addTextComment,
   updateTextCommentsDB,
@@ -152,7 +173,8 @@ export {
   addNearbyPlace,
   clearNearbyPlace,
   selectPlace,
-  clearSelectedPlace
+  // User Actions
+  storeUserHistoryToState
 };
 
 

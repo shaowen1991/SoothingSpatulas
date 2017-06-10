@@ -5,6 +5,7 @@ import NavigationIcon from './Main/NavigationIcon';
 import BackToMyLocationIcon from './Main/BackToMyLocationIcon';
 import CheckInButton from './Main/CheckInButton';
 import NearbyPlacesCallout from './Map/NearbyPlacesCallout';
+import ProfileIcon from './ProfileIcon';
 
 export {
   ActionButtons,
@@ -12,6 +13,7 @@ export {
   RecordButton,
   NavigationIcon,
   BackToMyLocationIcon,
+  NearbyPlacesCallout,
   CheckInButton,
-  NearbyPlacesCallout
+  ProfileIcon
 };
