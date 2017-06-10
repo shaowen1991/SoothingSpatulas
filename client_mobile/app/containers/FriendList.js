@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollView } from 'react-native';
 import Friend from './Friend';
+import Chat from './Chat';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 class FriendList extends Component {
@@ -15,15 +16,7 @@ class FriendList extends Component {
     return (
       <View style={styles.trends}>
         <Text style={styles.trendsHeader}>Connections</Text>
-        <ScrollView>
-        {this.state.friends.map((person) => {
-          return <Friend 
-            name={person.name} 
-            hometown={person.hometown} 
-            url={person.url}
-            />
-        })}
-        </ScrollView>
+        <Chat/>
       </View>
     );
   }
@@ -32,7 +25,7 @@ class FriendList extends Component {
 const styles = StyleSheet.create({
   trends: {
     flexDirection: 'column',
-    height: '65%',
+    height: '80%',
     width: '100%',
     alignContent: 'center',
     fontSize: 10,
@@ -43,22 +36,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: '1%'
-  },
-  graph: {
-    flexDirection: 'column',
-    height: '50%',
-    width: '100%',
-    alignContent: 'center'
-  },
-  image: {
-    width: '90%',
-    height: '100%',
-    marginLeft: '5%',
-  },
-  graphCaption: {
-    height: '10%',
-    fontSize: 15,
-    textAlign: 'center'
   }
 });
 
