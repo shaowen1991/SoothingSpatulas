@@ -11,6 +11,17 @@ module.exports.getAll = (req, res) => {
     });
 };
 
+module.exports.getAllByUser = (req, res) => {
+  models.Connection.where({ users_a_id: req.params.id }).fetchAll()
+    .then(connections => {
+      res.status(200).send(connections);
+    })
+    .catch(err => {
+      // This code indicates an outside service (the database) did not respond in time
+      res.status(503).send(err);
+    });
+};
+
 module.exports.create = (req, res) => {
   models.User.where({ email: req.body.email }).fetch()
     .then(userB => {
