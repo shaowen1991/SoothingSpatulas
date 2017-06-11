@@ -18,7 +18,7 @@ import Constants from '../Constants';
 /* ----------------------------------
          Import Components
 ---------------------------------- */
-import { NearbyPlacesCallout }  from '../components';
+import { NearbyPlacesCallout, TextCommentPin }  from '../components';
 
 /* ----------------------------------
        Import Redux Actions
@@ -39,13 +39,15 @@ const mapStateToProps = ({
   myLocationReducer,
   pinCoordinatesReducer,
   nearbyPlacesReducer,
-  selectedPlaceReducer
+  selectedPlaceReducer,
+  textCommentsReducer
 }) => ({
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
   nearbyPlacesReducer,
-  selectedPlaceReducer
+  selectedPlaceReducer,
+  textCommentsReducer
 });
 
 /* ----------------------------------
@@ -92,7 +94,12 @@ class Map extends Component  {
 
   componentDidMount () {
     this.watchLocation();
-    getTextComments(comments => this.props.updateTextCommentsFromDB(comments));
+
+    getTextComments()
+    .then((comments) => {
+      this.props.updateTextCommentsFromDB(comments);
+    })
+    .catch((err) => console.log(err));
   }
 
   watchLocation () {
@@ -129,7 +136,8 @@ class Map extends Component  {
       nearbyPlacesReducer,
       selectedPlaceReducer,
       clearSelectedPlace,
-      regionReducer
+      regionReducer,
+      textCommentsReducer
     } = this.props;
     
     const initialRegion = {
@@ -172,6 +180,26 @@ class Map extends Component  {
             :
             null
           }
+          {/*text comments pin*/}
+          {textCommentsReducer.map((comment, key) => (
+            <MapView.Marker
+              key={key}
+              pinColor={'black'}
+              coordinate={{
+                latitude: JSON.parse(comment.latitude),
+                longitude: JSON.parse(comment.longitude)
+              }}
+            >
+              <MapView.Callout>
+                <TextCommentPin
+                  user_id={comment.user_id}
+                  name={comment.name}
+                  comment={comment.comment}
+                  rating={comment.rating}
+                />
+              </MapView.Callout>
+            </MapView.Marker>        
+          ))}          
           {/* nearby locations */}
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker

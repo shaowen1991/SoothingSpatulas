@@ -7,16 +7,19 @@ var RNUploader = require('NativeModules').RNUploader;
 /* ----------------------------------
     Comments (locationsusers *)
 ---------------------------------- */
-const getTextComments = (cb) => {
-  fetch('http://localhost:3000/api/locationsusers')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log('GET locationsusers: ', responseJson);
-      cb(responseJson);
-    })
-    .catch((error) => {
-      console.error(error);
-    });  
+const getTextComments = () => {
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3000/api/locationsusers')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('GET locationsusers: ', responseJson);
+        resolve(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });  
+  })
 };  
 
 const postTextComments = (textComment, cb) => {
@@ -173,13 +176,32 @@ const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
   })
 }
 
+/* ----------------------------------
+                Users
+---------------------------------- */
+const getUserById = (user_id => {
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3000/api/users/' + user_id)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('GET user: ', responseJson);
+        resolve(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });  
+  })
+});  
+
 export { 
   getTextComments,
   postTextComments,
   postAudioComments,
   postLocation,
   getLocationId,
-  getNearbyPlaces
+  getNearbyPlaces,
+  getUserById
 };
 
 /* --------------------------------------

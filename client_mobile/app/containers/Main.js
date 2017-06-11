@@ -39,8 +39,6 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
-  textCommentsReducer,
-  audioCommentsReducer,
   myLocationReducer,
   regionReducer
 }) => ({
@@ -48,8 +46,6 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   checkInOpenReducer,
-  textCommentsReducer,
-  audioCommentsReducer,
   myLocationReducer,
   regionReducer
 });
@@ -87,15 +83,12 @@ class Main extends Component  {
       onLogoutClick,
       checkInOpenReducer,
       toggleCheckIn,
-      textCommentsReducer,
-      audioCommentsReducer,
       myLocationReducer,
       backToMyLocation,
       regionReducer
     } = this.props;
 
     // console.log('Main props: ', this.props);
-    // console.log('------> comments: ', this.props.textCommentsReducer)
     return (
       <View style={styles.container}>
         <NavigationIcon 
