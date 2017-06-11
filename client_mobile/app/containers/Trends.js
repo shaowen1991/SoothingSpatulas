@@ -27,18 +27,15 @@ class Trends extends Component {
       <View>
         <View style={styles.trends}>
           <Text style={styles.trendsHeader}>Recent Trends</Text>
-          <Text>Text Entry 1</Text>
-          <Text>Text Entry 2</Text>
-          <Text>Text Entry 3</Text>
-          <Text>Text Entry 4</Text>
+          <Text>Total checkins: {this.props.userHist.length}</Text>
         </View>
         <View style={styles.graph}>
           <Text style={styles.trendsHeader}>Historical Trends</Text>
           <Image
             style={styles.image}
-            source={{uri: 'https://petapixel.com/assets/uploads/2017/01/Official_portrait_of_Barack_Obama.jpg'}}
+            source={{uri: 'https://plot.ly/~PlotBot/40/sf-zoo-vs-la-zoo.png'}}
           />
-          <Text style={styles.graphCaption}>Graph Image Above (actually Barry's face right now)</Text>
+          <Text style={styles.graphCaption}>about graph...)</Text>
         </View>
       </View> 
     );

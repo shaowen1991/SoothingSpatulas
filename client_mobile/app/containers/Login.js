@@ -19,6 +19,7 @@ import {
   updateUsername, 
   updateUserid, 
   updateUserPic,
+  updateUserPicSmall,
   updateLogin 
 } from '../Actions.js';
 
@@ -49,7 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
         console.log('-------> login error: ', err);
         return;
       }
-      console.log('PROFILEEEEEE; ', profile)
+      
       let userLoginInfo = {
         first: profile.extraInfo.given_name,
         last: profile.extraInfo.family_name,
@@ -98,6 +99,7 @@ const mapDispatchToProps = (dispatch) => ({
       })
       dispatch(updateUsername(profile.extraInfo.given_name));
       dispatch(updateUserPic(profile.extraInfo.picture_large));
+      dispatch(updateUserPicSmall(profile.picture));
       dispatch(updateLogin());
     });
   }

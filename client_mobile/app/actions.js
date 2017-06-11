@@ -19,6 +19,11 @@ const updateUserPic = (userpic) => ({
   userpic: userpic
 });
 
+const updateUserPicSmall = (userpicsmall) => ({
+  type: 'UPDATE_USERPIC_SMALL',
+  userpic: userpicsmall
+});
+
 const updateLogin = () => ({
   type: 'LOG_IN'
 });
@@ -152,6 +157,7 @@ export {
   updateUsername,
   updateUserid,
   updateUserPic,
+  updateUserPicSmall,
   updateLogin,
   updateLogout,
   openCheckIn,

@@ -6,10 +6,7 @@ import HistoryItem from './HistoryItem';
 class HistoryList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pins: [{place: 'Chipotle', city: 'San Francisco', state: 'CA', lat: 37, lng: -122, rating: 3, comment: 'Great place'}, {place: 'Hack Reactor', city: 'San Francisco', state: 'CA', lat: 37.1, lng: -122.3, rating: 5, comment: 'Mucho learning goin on here!'}, {place: 'Home', city: 'Boston', state: 'MA', lat: 42, lng: -71, rating: 5, comment: 'homie!'}, {place: 'Subway', city: 'San Francisco', state: 'CA', lat: 37, lng: -122, rating: 3, comment: 'Pretty good'},{place: 'That Mall Sandwich Place', city: 'San Francisco', state: 'CA', lat: 37, lng: -122, rating: 3, comment: 'Gotta love half off sandwiches'}
-      ]
-    }
+    this.state = {}
   }
 
   render() {
@@ -17,15 +14,16 @@ class HistoryList extends Component {
       <View style={styles.trends}>
         <Text style={styles.trendsHeader}>Recent Check-Ins</Text>
         <ScrollView>
-        {this.state.pins.map((pin) => {
+        {this.props.userHist.map((place, key) => {
           return <HistoryItem 
-            place={pin.place}
-            city={pin.city}
-            state={pin.state}
-            lat={pin.lat}
-            lng={pin.lng}
-            rating={pin.rating}
-            comment={pin.comment}
+            key={key}
+            place={place.name}
+            city={place.city}
+            state={place.state}
+            lat={place.lat}
+            lng={place.lng}
+            rating={place.rating}
+            comment={place.comment}
             />
         })}
         </ScrollView>

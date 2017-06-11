@@ -12,26 +12,14 @@ const mapStateToProps = ({
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedTab: 'trends',
-      user: {
-        name: 'Barry O',
-        hometown: 'Washington, D.C.',
-        url: this.props.userPic,
-        lastVisited: {
-          name: 'The White House',
-          rating: 5,
-          comment: 'The bathrooms were yuuuuuuuggggeeee',
-          date: 'January 19, 2017'
-        }
-      }
-    }
   }
+
   render() {
     const {
       userPicReducer
     } = this.props
     console.log('PROFILE HEADER PROPS', this.props)
+    console.log('PROFILE HEADER STATE', this.state)
     return (
       <View style={styles.profileheader}>
         <View style={styles.placehold}>
@@ -43,10 +31,14 @@ class Profile extends Component {
             source={{uri: this.props.userPic}}
           />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{this.state.user.name}</Text>
-            <Text style={styles.hometown}>{this.state.user.hometown}</Text>
-            <Text style={styles.lastVisit}>Last checked in at {this.state.user.lastVisited.name}, rated it {this.state.user.lastVisited.rating} stars, and commented, "{this.state.user.lastVisited.comment}"</Text>
-            <Text style={styles.lastVisitDate}>on {this.state.user.lastVisited.date}</Text>
+            <Text style={styles.name}>{this.props.userName}</Text>
+            <Text style={styles.hometown}>{}</Text>
+            <Text style={styles.lastVisit}>
+              Last checked in at {this.props.userHistFirst.name}, 
+              rated it {} stars, 
+              and commented, "{}"
+            </Text>
+            <Text style={styles.lastVisitDate}>on {}</Text>
           </View>
         </View>
       </View>
@@ -101,7 +93,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'right'
   },
   header: {
     flexDirection: 'row'
