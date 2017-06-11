@@ -18,8 +18,10 @@ class Profile extends Component {
     const {
       userPicReducer
     } = this.props
+    var histArray = this.props.userHist;
     console.log('PROFILE HEADER PROPS', this.props)
     console.log('PROFILE HEADER STATE', this.state)
+    console.log('****PROFILE HEADER item 0 name: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
         <View style={styles.placehold}>
@@ -34,7 +36,7 @@ class Profile extends Component {
             <Text style={styles.name}>{this.props.userName}</Text>
             <Text style={styles.hometown}>{}</Text>
             <Text style={styles.lastVisit}>
-              Last checked in at {this.props.userHistFirst.name}, 
+              Last checked in at {}, 
               rated it {} stars, 
               and commented, "{}"
             </Text>

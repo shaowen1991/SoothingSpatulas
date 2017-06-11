@@ -43,6 +43,8 @@ const mapStateToProps = ({
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
   onLoginClick: () => {
+    var userLoginInfo = {};
+    var userPic = '';
     lock.show(
     {closable: true}, 
     (err, profile, token) => {
@@ -50,12 +52,23 @@ const mapDispatchToProps = (dispatch) => ({
         console.log('-------> login error: ', err);
         return;
       }
-      
-      let userLoginInfo = {
-        first: profile.extraInfo.given_name,
-        last: profile.extraInfo.family_name,
-        email: profile.email
+
+      if(!profile.extraInfo.picture_large) {
+        userPic = profile.picture;
+      } else {
+        userPic = profile.extraInfo.picture_large;
       }
+      
+      if (!profile.extraInfo.given_name) {
+        userLoginInfo.first = profile.nickname;
+        userLoginInfo.email = profile.email;
+      } else {
+        userLoginInfo.first = profile.extraInfo.given_name;
+        userLoginInfo.last = profile.extraInfo.family_name;
+        userLoginInfo.email = profile.email;
+      }
+      
+      console.log('PROFILE: ', profile)
       /* ----------------------------------------------------
         Firstly, check if this email is in the our DB or not.
         If it is in DB, get the userid and update Redux.
@@ -97,8 +110,8 @@ const mapDispatchToProps = (dispatch) => ({
           console.log('-------> new user post error: ', err)
         })
       })
-      dispatch(updateUsername(profile.extraInfo.given_name));
-      dispatch(updateUserPic(profile.extraInfo.picture_large));
+      dispatch(updateUsername(userLoginInfo.first));
+      dispatch(updateUserPic(userPic));
       dispatch(updateUserPicSmall(profile.picture));
       dispatch(updateLogin());
     });

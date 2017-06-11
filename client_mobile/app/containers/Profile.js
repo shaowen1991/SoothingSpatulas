@@ -15,6 +15,7 @@ import ProfileHeader from './ProfileHeader';
 import Trends from './Trends';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
+import PlayerLog from './chart.js'
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 const transitionProps = ['top', 'height', 'width']
 
@@ -139,9 +140,10 @@ class Profile extends Component {
             <ProfileHeader 
               userPic={this.state.userPic}
               userName={this.state.userName}
-              userHist={this.state.userHistFirst}
+              userHist={this.state.userHist}
             />
             <Trends userHist={this.state.userHist}/>
+            <PlayerLog />
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item 
@@ -150,11 +152,6 @@ class Profile extends Component {
             onPress={() => {this.setTab('contacts')}}
           >
           <View>
-            <ProfileHeader 
-            userPic={this.state.userPic}
-            userName={this.state.userName}
-            userHist={this.state.userHist}
-          />
             <FriendList/>
           </View>
           </TabBarIOS.Item>
@@ -164,11 +161,6 @@ class Profile extends Component {
             onPress={() => {this.setTab('history')}}
             >
             <View>
-              <ProfileHeader 
-                userPic={this.state.userPic}
-                userName={this.state.userName}
-                userHist={this.state.userHist}
-              />
               <HistoryList userHist={this.state.userHist}/>
             </View>
           </TabBarIOS.Item>
