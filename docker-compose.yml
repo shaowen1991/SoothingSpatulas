@@ -6,6 +6,7 @@ services:
     environment:
       NODE_ENV: production
     ports:
+      - "8000:8000"
       - "3000:3000"
     deploy:
       replicas: 2

@@ -17,5 +17,5 @@ module.exports = [{
       }, {
         first: 'Nick',
         last: 'Anderson',
-        email: 'nick@momento.com'
+        email: 'nicasioca@gmail.com'
       }];
