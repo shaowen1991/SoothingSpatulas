@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollView } from 'react-native';
 import HistoryItem from './HistoryItem';
+import PropTypes from 'prop-types';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 class HistoryList extends Component {
