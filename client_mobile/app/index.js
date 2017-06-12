@@ -69,8 +69,8 @@ const textCommentsReducer = (state = [], action) => {
         longitude: action.longitude,
         rating: action.rating,
         user_id: action.user_id,
-        username: action.username,
-        location: action.location
+        location_id: action.location_id,
+        name: action.name
       }
     ];
     case ('UPDATE_TEXT_COMMENT') : return action.textComments;

@@ -200,6 +200,8 @@ class Map extends Component  {
                     name={comment.name}
                     comment={comment.comment}
                     rating={comment.rating}
+                    latitude={comment.latitude}
+                    longitude={comment.longitude}
                   />
                 </MapView.Callout>
               </MapView.Marker>        
@@ -211,7 +213,7 @@ class Map extends Component  {
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker
               key={key}
-              pinColor={'#0097A7'}
+              pinColor={Constants.ICON_COLOR}
               coordinate={place.coordinates}
             >
               <MapView.Callout>

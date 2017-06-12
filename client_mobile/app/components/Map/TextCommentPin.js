@@ -37,13 +37,21 @@ export default class TextCommentPin extends React.Component {
   }
 
   render() {
-    const { user_id, name, comment, rating } = this.props;
-
+    const { user_id, name, comment, rating, latitude, longitude } = this.props;
+    let coordinatesString = '';
+    if (!name) {
+      coordinatesString = 
+        'Latitude: ' + 
+        JSON.stringify(latitude).substring(0, 10) + 
+        ', Longitude: ' + 
+        JSON.stringify(longitude).substring(0, 10);
+    }
+    
     return (
       <Animatable.View style={[styles.container]}>
         <Text style={styles.comment}>{comment}</Text>
-        <Text style={styles.usernametext}>User: {this.state.userInfo.first}</Text>
-        <Text style={styles.placetext}>Place: {name}</Text>
+        <Text style={styles.usernametext}>User: {this.state.userInfo.first || 'id-' + user_id}</Text>
+        <Text style={styles.placetext}>Place: {name ? name : coordinatesString}</Text>
         <Text style={styles.rating}>Rating: {rating}</Text>
       </Animatable.View>
     );
@@ -59,7 +67,7 @@ const styles = StyleSheet.create({
     width: 140,
     flexDirection: 'row',
     alignSelf: 'center',
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
     marginTop: 10,
     paddingHorizontal: 20,
     paddingVertical: 12,

@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     padding: 10,
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
   },
   textBox: {
     width: "80%",

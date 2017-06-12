@@ -49,15 +49,15 @@ const closeProfileView = () => ({
 });
 /* Comments Actions
 --------------------------------*/
-const addTextComment = (comment, latitude, longitude, rating, user_id, username, location) => ({
+const addTextComment = (comment, latitude, longitude, rating, user_id, location_id, name) => ({
   type: 'ADD_TEXT_COMMENT',
   comment: comment,
   latitude: latitude,
   longitude: longitude,
   rating: rating,
   user_id: user_id,
-  username: username,
-  location: location
+  location_id: location_id,
+  name: name
 });
 
 const updateTextCommentsDB = (textCommentsFromDB) => ({

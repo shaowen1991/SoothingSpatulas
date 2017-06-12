@@ -71,8 +71,8 @@ const mapDispatchToProps = (dispatch) => ({
   dropCheckInPin: (latitude, longitude, name, des) => {
     dispatch(dropCheckInPin(latitude, longitude, name, des));
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id, username, location) => {
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, username, location));
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id, location_id, name) => {
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, location_id, name));
   },
   clearSelectedPlace: () => {
     dispatch(clearSelectedPlace());
@@ -147,6 +147,7 @@ class CheckInFooter extends Component {
     Invoke clearTextAndRating callback after data inserted
     ---------------------------------------------------- */
     .then(() => {this.clearTextAndRating()})
+    .then(() => {this.props.clearSelectedPlace()})
     .catch((error) => {console.log(error)});
   }
 
@@ -327,7 +328,7 @@ class CheckInFooter extends Component {
                   selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
                   this.state.rating,
                   useridReducer,
-                  usernameReducer,
+                  null,
                   selectedPlaceReducer.name ? selectedPlaceReducer.name : null
                 );
                 /* ---------------------------------------------------------
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
     width: "20%",
     zIndex: 6,
     marginRight: "3%",
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
     alignItems: "center",
     justifyContent: 'center',
     shadowColor: 'black',
@@ -427,7 +428,7 @@ const styles = StyleSheet.create({
     width: "37%",
     zIndex: 6,
     marginRight: "3%",
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
     alignItems: "center",
     justifyContent: 'center',
     shadowColor: 'black',
@@ -487,12 +488,12 @@ const styles = StyleSheet.create({
   },
   titletext: {
     fontSize: 17,
-    color: Constants.ICON_GREY_COLOR,
+    color: 'black',
     fontWeight: 'bold', 
   },
   addresstext: {
     fontSize: 14,
-    color: Constants.ICON_GREY_COLOR,
+    color: 'black',
   },  
 })
 

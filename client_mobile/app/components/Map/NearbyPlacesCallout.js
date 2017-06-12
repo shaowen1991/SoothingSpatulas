@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: 140,
     flexDirection: 'row',
     alignSelf: 'center',
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
     marginTop: 10,
     paddingHorizontal: 20,
     paddingVertical: 12,
