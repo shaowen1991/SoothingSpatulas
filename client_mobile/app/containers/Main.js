@@ -18,9 +18,13 @@ import {
   updateLogout,
   updateUsername,
   updateUserid,
+  updateUserPic,
   openCheckIn,
   closeCheckIn,
-  moveRegion
+  moveRegion,
+  openProfileView,
+  closeProfileView,
+  updateTextCommentsDB
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -28,8 +32,9 @@ import {
 ---------------------------------- */
 import Map from './Map';
 import CheckInFooter from './CheckInFooter';
+import Profile from './Profile';
 import SearchMain from './SearchMain';
-import { NavigationIcon, BackToMyLocationIcon, CheckInButton }  from '../components';
+import { NavigationIcon, BackToMyLocationIcon, CheckInButton, ProfileIcon }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -38,14 +43,18 @@ const mapStateToProps = ({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
+  profileViewOpen,
   myLocationReducer,
   regionReducer
 }) => ({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
+  profileViewOpen,
   myLocationReducer,
   regionReducer
 });
@@ -58,8 +67,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateLogout());
     dispatch(updateUsername(''));
     dispatch(updateUserid(0));
+    dispatch(updateUserPic(''));
   },
   toggleCheckIn: (checkInOpenReducer) => {
+    console.log('checkin hamburger')
     if (checkInOpenReducer) {
       dispatch(closeCheckIn());
     }
@@ -69,6 +80,21 @@ const mapDispatchToProps = (dispatch) => ({
   },
   backToMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
+  },
+  toggleProfileView: (profileViewOpen) => {
+    console.log('profile hamburger')
+    console.log('hamburger props: ', this.props)
+    console.log('hamburger dispatch:', dispatch)
+    console.log('hamburger dispatch:', profileViewOpen)
+    if (profileViewOpen) {
+      dispatch(closeProfileView());
+    }
+    else {
+      dispatch(openProfileView());
+    }
+  },
+  updateTextCommentsFromDB: (comments) => {
+    dispatch(updateTextCommentsDB(comments));
   }
 });
 
@@ -80,9 +106,12 @@ class Main extends Component  {
   render() {
     const {
       usernameReducer,
+      userPicReducer,
       onLogoutClick,
       checkInOpenReducer,
+      profileViewOpen,
       toggleCheckIn,
+      toggleProfileView,
       myLocationReducer,
       backToMyLocation,
       regionReducer
@@ -101,6 +130,11 @@ class Main extends Component  {
           regionReducer={regionReducer}
           backToMyLocation={backToMyLocation}
         />
+        <ProfileIcon 
+          icon={profileViewOpen ? 'arrow-left' : 'hamburger'}
+          profileViewOpen={profileViewOpen}
+          onPress={toggleProfileView}
+        />
         <SearchMain />
         <Map 
           toggleCheckIn={toggleCheckIn}
@@ -111,7 +145,7 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
         /> 
         <CheckInFooter />
-
+        <Profile userPic={this.props.userPicReducer}/>
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );

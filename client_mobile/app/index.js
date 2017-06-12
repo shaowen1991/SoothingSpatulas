@@ -34,10 +34,25 @@ const useridReducer = (state = 0, action) => {
   }
 };
 
+const userPicReducer = (state = '', action) => {
+  switch (action.type) {
+    case ('UPDATE_USERPIC') : return action.userpic;
+    default : return state;
+  }
+};
+
 const checkInOpenReducer = (state = false, action) => {
   switch (action.type) {
     case ('OPEN_CHECKIN') : return true;
     case ('CLOSE_CHECKIN') : return false;
+    default : return state;
+  }  
+};
+
+const profileViewOpen = (state = false, action) => {
+  switch (action.type) {
+    case ('OPEN_PROFILE') : return true;
+    case ('CLOSE_PROFILE') : return false;
     default : return state;
   }  
 };
@@ -158,7 +173,20 @@ const selectedPlaceReducer = (state = {}, action) => {
     };
     case ('CLEAR_SELECTED_PLACE') : return {};
     default : return state;
-  }   
+  } 
+}  
+/* User Reducers
+--------------------------------*/
+const userHistoryReducer = (state = [], checkin) => {
+  switch (checkin.type) {
+    case ('USER_HISTORY') : return [
+      ...state,
+      {
+        comment: checkin.comment
+      }
+    ];
+    default : return state;
+  }
 }
 
 const reducers = combineReducers({
@@ -166,7 +194,9 @@ const reducers = combineReducers({
   loginReducer,
   usernameReducer,
   useridReducer,
+  userPicReducer,
   checkInOpenReducer,
+  profileViewOpen,
   // Comments Reducers
   textCommentsReducer,
   audioCommentsReducer,
@@ -176,7 +206,9 @@ const reducers = combineReducers({
   myLocationReducer,
   selectedPlaceReducer,
   pinCoordinatesReducer,
-  nearbyPlacesReducer
+  nearbyPlacesReducer,
+  // User Reducers
+  userHistoryReducer
 });
 
 /* -----------------------

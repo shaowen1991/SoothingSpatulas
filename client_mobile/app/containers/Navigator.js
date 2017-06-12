@@ -14,10 +14,10 @@ class Navigator extends Component {
     console.log('Navigator props: ', this.props);
 
     return (
-      // loginReducer ? <Profile /> : <Login />
-      //  <Profile />
-      // loginReducer ? <Main /> : <Login />
-      <Main/>
+      loginReducer ? <Main /> : <Login />
+       // <Main />
+       // loginReducer ? <Profile /> : <Login />
+       // <Profile />
     );
   }
 }

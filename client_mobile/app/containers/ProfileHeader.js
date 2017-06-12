@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
+import { connect } from 'react-redux';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+const mapStateToProps = ({
+  userPicReducer
+}) => ({
+  userPicReducer
+});
 
 class Profile extends Component {
   constructor(props) {
@@ -10,7 +17,7 @@ class Profile extends Component {
       user: {
         name: 'Barry O',
         hometown: 'Washington, D.C.',
-        url: 'https://petapixel.com/assets/uploads/2017/01/Official_portrait_of_Barack_Obama.jpg',
+        url: this.props.userPic,
         lastVisited: {
           name: 'The White House',
           rating: 5,
@@ -21,6 +28,10 @@ class Profile extends Component {
     }
   }
   render() {
+    const {
+      userPicReducer
+    } = this.props
+    console.log('PROFILE HEADER PROPS', this.props)
     return (
       <View style={styles.profileheader}>
         <View style={styles.placehold}>
@@ -29,7 +40,7 @@ class Profile extends Component {
         <View style={styles.header}>
           <Image
             style={styles.picture}
-            source={{uri: this.state.user.url}}
+            source={{uri: this.props.userPic}}
           />
           <View style={styles.headerText}>
             <Text style={styles.name}>{this.state.user.name}</Text>

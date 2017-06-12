@@ -90,7 +90,11 @@ abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
 
+<<<<<<< HEAD
 accepts@1.3.3, accepts@^1.3.3, accepts@~1.3.3:
+=======
+accepts@^1.3.3, accepts@~1.3.3:
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.3.tgz#c3ca7434938648c3e0d9c1e328dd68b622c284ca"
   dependencies:
@@ -121,10 +125,13 @@ acorn@^5.0.0, acorn@^5.0.1:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
 
+<<<<<<< HEAD
 after@0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
@@ -224,10 +231,13 @@ array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.2.1.tgz#a1d97ccafcbc2625cc70fadceb36a50c58b01a53"
 
+<<<<<<< HEAD
 arraybuffer.slice@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/arraybuffer.slice/-/arraybuffer.slice-0.0.6.tgz#f33b2159f0532a3f3107a272c0ccfbd1ad2979ca"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
@@ -848,26 +858,35 @@ babylon@^6.11.0, babylon@^6.15.0:
   version "6.17.2"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.2.tgz#201d25ef5f892c41bae49488b08db0dd476e9f5c"
 
+<<<<<<< HEAD
 backo2@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
+<<<<<<< HEAD
 base64-arraybuffer@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 base64-js@^1.0.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
 
+<<<<<<< HEAD
 base64id@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/base64id/-/base64id-1.0.0.tgz#47688cb99bb6804f0e06d3e763b1c32e57d8e6b6"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 base64url@2.0.0, base64url@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/base64url/-/base64url-2.0.0.tgz#eac16e03ea1438eff9423d69baa36262ed1f70bb"
@@ -890,12 +909,15 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+<<<<<<< HEAD
 better-assert@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
   dependencies:
     callsite "1.0.0"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 big.js@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.1.3.tgz#4cada2193652eb3ca9ec8e55c9015669c9806978"
@@ -904,10 +926,13 @@ binary-extensions@^1.0.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.8.0.tgz#48ec8d16df4377eae5fa5884682480af4d95c774"
 
+<<<<<<< HEAD
 blob@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 block-stream@*:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -1077,10 +1102,13 @@ caller-path@^0.1.0:
   dependencies:
     callsites "^0.2.0"
 
+<<<<<<< HEAD
 callsite@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/callsite/-/callsite-1.0.0.tgz#280398e5d664bd74038b6f0905153e6e8af1bc20"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 callsites@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-0.2.0.tgz#afab96262910a7f33c19a5775825c69f34e350ca"
@@ -1228,6 +1256,7 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
+<<<<<<< HEAD
 component-bind@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
@@ -1240,6 +1269,12 @@ component-inherit@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
 
+=======
+component-emitter@^1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
+
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 compressible@~2.0.8:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.10.tgz#feda1c7f7617912732b29bf8cf26252a20b9eecd"
@@ -1452,25 +1487,52 @@ dateformat@~1.0.12:
     get-stdin "^4.0.1"
     meow "^3.3.0"
 
+<<<<<<< HEAD
 debug@2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.3.3.tgz#40c453e67e6e13c901ddec317af8986cda9eff8c"
   dependencies:
     ms "0.7.2"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 debug@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
     ms "0.7.2"
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 debug@2.6.7, debug@^2.2.0:
+=======
+<<<<<<< HEAD
+debug@2.6.7:
+=======
+debug@2.6.7, debug@^2.1.1, debug@^2.2.0:
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
+=======
+debug@2.6.7:
+>>>>>>> set channel up for messages via Socket.IO
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.7.tgz#92bad1f6d05bbb6bba22cca88bcd0ec894c2861e"
   dependencies:
     ms "2.0.0"
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 debug@2.6.8, debug@^2.1.1, debug@^2.1.3, debug@^2.6.8, debug@~2.6.4, debug@~2.6.6:
+=======
+<<<<<<< HEAD
+debug@2.6.8, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.6.8, debug@~2.6.4, debug@~2.6.6:
+=======
+debug@2.6.8, debug@^2.1.3, debug@^2.6.8:
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
+=======
+debug@2.6.8, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.6.8, debug@~2.6.4, debug@~2.6.6:
+>>>>>>> set channel up for messages via Socket.IO
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
@@ -1656,6 +1718,7 @@ end-of-stream@^1.1.0:
   dependencies:
     once "^1.4.0"
 
+<<<<<<< HEAD
 engine.io-client@~3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-3.1.1.tgz#415a9852badb14fa008fa3ef1e31608db6761325"
@@ -1696,6 +1759,8 @@ engine.io@~3.1.0:
   optionalDependencies:
     uws "~0.14.4"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 enhanced-resolve@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-3.1.0.tgz#9f4b626f577245edcf4b2ad83d86e17f4f421dec"
@@ -2358,8 +2423,13 @@ google-auto-auth@^0.6.0:
     request "^2.79.0"
 
 google-gax@^0.13.0:
+<<<<<<< HEAD
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-0.13.3.tgz#fb9f03224e389e9b0d7aca8c278d265cc8302664"
+=======
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-0.13.2.tgz#61a7b55fad465b17d3680f88070b2e419131e98e"
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
   dependencies:
     extend "^3.0.0"
     google-auto-auth "^0.5.2"
@@ -2545,6 +2615,7 @@ has-ansi@^2.0.0:
   dependencies:
     ansi-regex "^2.0.0"
 
+<<<<<<< HEAD
 has-binary2@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/has-binary2/-/has-binary2-1.0.2.tgz#e83dba49f0b9be4d026d27365350d9f03f54be98"
@@ -2555,6 +2626,8 @@ has-cors@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/has-cors/-/has-cors-1.1.0.tgz#5e474793f7ea9843d1bb99c23eef49ff126fff39"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 has-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-1.0.0.tgz#9d9e793165ce017a00f00418c43f942a7b1d11fa"
@@ -2931,10 +3004,13 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
+<<<<<<< HEAD
 isarray@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.1.tgz#a37d94ed9cda2d59865c9f76fe596ee1f338741e"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -3603,6 +3679,7 @@ object-assign@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
 
+<<<<<<< HEAD
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@~4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -3611,6 +3688,12 @@ object-component@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/object-component/-/object-component-0.0.3.tgz#f0c69aa50efc95b866c186f400a33769cb2f1291"
 
+=======
+object-assign@^4.0.1, object-assign@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
+
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 object.omit@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/object.omit/-/object.omit-2.0.1.tgz#1a9c744829f39dbb858c76ca3579ae2a54ebd1fa"
@@ -3745,6 +3828,7 @@ parse-passwd@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
 
+<<<<<<< HEAD
 parsejson@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/parsejson/-/parsejson-0.0.3.tgz#ab7e3759f209ece99437973f7d0f1f64ae0e64ab"
@@ -3763,6 +3847,8 @@ parseuri@0.0.5:
   dependencies:
     better-assert "~1.0.0"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 parseurl@^1.3.1, parseurl@~1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.1.tgz#c8ab8c9223ba34888aa64a297b28853bec18da56"
@@ -4593,6 +4679,7 @@ sntp@1.x.x:
   dependencies:
     hoek "2.x.x"
 
+<<<<<<< HEAD
 socket.io-adapter@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.0.tgz#c7aa46501dd556c2cb8a28af8ff95c0b5e1daa4c"
@@ -4637,6 +4724,8 @@ socket.io@^2.0.2:
     socket.io-client "~2.0.2"
     socket.io-parser "~3.1.1"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 sockjs-client@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.1.2.tgz#f0212a8550e4c9468c8cceaeefd2e3493c033ad5"
@@ -4871,7 +4960,7 @@ supertest@^3.0.0:
     methods "~1.1.2"
     superagent "^3.0.0"
 
-supports-color@3.1.2:
+supports-color@3.1.2, supports-color@^3.1.0, supports-color@^3.1.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -4880,12 +4969,6 @@ supports-color@3.1.2:
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
-
-supports-color@^3.1.0, supports-color@^3.1.1:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
-  dependencies:
-    has-flag "^1.0.0"
 
 table@^3.7.8:
   version "3.8.3"
@@ -4954,10 +5037,13 @@ timers-browserify@^2.0.2:
   dependencies:
     setimmediate "^1.0.4"
 
+<<<<<<< HEAD
 to-array@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/to-array/-/to-array-0.1.4.tgz#17e6c11f73dd4f3d74cda7a4ff3238e9ad9bf890"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
@@ -5064,10 +5150,13 @@ uid2@0.0.x:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/uid2/-/uid2-0.0.3.tgz#483126e11774df2f71b8b639dcd799c376162b82"
 
+<<<<<<< HEAD
 ultron@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.0.tgz#b07a2e6a541a815fc6a34ccd4533baec307ca864"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 undefsafe@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/undefsafe/-/undefsafe-0.0.3.tgz#ecca3a03e56b9af17385baac812ac83b994a962f"
@@ -5149,10 +5238,13 @@ uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
+<<<<<<< HEAD
 uws@~0.14.4:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/uws/-/uws-0.14.5.tgz#67aaf33c46b2a587a5f6666d00f7691328f149dc"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 v8flags@^2.0.2:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
@@ -5327,6 +5419,7 @@ write@^0.2.1:
   dependencies:
     mkdirp "^0.5.1"
 
+<<<<<<< HEAD
 ws@~2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-2.3.1.tgz#6b94b3e447cb6a363f785eaf94af6359e8e81c80"
@@ -5334,6 +5427,8 @@ ws@~2.3.1:
     safe-buffer "~5.0.1"
     ultron "~1.1.0"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 xdg-basedir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-2.0.0.tgz#edbc903cc385fc04523d966a335504b5504d1bd2"
@@ -5344,10 +5439,13 @@ xmldom@0.1.x:
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
 
+<<<<<<< HEAD
 xmlhttprequest-ssl@1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.3.tgz#185a888c04eca46c3e4070d99f7b49de3528992d"
 
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
@@ -5394,7 +5492,10 @@ yargs@^6.0.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^4.2.0"
+<<<<<<< HEAD
 
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+=======
+>>>>>>> Reset of application to work with new Xcode version, changed AuthO config for FB Auth

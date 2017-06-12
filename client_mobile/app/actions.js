@@ -14,6 +14,11 @@ const updateUserid = (userid) => ({
   userid: userid
 });
 
+const updateUserPic = (userpic) => ({
+  type: 'UPDATE_USERPIC',
+  userpic: userpic
+});
+
 const updateLogin = () => ({
   type: 'LOG_IN'
 });
@@ -30,6 +35,13 @@ const closeCheckIn = () => ({
   type: 'CLOSE_CHECKIN'
 });
 
+const openProfileView = () => ({
+  type: 'OPEN_PROFILE'
+});
+
+const closeProfileView = () => ({
+  type: 'CLOSE_PROFILE'
+});
 /* Comments Actions
 --------------------------------*/
 const addTextComment = (comment, latitude, longitude, rating, user_id, username, location) => ({
@@ -62,10 +74,10 @@ const incrementID = () => ({
 --------------------------------*/
 const moveRegion = (latitude, longitude, latitudeDelta, longitudeDelta) => ({
   type: 'MOVE_REGION',
-  latitude: latitude, 
+  latitude: latitude,
   longitude: longitude,
   latitudeDelta: latitudeDelta,
-  longitudeDelta: longitudeDelta 
+  longitudeDelta: longitudeDelta
 })
 
 const clearRegion = () => ({
@@ -74,10 +86,10 @@ const clearRegion = () => ({
 
 const moveMyLocation = (latitude, longitude, latitudeDelta, longitudeDelta) => ({
   type: 'MOVE_MY_LOCATION',
-  latitude: latitude, 
+  latitude: latitude,
   longitude: longitude,
   latitudeDelta: latitudeDelta,
-  longitudeDelta: longitudeDelta 
+  longitudeDelta: longitudeDelta
 })
 
 const clearMyLocation = () => ({
@@ -87,11 +99,11 @@ const clearMyLocation = () => ({
 const dropCheckInPin = (latitude, longitude, name, des) => ({
   type: 'DROP_PIN',
   coordinates: {
-    latitude: latitude, 
-    longitude: longitude   
+    latitude: latitude,
+    longitude: longitude
   },
   name: name,
-  des: des    
+  des: des
 })
 
 const clearCheckInPin = () => ({
@@ -101,7 +113,7 @@ const clearCheckInPin = () => ({
 const addNearbyPlace = (latitude, longitude, name, address, img, category) => ({
   type: 'ADD_NEARBY_PLACE',
   coordinates: {
-    latitude: latitude, 
+    latitude: latitude,
     longitude: longitude
   },
   name: name,
@@ -116,16 +128,22 @@ const clearNearbyPlace = () => ({
 
 const selectPlace = (latitude, longitude, category, name, city, state) => ({
   type: 'SELECT_PLACE',
-  latitude: latitude, 
+  latitude: latitude,
   longitude: longitude,
   category: category,
   name: name,
   city: city,
   state: state
-})  
+})
 
 const clearSelectedPlace = () => ({
   type: 'CLEAR_SELECTED_PLACE'
+})
+/* User Actions
+--------------------------------*/
+const storeUserHistoryToState = (userhistory) => ({
+  type: 'USER_HISTORY',
+  userhistory: userhistory
 })
 
 /* Export Actions
@@ -134,10 +152,13 @@ export {
   // General Actions
   updateUsername,
   updateUserid,
+  updateUserPic,
   updateLogin,
   updateLogout,
   openCheckIn,
   closeCheckIn,
+  openProfileView,
+  closeProfileView,
   // Comments Actions
   addTextComment,
   updateTextCommentsDB,
@@ -153,7 +174,8 @@ export {
   addNearbyPlace,
   clearNearbyPlace,
   selectPlace,
-  clearSelectedPlace
+  // User Actions
+  storeUserHistoryToState
 };
 
 
