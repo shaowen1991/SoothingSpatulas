@@ -15,19 +15,26 @@ class ProfileHeader extends Component {
     super(props);
   }
 
+  // call to database w/ userid
+  // lastCheckin() {
+  //   fetch("http://localhost:3000/api/locationsusers/", {
+  //     method: "GET",
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'            
+  //     }
+  //     })
+  //   }
+
   render() {
     const {
       userPicReducer
     } = this.props
 
-    // P.propTypes = {
-    //   data: PropTypes.array
-    // }
-
     var histArray = this.props.userHist;
     console.log('PROFILE HEADER PROPS', this.props)
     console.log('PROFILE HEADER STATE', this.state)
-    console.log('****PROFILE HEADER item 0 name: ', this.props.userHist)
+    console.log('****PROFILE HEADER userHist: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
         <View style={styles.header}>

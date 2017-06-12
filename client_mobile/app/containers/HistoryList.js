@@ -11,6 +11,7 @@ class HistoryList extends Component {
   }
 
   render() {
+    console.log('HISTORY LIST userHist: ', this.props.userHist)
     return (
       <View>
       <View style={styles.trends}>

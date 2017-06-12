@@ -77,7 +77,7 @@ class Profile extends Component {
 
   userCheckinHistory(userid) {
     var histArray = [];
-    fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
+    fetch("http://localhost:3000/api/locationsusers/", {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -94,8 +94,7 @@ class Profile extends Component {
         //   histArray.push(responseJSON)
         // }
         this.setState({
-          userHist: histArray,
-          userHistFirst: histArray.shift()
+          userHist: histArray
         })
         console.log('CHECKINSTUFF!!!', this.state.userHist)
       })
@@ -105,7 +104,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    this.userCheckinHistory(5);
+    
   }
 
   render() {
@@ -117,6 +116,7 @@ class Profile extends Component {
       userHistoryReducer
     } = this.props
     // console.log('***profile state***: ', this.state)
+    this.userCheckinHistory(useridReducer);
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
       top: profileViewOpen ? 0 : windowHeight,
