@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 const mapStateToProps = ({
@@ -9,29 +10,24 @@ const mapStateToProps = ({
   userPicReducer
 });
 
-class Profile extends Component {
+class ProfileHeader extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedTab: 'trends',
-      user: {
-        name: 'Barry O',
-        hometown: 'Washington, D.C.',
-        url: this.props.userPic,
-        lastVisited: {
-          name: 'The White House',
-          rating: 5,
-          comment: 'The bathrooms were yuuuuuuuggggeeee',
-          date: 'January 19, 2017'
-        }
-      }
-    }
   }
+
   render() {
     const {
       userPicReducer
     } = this.props
+
+    // P.propTypes = {
+    //   data: PropTypes.array
+    // }
+
+    var histArray = this.props.userHist;
     console.log('PROFILE HEADER PROPS', this.props)
+    console.log('PROFILE HEADER STATE', this.state)
+    console.log('****PROFILE HEADER item 0 name: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
         <View style={styles.placehold}>
@@ -43,10 +39,14 @@ class Profile extends Component {
             source={{uri: this.props.userPic}}
           />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{this.state.user.name}</Text>
-            <Text style={styles.hometown}>{this.state.user.hometown}</Text>
-            <Text style={styles.lastVisit}>Last checked in at {this.state.user.lastVisited.name}, rated it {this.state.user.lastVisited.rating} stars, and commented, "{this.state.user.lastVisited.comment}"</Text>
-            <Text style={styles.lastVisitDate}>on {this.state.user.lastVisited.date}</Text>
+            <Text style={styles.name}>{this.props.userName}</Text>
+            <Text style={styles.hometown}>{}</Text>
+            <Text style={styles.lastVisit}>
+              Last checked in at {}, 
+              rated it {} stars, 
+              and commented, "{}"
+            </Text>
+            <Text style={styles.lastVisitDate}>on {}</Text>
           </View>
         </View>
       </View>
@@ -54,7 +54,9 @@ class Profile extends Component {
   }
 }
 
-
+ProfileHeader.propTypes = {
+  userHist: PropTypes.array
+}
 
 const styles = StyleSheet.create({
   profileheader: {
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'right'
   },
   header: {
     flexDirection: 'row'
@@ -113,4 +115,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Profile;
+export default ProfileHeader;
