@@ -12,10 +12,9 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
-import Trends from './Trends';
+import Chart from './Chart.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
-import PlayerLog from './chart.js'
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 const transitionProps = ['top', 'height', 'width']
 
@@ -142,8 +141,8 @@ class Profile extends Component {
               userName={this.state.userName}
               userHist={this.state.userHist}
             />
-            <Trends userHist={this.state.userHist}/>
-            <PlayerLog />
+            <Chart userHist={this.state.userHist}/>
+            
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item 

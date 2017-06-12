@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
-import PlayerLog from './chart.js'
+
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 class Trends extends Component {
@@ -32,7 +32,7 @@ class Trends extends Component {
         </View>
         <View style={styles.graph}>
           <Text style={styles.trendsHeader}>Historical Trends</Text>
-          <PlayerLog />
+          
           <Text style={styles.graphCaption}>about graph...)</Text>
         </View>
       </View> 

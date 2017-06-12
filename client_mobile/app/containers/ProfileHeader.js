@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 const mapStateToProps = ({
@@ -9,7 +10,7 @@ const mapStateToProps = ({
   userPicReducer
 });
 
-class Profile extends Component {
+class ProfileHeader extends Component {
   constructor(props) {
     super(props);
   }
@@ -18,6 +19,11 @@ class Profile extends Component {
     const {
       userPicReducer
     } = this.props
+
+    // P.propTypes = {
+    //   data: PropTypes.array
+    // }
+
     var histArray = this.props.userHist;
     console.log('PROFILE HEADER PROPS', this.props)
     console.log('PROFILE HEADER STATE', this.state)
@@ -48,7 +54,9 @@ class Profile extends Component {
   }
 }
 
-
+ProfileHeader.propTypes = {
+  userHist: PropTypes.array
+}
 
 const styles = StyleSheet.create({
   profileheader: {
@@ -107,4 +115,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Profile;
+export default ProfileHeader;
