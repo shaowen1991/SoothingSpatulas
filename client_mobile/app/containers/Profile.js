@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
-import Chart from './Chart.js';
+import Chart from './chart.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
