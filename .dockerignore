@@ -1,3 +1,8 @@
+# Locks
+yarn.lock
+package-lock.json
+
+# Clients
 client/
 client_mobile/
 

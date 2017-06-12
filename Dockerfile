@@ -19,4 +19,4 @@ RUN yarn
 RUN yarn global add grunt-cli knex
 CMD [ "yarn", "start" ]
 
-EXPOSE 3000
+EXPOSE 8000 3000
