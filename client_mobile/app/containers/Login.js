@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Auth0Lock from 'react-native-lock';
+import { getUserByEmail, postUser } from '../Network.js';
 
 const credentials = require('../config/config.js');
 const lock = new Auth0Lock(credentials);
@@ -74,41 +75,17 @@ const mapDispatchToProps = (dispatch) => ({
         If it is in DB, get the userid and update Redux.
         If it is not in DB, invoke a POST new user request
       ---------------------------------------------------- */
-      fetch("http://localhost:3000/api/users/email/" + profile.email, {
-        method: "GET",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'            
-        }
-      })
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        console.log('-------> get login user data: ', responseJSON);
-        dispatch(updateUserid(responseJSON.id));
-      })
-      .catch((err) => {
-        console.log('-------> user id fetch err: ', err);
+      getUserByEmail(profile.email)
+      .then((user_id) => {dispatch(updateUserid(user_id))})
+      .catch((error) => {
+        postUser(userLoginInfo)
         /* ----------------------------------------------------
           In this POST request, send new user login info to DB
           and get the user object back from response, 
           which include the userid
         ---------------------------------------------------- */
-        fetch("http://localhost:3000/api/users/", {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userLoginInfo)
-        })
-        .then((response) => response.json())
-        .then((responseJSON) => {
-          console.log('-------> new user posted: ',responseJSON);
-          dispatch(updateUserid(responseJSON.id));
-        })
-        .catch((err) => {
-          console.log('-------> new user post error: ', err)
-        })
+        .then((user_id) => {dispatch(updateUserid(user_id))})
+        .catch((error) => {console.log(error)})
       })
       dispatch(updateUsername(userLoginInfo.first));
       dispatch(updateUserPic(userPic));

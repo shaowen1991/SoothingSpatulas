@@ -29,7 +29,8 @@ import {
   closeCheckIn,
   addTextComment,
   dropCheckInPin,
-  clearSelectedPlace
+  clearSelectedPlace,
+  clearNearbyPlace
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -70,11 +71,14 @@ const mapDispatchToProps = (dispatch) => ({
   dropCheckInPin: (latitude, longitude, name, des) => {
     dispatch(dropCheckInPin(latitude, longitude, name, des));
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id, username) => {
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, username));
+  onCommentSubmit: (comment, latitude, longitude, rating, user_id, username, location) => {
+    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, username, location));
   },
   clearSelectedPlace: () => {
     dispatch(clearSelectedPlace());
+  },
+  clearNearbyPlace: () => {
+    dispatch(clearNearbyPlace());
   }
 });
 
@@ -122,8 +126,8 @@ class CheckInFooter extends Component {
 
   onPinDrop (username, comment) {
     this.props.dropCheckInPin(
-      this.props.myLocationReducer.latitude, 
-      this.props.myLocationReducer.longitude,
+      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
+      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
       username,
       comment
     )
@@ -132,17 +136,18 @@ class CheckInFooter extends Component {
   postTextComment (location_id) {
     postTextComments({
       comment: this.state.typeInComment,
-      latitude: this.props.myLocationReducer.latitude,
-      longitude: this.props.myLocationReducer.longitude,
+      latitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
+      longitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
       rating: this.state.rating,
       name: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.name : null,
       user_id: this.props.useridReducer,
       location_id: location_id
-    }, this.clearTextAndRating);
+    })
     /* ----------------------------------------------------
-            put clearTextAndRating as callback
-    to ensure it only be called after data inserted to db
+    Invoke clearTextAndRating callback after data inserted
     ---------------------------------------------------- */
+    .then(() => {this.clearTextAndRating()})
+    .catch((error) => {console.log(error)});
   }
 
   render() {
@@ -154,7 +159,8 @@ class CheckInFooter extends Component {
       usernameReducer,
       useridReducer,
       selectedPlaceReducer,
-      clearSelectedPlace
+      clearSelectedPlace,
+      clearNearbyPlace
     } = this.props
 
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -317,24 +323,41 @@ class CheckInFooter extends Component {
                 ----------------------------------------------------- */            
                 onCommentSubmit(
                   this.state.typeInComment,
-                  myLocationReducer.latitude,
-                  myLocationReducer.longitude,
+                  selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
+                  selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
                   this.state.rating,
                   useridReducer,
-                  usernameReducer
+                  usernameReducer,
+                  selectedPlaceReducer.name ? selectedPlaceReducer.name : null
                 );
                 /* ---------------------------------------------------------
                   only post new location to db when a location is selected
                 --------------------------------------------------------- */
                 if (selectedPlaceReducer.name) {
-                  getLocationId({
+                  let newLocation = {
                     category: selectedPlaceReducer.category,
                     latitude: selectedPlaceReducer.latitude,
                     longitude: selectedPlaceReducer.longitude,
                     name: selectedPlaceReducer.name,
                     city: selectedPlaceReducer.city,
                     state: ''
-                  }, this.postTextComment);
+                  }
+                  getLocationId(newLocation.name)
+                  .then((location_id) => {
+                    this.postTextComment(location_id);
+                    console.log('getLocationId 1');
+                  })
+                  .catch((error) => {
+                    postLocation(newLocation)
+                    /* ----------------------------------------------------
+                      In this POST request, send new location info to DB
+                      and get the location object back from response, 
+                      which include the locationid
+                    ---------------------------------------------------- */
+                    .then((location_id) => {this.postTextComment(location_id); console.log('getLocationId 3');})
+                    .catch((error) => {console.log(error)})
+                    console.log('getLocationId 2');
+                  })
                 }
                 /* ---------------------------------------------------------
                       if no location selected, post comment directly
@@ -342,7 +365,8 @@ class CheckInFooter extends Component {
                 else {
                   this.postTextComment(null);
                 }
-                this.onPinDrop(usernameReducer, this.state.typeInComment);
+                {/*this.onPinDrop(usernameReducer, this.state.typeInComment);*/}
+                clearNearbyPlace();
               }
             }} 
           >
