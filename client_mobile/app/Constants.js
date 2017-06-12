@@ -9,6 +9,8 @@ const Constants = {
   ICON_COLOR: '#7a42f4',
   ICON_NOT_AVAILABLE_COLOR: '#E0E0E0',
   BACK_GROUND_GREY: '#F5F5F5',
+  TEXT_FONT: 'Avenir-Medium',
+  PLACEHOLDER_COLOR: '#E0E0E0',
   PLATFORM_MARGIN_TOP: Platform.OS === 'ios' ? 64 : 54,
 };
 

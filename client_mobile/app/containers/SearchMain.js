@@ -83,6 +83,7 @@ class SearchMain extends Component  {
       toggleCheckIn,
       checkInOpenReducer,
       myLocationReducer,
+      closeCheckIn
     } = this.props;
     
     const initialRegion = {
@@ -101,8 +102,14 @@ class SearchMain extends Component  {
           ref={component => this._textInput = component}
           onChangeText={(searchTerm) => {this.setState({searchTerm})}}
           placeholder={'Search nearby locations'}
+          placeholderTextColor={Constants.PLACEHOLDER_COLOR}
           autoCapitalize={'none'}
           autoCorrect={false}
+          onFocus={closeCheckIn}
+          returnKeyType={'search'}
+          clearButtonMode={'always'}
+          enablesReturnKeyAutomatically={true}
+          onSubmitEditing={this.addPOI}
         />
  
         <TouchableOpacity 
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 100,
+    top: 90,
     left: 22,
     right: 22,
     zIndex: 5,
@@ -143,7 +150,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "100%",
     padding: 10,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    fontFamily: Constants.TEXT_FONT,
   },
   image: {
     width: 21,

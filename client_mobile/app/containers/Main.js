@@ -78,6 +78,12 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
+  openCheckIn: () => {
+    dispatch(openCheckIn());
+  },
+  closeCheckIn: () => {
+    dispatch(closeCheckIn());
+  },
   backToMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
   },
@@ -111,6 +117,8 @@ class Main extends Component  {
       checkInOpenReducer,
       profileViewOpen,
       toggleCheckIn,
+      openCheckIn,
+      closeCheckIn,
       toggleProfileView,
       myLocationReducer,
       backToMyLocation,
@@ -135,10 +143,12 @@ class Main extends Component  {
           profileViewOpen={profileViewOpen}
           onPress={toggleProfileView}
         />
-        <SearchMain />
+        <SearchMain 
+          closeCheckIn={closeCheckIn}
+        />
         <Map 
-          toggleCheckIn={toggleCheckIn}
-          checkInOpenReducer={checkInOpenReducer}
+          openCheckIn={openCheckIn}
+          closeCheckIn={closeCheckIn}
         /> 
         <CheckInButton 
           toggleCheckIn={toggleCheckIn}

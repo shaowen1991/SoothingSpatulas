@@ -6,6 +6,7 @@ import {
   Button, 
   PermissionsAndroid, 
   Platform, 
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
@@ -129,10 +130,10 @@ class Map extends Component  {
 
   render() {
     const {
-      toggleCheckIn,
+      openCheckIn,
+      closeCheckIn,
       onLogoutClick,
       selectPlace,
-      checkInOpenReducer,
       myLocationReducer,
       pinCoordinatesReducer,
       nearbyPlacesReducer,
@@ -170,6 +171,7 @@ class Map extends Component  {
           showsTraffic={false}
           loadingEnabled={true}
           showMyLocationButton={true}
+          onPress={Keyboard.dismiss}
         >
           {/* user pin drop */}
           {/*{(Object.keys(pinCoordinatesReducer)).length > 0  && useridReducer !== 0 ?
@@ -200,8 +202,8 @@ class Map extends Component  {
                     name={comment.name}
                     comment={comment.comment}
                     rating={comment.rating}
-                    latitude={comment.latitude}
-                    longitude={comment.longitude}
+                    latitude={JSON.parse(comment.latitude)}
+                    longitude={JSON.parse(comment.longitude)}
                   />
                 </MapView.Callout>
               </MapView.Marker>        
@@ -221,8 +223,8 @@ class Map extends Component  {
                   title={place.name}
                   address={place.address}
                   onSelect={() => {
-                    // checkInOpen state indicate we have a select place or not
-                    if (!checkInOpenReducer) { 
+                    // name indicate we have a select place or not
+                    if (!selectedPlaceReducer.name) { 
                       selectPlace(
                         place.coordinates.latitude, 
                         place.coordinates.longitude, 
@@ -232,13 +234,14 @@ class Map extends Component  {
                         place.address.split(', ')[1] ? place.address.split(', ')[1] : place.address.split(', ')[0], 
                         ''
                       );
+                      openCheckIn();
                     }
                     else {
                       clearSelectedPlace();
+                      closeCheckIn();
                     }
-                    toggleCheckIn(checkInOpenReducer);
                   }}
-                  checkInOpenReducer={checkInOpenReducer}
+                  selectedPlaceReducer={selectedPlaceReducer}
                 />
               </MapView.Callout>
             </MapView.Marker>        

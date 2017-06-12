@@ -81,19 +81,24 @@ const styles = StyleSheet.create({
   },
   placetext: {
     fontSize: 14,
+    fontFamily: Constants.TEXT_FONT
   },
   usernametext: {
     fontSize: 14,
+    fontFamily: Constants.TEXT_FONT
   },
   rating: {
     fontSize: 14,
+    fontFamily: Constants.TEXT_FONT
   },
   comment: {
     fontSize: 16,
     fontWeight: 'bold', 
+    fontFamily: Constants.TEXT_FONT
   },
   buttontext: {
     fontSize: 14,
     color: 'white',
+    fontFamily: Constants.TEXT_FONT
   },
 });

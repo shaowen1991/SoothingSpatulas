@@ -17,7 +17,7 @@ import Constants from '../../Constants';
 export default class NearbyPlacesCallout extends React.Component {
 
   render() {
-    const { title, address, onSelect, checkInOpenReducer } = this.props;
+    const { title, address, onSelect, selectedPlaceReducer } = this.props;
 
     return (
       <Animatable.View style={[styles.container]}>
@@ -29,7 +29,7 @@ export default class NearbyPlacesCallout extends React.Component {
           onPress={onSelect}
         >
           <Text style={styles.buttontext}>
-            {checkInOpenReducer ? 'Cancel' : 'Check In Here'}
+            {selectedPlaceReducer.name ? 'Cancel' : 'Check In Here'}
           </Text>
         </TouchableOpacity>    
       </Animatable.View>
@@ -61,12 +61,15 @@ const styles = StyleSheet.create({
   titletext: {
     fontSize: 16,
     fontWeight: 'bold', 
+    fontFamily: Constants.TEXT_FONT
   },
   destext: {
     fontSize: 14,
+    fontFamily: Constants.TEXT_FONT
   },
   buttontext: {
     fontSize: 14,
     color: 'white',
+    fontFamily: Constants.TEXT_FONT
   },
 });

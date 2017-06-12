@@ -6,7 +6,9 @@ import {
   Text, 
   TouchableOpacity, 
   TextInput,
-  Image
+  Image,
+  Keyboard,
+  Animated
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
@@ -91,14 +93,41 @@ class CheckInFooter extends Component {
     this.state = { 
       typeInComment: '',
       rating: 0,
-      typeOfComment: 'Text'
+      typeOfComment: 'Text',
+      keyboardHeight: 0
     }
+    this._keyboardWillShow = this._keyboardWillShow.bind(this);
+    this._keyboardWillHide = this._keyboardWillHide.bind(this);
     this.clearText = this.clearText.bind(this);
-    this.onPinDrop = this.onPinDrop.bind(this);
+    // this.onPinDrop = this.onPinDrop.bind(this);
     this.setRating = this.setRating.bind(this);
     this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
     this.postTextComment = this.postTextComment.bind(this);
+  }
+  /* ----------------------------------------------------
+                Handle keyboard pop up
+  ---------------------------------------------------- */
+  componentWillMount () {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide);
+  }
+
+  componentWillUnmount () {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  _keyboardWillShow (event) {
+    this.setState({
+      keyboardHeight: event.endCoordinates.height
+    })
+  }
+
+  _keyboardWillHide (event) {
+    this.setState({
+      keyboardHeight: 0
+    })
   }
 
   clearText () {
@@ -124,14 +153,14 @@ class CheckInFooter extends Component {
     }
   }
 
-  onPinDrop (username, comment) {
-    this.props.dropCheckInPin(
-      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
-      this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
-      username,
-      comment
-    )
-  }
+  // onPinDrop (username, comment) {
+  //   this.props.dropCheckInPin(
+  //     this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
+  //     this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
+  //     username,
+  //     comment
+  //   )
+  // }
 
   postTextComment (location_id) {
     postTextComments({
@@ -163,10 +192,9 @@ class CheckInFooter extends Component {
       clearSelectedPlace,
       clearNearbyPlace
     } = this.props
-
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
     const style = {
-      top: checkInOpenReducer ? windowHeight - 270 : windowHeight,
+      top: checkInOpenReducer ? windowHeight - 270 - this.state.keyboardHeight : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -193,7 +221,7 @@ class CheckInFooter extends Component {
       <Animatable.View
         style={[styles.container, style]}
         duration={300}
-        easing={"ease-out-circ"}
+        easing={"ease-out"}
         transition={transitionProps}
       >
         {/* ---------------------------------
@@ -269,6 +297,11 @@ class CheckInFooter extends Component {
             ref={component => this._textInput = component}
             onChangeText={(typeInComment) => {this.setState({typeInComment})}}
             placeholder={'Please write your comments'}
+            placeholderTextColor={Constants.PLACEHOLDER_COLOR}
+            multiline={true}
+            maxLength={200}
+            numberOfLines={4}
+            clearButtonMode={'always'}
           />
           :
           <Recorder />  
@@ -284,6 +317,7 @@ class CheckInFooter extends Component {
             style={styles.backbutton}
             onPress={() => {
               toggleCheckIn(checkInOpenReducer);
+              Keyboard.dismiss();
               if (this.state.typeOfComment === 'Text') this.clearText();
               this.setRating(0);
               clearSelectedPlace();
@@ -299,6 +333,7 @@ class CheckInFooter extends Component {
             onPress={() => {
               if (this.state.typeOfComment === 'Text') this.clearText();
               this.toggleTypeOfComment();
+              Keyboard.dismiss();
             }}
           >
             <Text style={styles.buttontext}>
@@ -346,7 +381,6 @@ class CheckInFooter extends Component {
                   getLocationId(newLocation.name)
                   .then((location_id) => {
                     this.postTextComment(location_id);
-                    console.log('getLocationId 1');
                   })
                   .catch((error) => {
                     postLocation(newLocation)
@@ -355,9 +389,8 @@ class CheckInFooter extends Component {
                       and get the location object back from response, 
                       which include the locationid
                     ---------------------------------------------------- */
-                    .then((location_id) => {this.postTextComment(location_id); console.log('getLocationId 3');})
+                    .then((location_id) => {this.postTextComment(location_id)})
                     .catch((error) => {console.log(error)})
-                    console.log('getLocationId 2');
                   })
                 }
                 /* ---------------------------------------------------------
@@ -368,6 +401,7 @@ class CheckInFooter extends Component {
                 }
                 {/*this.onPinDrop(usernameReducer, this.state.typeInComment);*/}
                 clearNearbyPlace();
+                Keyboard.dismiss();
               }
             }} 
           >
@@ -400,6 +434,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3, 
+    fontFamily: Constants.TEXT_FONT,
   },
   buttons: {
     position: 'absolute',
@@ -485,15 +520,18 @@ const styles = StyleSheet.create({
   buttontext: {
     fontSize: 16,
     color: 'white',
+    fontFamily: Constants.TEXT_FONT
   },
   titletext: {
     fontSize: 17,
     color: 'black',
     fontWeight: 'bold', 
+    fontFamily: Constants.TEXT_FONT
   },
   addresstext: {
     fontSize: 14,
     color: 'black',
+    fontFamily: Constants.TEXT_FONT
   },  
 })
 
