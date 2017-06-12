@@ -180,6 +180,7 @@ export {
   addNearbyPlace,
   clearNearbyPlace,
   selectPlace,
+  clearSelectedPlace,
   // User Actions
   storeUserHistoryToState
 };
