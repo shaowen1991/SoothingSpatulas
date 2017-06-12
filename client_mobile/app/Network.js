@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DeviceEventEmitter } from 'react-native';
-var RNUploader = require('NativeModules').RNUploader;
+const RNUploader = require('NativeModules').RNUploader;
 
 /* ----------------------------------
     Comments (locationsusers *)
@@ -11,46 +11,45 @@ const getTextComments = () => {
   return new Promise((resolve, reject) => {
     fetch('http://localhost:3000/api/locationsusers')
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('GET locationsusers: ', responseJson);
-        resolve(responseJson);
+      .then((responseJSON) => {
+        console.log('GET locationsusers: ', responseJSON);
+        resolve(responseJSON);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
         reject(error);
       });  
   })
 };  
 
-const postTextComments = (textComment, cb) => {
-  console.log('post comment db');
-  fetch('http://localhost:3000/api/locationsusers', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      comment: textComment.comment,
-      latitude: textComment.latitude,
-      longitude: textComment.longitude,
-      rating: textComment.rating,
-      user_id: textComment.user_id,
-      name: textComment.name,
-      location_id: textComment.location_id
+const postTextComments = (textComment) => {
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3000/api/locationsusers', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        comment: textComment.comment,
+        latitude: textComment.latitude,
+        longitude: textComment.longitude,
+        rating: textComment.rating,
+        user_id: textComment.user_id,
+        name: textComment.name,
+        location_id: textComment.location_id
+      })
     })
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('-------> Post comment db', responseJSON);
+      resolve(responseJSON);
+    })
+    .catch((error) => {
+      console.log(error);
+      reject(error);
+    });  
   })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    console.log('-------> Post comment db', responseJson);
-    /* ----------------------------------------------------
-    Invoke clearTextAndRating callback after data inserted
-    ---------------------------------------------------- */
-    cb();
-  })
-  .catch((error) => {
-    console.error(error);
-  });  
 };
 
 const postAudioComments = (filepath, filename) => {
@@ -93,106 +92,140 @@ const postAudioComments = (filepath, filename) => {
 /* ----------------------------------
              Locations
 ---------------------------------- */
-const postLocation = (location, cb) => {
-  console.log('post location db');
-  fetch('http://localhost:3000/api/locations', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      category: location.category,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      name: location.name,
-      city: location.city,
-      state: location.state
+const postLocation = (location) => {
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3000/api/locations', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        category: location.category,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        name: location.name,
+        city: location.city,
+        state: location.state
+      })
     })
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('-------> post location db', responseJSON);
+      resolve(responseJSON.id);
+    })
+    .catch((error) => {
+      console.logr('-------> new location post error: ', error);
+      reject(error);
+    });  
   })
-  .then((response) => response.json())
-  .then((responseJSON) => {
-    console.log('-------> post location db', responseJSON);
-    cb(responseJSON.id);
-  })
-  .catch((error) => {
-    console.error('-------> new location post error: ', error);
-  });  
 };
 
-const getLocationId = (location, cb) => {
-  fetch("http://localhost:3000/api/locations/name/" + location.name, {
-    method: "GET",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'            
-    }
-  })
-  .then((response) => response.json())
-  .then((responseJSON) => {
-    console.log('-------> get location id: ', responseJSON);
-    cb(responseJSON.id);
-  })
-  .catch((err) => {
-    console.log('-------> location id fetch err: ', err);
-    /* ----------------------------------------------------
-      In this POST request, send new location info to DB
-      and get the location object back from response, 
-      which include the locationid
-    ---------------------------------------------------- */
-    postLocation(location, cb);
+const getLocationId = (name) => {
+  return new Promise((resolve, reject) => {
+    fetch("http://localhost:3000/api/locations/name/" + name, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'            
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('-------> get location id: ', responseJSON);
+      resolve(responseJSON.id);
+    })
+    .catch((error) => {
+      console.log('-------> location id fetch error: ', error);
+      reject(error);
+    })
   })
 };
 
 const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
-  fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
-  .then((response) => {
-    if(response.status === 200) {
-      response
-      .text()
-      .then((responseText) => {
-        let parsedResults = JSON.parse(responseText).results
-        
-        for (let entry of parsedResults) {
-          console.log('Entry: ', entry)
-          addNearbyPlace(
-            entry.geometry.location.lat,
-            entry.geometry.location.lng,
-            entry.name,
-            entry.vicinity,
-            '',
-            entry.types
-          )
-        }
-      })
-      .catch(function (error) {
-        console.log('addPOI error: ', error);
-      })
-    }
-    else throw new Error('Something went wrong on api server!');
-  })
-  .catch(function(error) {
-      console.log('error', error);
+  return new Promise((resolve, reject) => {
+    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&rankby=prominence&radius=200&keyword=${searchTerm}&key=AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc`)
+    .then((response) => {
+      if(response.status === 200) {
+        response
+        .text()
+        .then((responseText) => {
+          let parsedResults = JSON.parse(responseText).results;
+          resolve(parsedResults);
+        })
+        .catch((error) => {
+          console.log('addPOI error: ', error);
+        })
+      }
+      else throw new Error('Something went wrong on api server!');
+    })
+    .catch((error) => {
+        console.log('error', error);
+        reject(error);
+    })
   })
 }
 
 /* ----------------------------------
                 Users
 ---------------------------------- */
-const getUserById = (user_id => {
+const getUserById = (user_id) => {
   return new Promise((resolve, reject) => {
     fetch('http://localhost:3000/api/users/' + user_id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('GET user: ', responseJson);
-        resolve(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-        reject(error);
-      });  
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('GET user: ', responseJSON);
+      resolve(responseJSON);
+    })
+    .catch((error) => {
+      console.log(error);
+      reject(error);
+    });  
   })
-});  
+};  
+
+const getUserByEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    fetch("http://localhost:3000/api/users/email/" + email, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'            
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('-------> get login user data: ', responseJSON);
+      resolve(responseJSON.id)
+    })
+    .catch((error) => {
+      console.log('-------> user id fetch err: ', error);
+      reject(error);
+    })
+  })
+}
+
+const postUser = (userLoginInfo) => {
+  return new Promise((resolve, reject) => {
+    fetch("http://localhost:3000/api/users/", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userLoginInfo)
+    })
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      console.log('-------> new user posted: ', responseJSON);
+      resolve(responseJSON.id);
+    })
+    .catch((error) => {
+      console.log('-------> new user post error: ', error);
+      reject(error)
+    })    
+  })
+}
 
 export { 
   getTextComments,
@@ -201,7 +234,9 @@ export {
   postLocation,
   getLocationId,
   getNearbyPlaces,
-  getUserById
+  getUserById,
+  getUserByEmail,
+  postUser
 };
 
 /* --------------------------------------

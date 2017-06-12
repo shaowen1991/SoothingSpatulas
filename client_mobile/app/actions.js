@@ -32,14 +32,15 @@ const closeCheckIn = () => ({
 
 /* Comments Actions
 --------------------------------*/
-const addTextComment = (comment, latitude, longitude, rating, user_id, username) => ({
+const addTextComment = (comment, latitude, longitude, rating, user_id, username, location) => ({
   type: 'ADD_TEXT_COMMENT',
   comment: comment,
   latitude: latitude,
   longitude: longitude,
   rating: rating,
   user_id: user_id,
-  username: username
+  username: username,
+  location: location
 });
 
 const updateTextCommentsDB = (textCommentsFromDB) => ({

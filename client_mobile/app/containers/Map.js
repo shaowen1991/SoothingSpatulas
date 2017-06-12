@@ -40,14 +40,16 @@ const mapStateToProps = ({
   pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
-  textCommentsReducer
+  textCommentsReducer,
+  useridReducer
 }) => ({
   regionReducer,
   myLocationReducer,
   pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
-  textCommentsReducer
+  textCommentsReducer,
+  useridReducer
 });
 
 /* ----------------------------------
@@ -99,7 +101,7 @@ class Map extends Component  {
     .then((comments) => {
       this.props.updateTextCommentsFromDB(comments);
     })
-    .catch((err) => console.log(err));
+    .catch((error) => {console.log(error)});
   }
 
   watchLocation () {
@@ -137,7 +139,8 @@ class Map extends Component  {
       selectedPlaceReducer,
       clearSelectedPlace,
       regionReducer,
-      textCommentsReducer
+      textCommentsReducer,
+      useridReducer
     } = this.props;
     
     const initialRegion = {
@@ -169,7 +172,7 @@ class Map extends Component  {
           showMyLocationButton={true}
         >
           {/* user pin drop */}
-          {(Object.keys(pinCoordinatesReducer)).length > 0 ?
+          {/*{(Object.keys(pinCoordinatesReducer)).length > 0  && useridReducer !== 0 ?
             <MapView.Marker
               key="1"
               pinColor={'D32F2F'}
@@ -179,27 +182,31 @@ class Map extends Component  {
             />    
             :
             null
-          }
+          }*/}
           {/*text comments pin*/}
-          {textCommentsReducer.map((comment, key) => (
-            <MapView.Marker
-              key={key}
-              pinColor={'black'}
-              coordinate={{
-                latitude: JSON.parse(comment.latitude),
-                longitude: JSON.parse(comment.longitude)
-              }}
-            >
-              <MapView.Callout>
-                <TextCommentPin
-                  user_id={comment.user_id}
-                  name={comment.name}
-                  comment={comment.comment}
-                  rating={comment.rating}
-                />
-              </MapView.Callout>
-            </MapView.Marker>        
-          ))}          
+          {useridReducer !== 0 ?
+            textCommentsReducer.map((comment, key) => (
+              <MapView.Marker
+                key={key}
+                pinColor={comment.user_id === useridReducer ? 'D32F2F' : 'black'} // red pin indicate current user pin
+                coordinate={{
+                  latitude: JSON.parse(comment.latitude),
+                  longitude: JSON.parse(comment.longitude)
+                }}
+              >
+                <MapView.Callout>
+                  <TextCommentPin
+                    user_id={comment.user_id}
+                    name={comment.name}
+                    comment={comment.comment}
+                    rating={comment.rating}
+                  />
+                </MapView.Callout>
+              </MapView.Marker>        
+            ))
+            :
+            null
+          }          
           {/* nearby locations */}
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker

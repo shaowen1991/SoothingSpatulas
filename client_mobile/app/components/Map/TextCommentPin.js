@@ -19,10 +19,10 @@ export default class TextCommentPin extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      user: {
+      userInfo: {
         first: '',
         last: '',
-        id: -1,
+        id: 0,
         email: ''
       }
     }
@@ -31,9 +31,9 @@ export default class TextCommentPin extends React.Component {
   componentDidMount () {
     getUserById(this.props.user_id)
     .then((fetchedUserInfo) => {
-      this.setState({ user: fetchedUserInfo });
+      this.setState({ userInfo: fetchedUserInfo });
     })
-    .catch((err) => console.log(err))
+    .catch((error) => {console.log(error)})
   }
 
   render() {
@@ -42,7 +42,7 @@ export default class TextCommentPin extends React.Component {
     return (
       <Animatable.View style={[styles.container]}>
         <Text style={styles.comment}>{comment}</Text>
-        <Text style={styles.usernametext}>User: {this.state.user.first}</Text>
+        <Text style={styles.usernametext}>User: {this.state.userInfo.first}</Text>
         <Text style={styles.placetext}>Place: {name}</Text>
         <Text style={styles.rating}>Rating: {rating}</Text>
       </Animatable.View>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   },
   placetext: {
     fontSize: 14,
-    // fontWeight: 'bold', 
   },
   usernametext: {
     fontSize: 14,

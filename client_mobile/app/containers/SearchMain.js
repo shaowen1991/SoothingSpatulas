@@ -63,10 +63,18 @@ class SearchMain extends Component  {
     var lat = this.props.myLocationReducer.latitude;
     var lng = this.props.myLocationReducer.longitude;
     this.props.clearNearbyPlace();
-    getNearbyPlaces(this.state.searchTerm, lat, lng,
-     (latitude, longitude, name, address, img, category) => {
-        this.props.addNearbyPlace(latitude, longitude, name, address, img, category);
-      });
+    getNearbyPlaces(this.state.searchTerm, lat, lng)
+    .then((places) => {
+      places.forEach(place => this.props.addNearbyPlace(
+        place.geometry.location.lat,
+        place.geometry.location.lng,
+        place.name,
+        place.vicinity,
+        '',
+        place.types
+      ))
+    })
+    .catch(error => {console.log(error)});
   }
 
   render () {
