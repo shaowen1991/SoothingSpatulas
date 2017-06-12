@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
-import Trends from './Trends';
+import Chart from './chart.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
@@ -62,7 +62,8 @@ class Profile extends Component {
     this.state = {
       selectedTab: 'most-viewed',
       userHist: [],
-      userPic: this.props.userPic
+      userPic: this.props.userPic,
+      userName: this.props.userName
     }
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
@@ -75,7 +76,7 @@ class Profile extends Component {
 
   userCheckinHistory(userid) {
     var histArray = [];
-    fetch("http://localhost:3000/api/locationsusers/" + userid, {
+    fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -84,18 +85,26 @@ class Profile extends Component {
       })
       .then((response) => response.json())
       .then((responseJSON) => {
-        console.log('-------> get user location data comment: ', responseJSON);
-        // function here to deal with responseJSON
-        // storeUserHistoryToState(responseJSON)
-        // refactor to non-redux
-        histArray.push(responseJSON)
+        // if (responseJSON.isArray()) {
+          for (var i = 0; i < responseJSON.length; i++) {
+            histArray.push(responseJSON[i]);
+          }
+        // } else {
+        //   histArray.push(responseJSON)
+        // }
         this.setState({
-          userHist: histArray
+          userHist: histArray,
+          userHistFirst: histArray.shift()
         })
+        console.log('CHECKINSTUFF!!!', this.state.userHist)
       })
       .catch((err) => {
         console.log('-------> user id fetch err: ', err);
       })
+  }
+
+  componentWillMount() {
+    this.userCheckinHistory(5);
   }
 
   render() {
@@ -106,6 +115,7 @@ class Profile extends Component {
       userPicReducer,
       userHistoryReducer
     } = this.props
+    // console.log('***profile state***: ', this.state)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
       top: profileViewOpen ? 0 : windowHeight,
@@ -126,8 +136,13 @@ class Profile extends Component {
             onPress={() => {this.setTab('most-viewed')}}
           >
           <View>
-            <ProfileHeader userPic={this.state.userPic}/>
-            <Trends/>
+            <ProfileHeader 
+              userPic={this.state.userPic}
+              userName={this.state.userName}
+              userHist={this.state.userHist}
+            />
+            <Chart userHist={this.state.userHist}/>
+            
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item 
@@ -136,19 +151,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('contacts')}}
           >
           <View>
-            <ProfileHeader userPic={this.state.userPic}/>
             <FriendList/>
-            <Button 
-              onPress={() => {this.userCheckinHistory(useridReducer)}}
-              title='history'
-            />
-            <Text> {this.state.userHist.length} of checkins </Text>
-            {this.state.userHist.map((place, key) => (
-              <Text key={key}>
-                comment: {place.comment}
-                rating: {place.rating}
-              </Text>
-            ))}
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item 
@@ -157,8 +160,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('history')}}
             >
             <View>
-              <ProfileHeader userPic={this.state.userPic}/>
-              <HistoryList/>
+              <HistoryList userHist={this.state.userHist}/>
             </View>
           </TabBarIOS.Item>
         </TabBarIOS>

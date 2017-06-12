@@ -145,7 +145,10 @@ class Main extends Component  {
           checkInOpenReducer={checkInOpenReducer}
         /> 
         <CheckInFooter />
-        <Profile userPic={this.props.userPicReducer}/>
+        <Profile 
+          userPic={this.props.userPicReducer}
+          userName={this.props.usernameReducer}
+        />
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
