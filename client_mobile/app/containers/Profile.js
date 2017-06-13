@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
-import Chart from './chart.js';
+import Trends from './Trends.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
 import MomentoBar from './MomentoBar';
@@ -33,13 +33,13 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   userPicReducer,
-  userHistoryReducer
+  textCommentsReducer
 }) => ({
   profileViewOpen,
   usernameReducer,
   useridReducer,
   userPicReducer,
-  userHistoryReducer
+  textCommentsReducer
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,7 +62,7 @@ class Profile extends Component {
     super(props);
     this.state = {
       selectedTab: 'most-viewed',
-      userHist: [],
+      checkins: [],
       userPic: this.props.userPic,
       userName: this.props.userName,
       userID: this.props.userID
@@ -76,9 +76,9 @@ class Profile extends Component {
     })
   }
 
-  userCheckinHistory(userid) {
+    userCheckinHistory(userid) {
     var histArray = [];
-    fetch("http://localhost:3000/api/locationsusers/", {
+    fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -88,19 +88,15 @@ class Profile extends Component {
       .then((response) => response.json())
       .then((responseJSON) => {
         // if (responseJSON.isArray()) {
-          console.log('USER ID!!!!!: ', this.props.useridReducer);
-          console.log('RESPONSE: ', responseJSON)
           for (var i = 0; i < responseJSON.length; i++) {
-            console.log('RESONSE ID!!!!!: ', responseJSON[i].user_id)
-            if(responseJSON[i].user_id === this.props.useridReducer) {
-              histArray.push(responseJSON[i]);
-            } 
+            histArray.push(responseJSON[i]);
           }
         // } else {
         //   histArray.push(responseJSON)
         // }
         this.setState({
-          userHist: histArray
+          userHist: histArray,
+          userHistFirst: histArray.shift()
         })
         console.log('CHECKINSTUFF!!!', this.state.userHist)
       })
@@ -109,8 +105,8 @@ class Profile extends Component {
       })
   }
 
-  componentDidMount() {
-    this.userCheckinHistory()
+  componentWillMount() {
+    this.userCheckinHistory(5);
   }
 
   changeUserID(userid) {
@@ -125,7 +121,7 @@ class Profile extends Component {
       toggleProfileView,
       useridReducer,
       userPicReducer,
-      userHistoryReducer
+      textCommentsReducer
     } = this.props
     // console.log('***profile state***: ', this.state)
     // this.setState({

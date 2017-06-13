@@ -15,15 +15,45 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
-
+import { connect } from 'react-redux';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+const mapStateToProps = ({
+  useridReducer,
+  textCommentsReducer
+}) => ({
+  useridReducer,
+  textCommentsReducer
+})
 
 class Trends extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      checkins: []
+    }
+  }
+
+  componentDidMount() {
+    var filteredCheckins = [];
+    console.log('SAY WHAAAATtttttt?: ', this.props.textCommentsReducer)
+    for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
+      if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
+        filteredCheckins.push(this.props.textCommentsReducer[i])
+      }
+    }
+    this.setState({
+      checkins: filteredCheckins
+    })
   }
 
   render() {
+
+    const {
+      useridReducer,
+      textCommentsReducer
+    } = this.props
+
     return (
       <View style={styles.trends}>
         <Text style={styles.trendsHeader}>Recent Trends</Text>
@@ -52,7 +82,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Trends;
+export default connect(mapStateToProps, {})(Trends);
 
 // {<TabBarIOS>
 //           <TabBarIOS.Item
