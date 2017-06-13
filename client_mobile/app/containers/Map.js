@@ -95,12 +95,19 @@ class Map extends Component  {
 
   componentDidMount () {
     this.watchLocation();
-
     getTextComments()
     .then((comments) => {
       this.props.updateTextCommentsFromDB(comments);
     })
     .catch((error) => {console.log(error)});
+    
+    setInterval(() => {
+      getTextComments()
+      .then((comments) => {
+        this.props.updateTextCommentsFromDB(comments);
+      })
+      .catch((error) => {console.log(error)});
+    }, 30000)
   }
 
   watchLocation () {

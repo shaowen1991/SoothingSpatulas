@@ -10,18 +10,21 @@ import {
   Keyboard,
   Animated
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-
-import { postTextComments, postLocation, getLocationId } from '../Network.js';
-import Recorder from './Recorder.js';
-import AssetMap from '../config/AssetMap';
+import * as Animatable from 'react-native-animatable';
 
 const transitionProps = ['top', 'height', 'width'];
 /* ----------------------------------
          Import Constants
 ---------------------------------- */
+import AssetMap from '../config/AssetMap';
 import Constants from '../Constants';
+
+/* ----------------------------------
+         Import Components
+---------------------------------- */
+import CheckInSubmitButton from './CheckInSubmitButton';
+import Recorder from './Recorder';
 
 /* ----------------------------------
        Import Redux Actions
@@ -29,28 +32,18 @@ import Constants from '../Constants';
 import {
   openCheckIn,
   closeCheckIn,
-  addTextComment,
   clearSelectedPlace,
-  clearNearbyPlace
 } from '../Actions.js';
 
 /* ----------------------------------
     Mapping Redux Store States
 ---------------------------------- */
 const mapStateToProps = ({
-  usernameReducer,
-  useridReducer,
   checkInOpenReducer,
-  textCommentsReducer,
-  audioCommentsReducer,
   myLocationReducer,
   selectedPlaceReducer
 }) => ({
-  usernameReducer,
-  useridReducer,
   checkInOpenReducer,
-  textCommentsReducer,
-  audioCommentsReducer,
   myLocationReducer,
   selectedPlaceReducer
 });
@@ -67,15 +60,9 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openCheckIn());
     }
   },
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id, location_id, name) => {
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, location_id, name));
-  },
   clearSelectedPlace: () => {
     dispatch(clearSelectedPlace());
   },
-  clearNearbyPlace: () => {
-    dispatch(clearNearbyPlace());
-  }
 });
 
 /* ----------------------------------
@@ -96,7 +83,6 @@ class CheckInFooter extends Component {
     this.setRating = this.setRating.bind(this);
     this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
-    this.postTextComment = this.postTextComment.bind(this);
   }
   /* ----------------------------------------------------
                 Handle keyboard pop up
@@ -146,35 +132,13 @@ class CheckInFooter extends Component {
     }
   }
 
-  postTextComment (location_id) {
-    postTextComments({
-      comment: this.state.typeInComment,
-      latitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
-      longitude: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
-      rating: this.state.rating,
-      name: this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.name : null,
-      user_id: this.props.useridReducer,
-      location_id: location_id
-    })
-    /* ----------------------------------------------------
-    Invoke clearTextAndRating callback after data inserted
-    ---------------------------------------------------- */
-    .then(() => {this.clearTextAndRating()})
-    .then(() => {this.props.clearSelectedPlace()})
-    .catch((error) => {console.log(error)});
-  }
-
   render() {
     const {
       checkInOpenReducer, 
       toggleCheckIn, 
-      onCommentSubmit, 
       myLocationReducer, 
-      usernameReducer,
-      useridReducer,
       selectedPlaceReducer,
       clearSelectedPlace,
-      clearNearbyPlace
     } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
     const style = {
@@ -213,10 +177,10 @@ class CheckInFooter extends Component {
         ---------------------------------- */}
         <Animatable.View style={styles.titleHeader}>
           <Animatable.View style={styles.headerText}>
-            <Animatable.Text style={styles.titletext}>
+            <Animatable.Text style={styles.titleText}>
               {'How is this place?'}
             </Animatable.Text>
-            <Animatable.Text style={styles.addresstext}>
+            <Animatable.Text style={styles.addressText}>
               {selectedPlaceReducer.name ? selectedPlaceReducer.name : coordinatesString}
             </Animatable.Text>
           </Animatable.View>
@@ -299,7 +263,7 @@ class CheckInFooter extends Component {
                        Back Button
           ---------------------------------- */} 
           <TouchableOpacity
-            style={styles.backbutton}
+            style={styles.backButton}
             onPress={() => {
               toggleCheckIn(checkInOpenReducer);
               Keyboard.dismiss();
@@ -308,13 +272,13 @@ class CheckInFooter extends Component {
               clearSelectedPlace();
             }}
           >
-            <Text style={styles.buttontext}>{"Back"}</Text>
+            <Text style={styles.buttonText}>{"Back"}</Text>
           </TouchableOpacity>
           {/* ---------------------------------
                  Switch Recorder Buttons
           ---------------------------------- */} 
           <TouchableOpacity
-            style={styles.checkinbutton}
+            style={styles.switchButton}
             onPress={() => {
               if (this.state.typeOfComment === 'Text') {
                 this.setState({ typeInComment: '' });
@@ -322,76 +286,21 @@ class CheckInFooter extends Component {
               this.toggleTypeOfComment();
             }}
           >
-            <Text style={styles.buttontext}>
+            <Text style={styles.buttonText}>
               {this.state.typeOfComment === 'Text' ? "Voice Check In" : "Text Check In"}
             </Text>
           </TouchableOpacity>
           {/* ---------------------------------
                     CheckIn Buttons
           ---------------------------------- */} 
-          <TouchableOpacity
-            style={this.state.typeInComment.length > 0 ? styles.checkinbutton : styles.checkinCanClickbutton}
-            onPress={() => {
-              /* ---------------------------------------------------------
-                  check in button only available when user has input
-              --------------------------------------------------------- */
-              if (this.state.typeInComment.length > 0) {
-                toggleCheckIn(checkInOpenReducer);
-                /* ----------------------------------------------------
-                  comment, latitude, longitude, rating, userid, username
-                          pass the text commet details here
-                        first method is send data to Redux
-                          second if-block is send data to DB
-                ----------------------------------------------------- */            
-                onCommentSubmit(
-                  this.state.typeInComment,
-                  selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
-                  selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
-                  this.state.rating,
-                  useridReducer,
-                  null,
-                  selectedPlaceReducer.name ? selectedPlaceReducer.name : null
-                );
-                /* ---------------------------------------------------------
-                  only post new location to db when a location is selected
-                --------------------------------------------------------- */
-                if (selectedPlaceReducer.name) {
-                  let newLocation = {
-                    category: selectedPlaceReducer.category,
-                    latitude: selectedPlaceReducer.latitude,
-                    longitude: selectedPlaceReducer.longitude,
-                    name: selectedPlaceReducer.name,
-                    city: selectedPlaceReducer.city,
-                    state: ''
-                  }
-                  getLocationId(newLocation.name)
-                  .then((location_id) => {
-                    this.postTextComment(location_id);
-                  })
-                  .catch((error) => {
-                    postLocation(newLocation)
-                    /* ----------------------------------------------------
-                      In this POST request, send new location info to DB
-                      and get the location object back from response, 
-                      which include the locationid
-                    ---------------------------------------------------- */
-                    .then((location_id) => {this.postTextComment(location_id)})
-                    .catch((error) => {console.log(error)})
-                  })
-                }
-                /* ---------------------------------------------------------
-                      if no location selected, post comment directly
-                --------------------------------------------------------- */
-                else {
-                  this.postTextComment(null);
-                }
-                clearNearbyPlace();
-                Keyboard.dismiss();
-              }
-            }} 
-          >
-            <Text style={styles.buttontext}>{"Check In"}</Text>
-          </TouchableOpacity>
+          <CheckInSubmitButton 
+            rating={this.state.rating}
+            typeInComment={this.state.typeInComment}
+            typeOfComment={this.state.typeOfComment}
+            toggleCheckIn={() => {toggleCheckIn(checkInOpenReducer)}}
+            clearTextAndRating={this.clearTextAndRating}
+            clearSelectedPlace={clearSelectedPlace}
+          />
         </Animatable.View>
       </Animatable.View>
     )
@@ -431,39 +340,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: "center",
   },
-  backbutton: {
-    // flex: 1,
+  switchButton: {
+    height: "170%",
+    width: "37%",
+    zIndex: 6,
+    marginRight: "3%",
+    backgroundColor: Constants.ICON_COLOR,
+    alignItems: "center",
+    justifyContent: 'center',
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+  },
+  backButton: {
     height: "170%",
     width: "20%",
     zIndex: 6,
     marginRight: "3%",
     backgroundColor: Constants.ICON_COLOR,
-    alignItems: "center",
-    justifyContent: 'center',
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
-  },
-  checkinbutton: {
-    // flex: 1,
-    height: "170%",
-    width: "37%",
-    zIndex: 6,
-    marginRight: "3%",
-    backgroundColor: Constants.ICON_COLOR,
-    alignItems: "center",
-    justifyContent: 'center',
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
-  },
-  checkinCanClickbutton: {
-    // flex: 1,
-    height: "170%",
-    width: "37%",
-    zIndex: 6,
-    marginRight: "3%",
-    backgroundColor: Constants.ICON_NOT_AVAILABLE_COLOR,
     alignItems: "center",
     justifyContent: 'center',
     shadowColor: 'black',
@@ -505,18 +399,18 @@ const styles = StyleSheet.create({
     height: 29.5,
     margin: 2.8
   },
-  buttontext: {
+  buttonText: {
     fontSize: 16,
     color: 'white',
     fontFamily: Constants.TEXT_FONT
   },
-  titletext: {
+  titleText: {
     fontSize: 17,
     color: 'black',
     fontWeight: 'bold', 
     fontFamily: Constants.TEXT_FONT
   },
-  addresstext: {
+  addressText: {
     fontSize: 14,
     color: 'black',
     fontFamily: Constants.TEXT_FONT

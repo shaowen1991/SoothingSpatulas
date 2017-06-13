@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     // padding: 10,
-    backgroundColor: Constants.NEARBY_PIN_COLOR,
+    backgroundColor: Constants.COMMENT_PIN_COLOR,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3, 
