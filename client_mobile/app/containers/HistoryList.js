@@ -21,19 +21,6 @@ class HistoryList extends Component {
     }
   }
 
-  componentDidMount() {
-    var filteredCheckins = [];
-    console.log('SAY WHAAAA?: ', this.props.textCommentsReducer)
-    for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
-      if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
-        filteredCheckins.push(this.props.textCommentsReducer[i])
-      }
-    }
-    this.setState({
-      checkins: filteredCheckins
-    })
-  }
-
   render() {
     // console.log()
     const {

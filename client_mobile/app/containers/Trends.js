@@ -1,20 +1,12 @@
-// /**
-//  * Sample React Native App
-//  * https://github.com/facebook/react-native
-//  * @flow
-//  */
-
-// import React, { Component } from 'react';
-// import {
-//   AppRegistry,
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image
-// } from 'react-native';
-
 import React, { Component } from 'react';
-import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
+import { AppRegistry, 
+  View, 
+  Image, 
+  StyleSheet, 
+  Text, 
+  TabBarIOS, 
+  Button 
+} from 'react-native';
 import { connect } from 'react-redux';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
@@ -33,20 +25,7 @@ class Trends extends Component {
       checkins: []
     }
   }
-
-  componentDidMount() {
-    var filteredCheckins = [];
-    console.log('SAY WHAAAATtttttt?: ', this.props.textCommentsReducer)
-    for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
-      if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
-        filteredCheckins.push(this.props.textCommentsReducer[i])
-      }
-    }
-    this.setState({
-      checkins: filteredCheckins
-    })
-  }
-
+  
   render() {
 
     const {

@@ -107,6 +107,22 @@ class Profile extends Component {
 
   componentWillMount() {
     this.userCheckinHistory(5);
+}
+
+  componentDidMount() {
+    setInterval(function() {
+      var filteredCheckins = [];
+      console.log('SAY WHAAAA?: ', this.props.textCommentsReducer)
+      for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
+        if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
+          filteredCheckins.push(this.props.textCommentsReducer[i])
+        }
+      }
+      this.setState({
+        checkins: filteredCheckins
+      })
+      
+    }.bind(this), 5000)
   }
 
   changeUserID(userid) {
@@ -154,10 +170,11 @@ class Profile extends Component {
             <ProfileHeader
               userPic={this.state.userPic}
               userName={this.state.userName}
-              userHist={this.state.userHist}
+              userHist={this.state.checkins}
               userID={this.state.userID}
             />
-            <Chart userHist={this.state.userHist}/>
+            <Trends userHist={this.state.checkins}/>
+            
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item
