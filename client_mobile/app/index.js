@@ -69,8 +69,8 @@ const textCommentsReducer = (state = [], action) => {
         longitude: action.longitude,
         rating: action.rating,
         user_id: action.user_id,
-        username: action.username,
-        location: action.location
+        location_id: action.location_id,
+        name: action.name
       }
     ];
     case ('UPDATE_TEXT_COMMENT') : return action.textComments;
@@ -124,21 +124,6 @@ const myLocationReducer = (state = {}, action) => {
     case ('CLEAR_MY_LOCATION') : return {};
     default : return state;
   } 
-}
-
-const pinCoordinatesReducer = (state = {}, action) => {
-  switch (action.type) {
-    case ('DROP_PIN') : return {
-      coordinates: {
-        latitude: action.coordinates.latitude, 
-        longitude: action.coordinates.longitude
-      },
-      name: action.name,
-      des: action.des  
-    }
-    case ('CLEAR_PIN') : return {};
-    default : return state;
-  }
 }
 
 const nearbyPlacesReducer = (state = [], action) => {
@@ -205,7 +190,6 @@ const reducers = combineReducers({
   regionReducer,
   myLocationReducer,
   selectedPlaceReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   // User Reducers
   userHistoryReducer

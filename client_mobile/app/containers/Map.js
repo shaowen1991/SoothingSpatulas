@@ -6,6 +6,7 @@ import {
   Button, 
   PermissionsAndroid, 
   Platform, 
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
@@ -18,7 +19,7 @@ import Constants from '../Constants';
 /* ----------------------------------
          Import Components
 ---------------------------------- */
-import { NearbyPlacesCallout, TextCommentPin }  from '../components';
+import { NearbyPlacesCallout, TextCommentCallout, TextCommentMarker }  from '../components';
 
 /* ----------------------------------
        Import Redux Actions
@@ -37,7 +38,6 @@ import {
 const mapStateToProps = ({
   regionReducer,
   myLocationReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
@@ -45,7 +45,6 @@ const mapStateToProps = ({
 }) => ({
   regionReducer,
   myLocationReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
@@ -129,12 +128,11 @@ class Map extends Component  {
 
   render() {
     const {
-      toggleCheckIn,
+      openCheckIn,
+      closeCheckIn,
       onLogoutClick,
       selectPlace,
-      checkInOpenReducer,
       myLocationReducer,
-      pinCoordinatesReducer,
       nearbyPlacesReducer,
       selectedPlaceReducer,
       clearSelectedPlace,
@@ -150,7 +148,7 @@ class Map extends Component  {
       longitudeDelta: .005
     }
 
-    console.log('Map props: ', this.props);
+    // console.log('Map props: ', this.props);
     // console.log('Map state: ', this.state);
     return (
         <MapView 
@@ -169,37 +167,29 @@ class Map extends Component  {
           rotateEnabled={false}
           showsTraffic={false}
           loadingEnabled={true}
-          showMyLocationButton={true}
+          onPress={Keyboard.dismiss}
         >
-          {/* user pin drop */}
-          {/*{(Object.keys(pinCoordinatesReducer)).length > 0  && useridReducer !== 0 ?
-            <MapView.Marker
-              key="1"
-              pinColor={'D32F2F'}
-              coordinate={pinCoordinatesReducer.coordinates}
-              title={pinCoordinatesReducer.name}
-              description={pinCoordinatesReducer.des}
-            />    
-            :
-            null
-          }*/}
           {/*text comments pin*/}
-          {useridReducer !== 0 ?
+          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 ?
             textCommentsReducer.map((comment, key) => (
               <MapView.Marker
                 key={key}
-                pinColor={comment.user_id === useridReducer ? 'D32F2F' : 'black'} // red pin indicate current user pin
                 coordinate={{
                   latitude: JSON.parse(comment.latitude),
                   longitude: JSON.parse(comment.longitude)
                 }}
               >
+                <TextCommentMarker                 
+                  user_id={comment.user_id}
+                />
                 <MapView.Callout>
-                  <TextCommentPin
+                  <TextCommentCallout
                     user_id={comment.user_id}
                     name={comment.name}
                     comment={comment.comment}
                     rating={comment.rating}
+                    latitude={JSON.parse(comment.latitude)}
+                    longitude={JSON.parse(comment.longitude)}
                   />
                 </MapView.Callout>
               </MapView.Marker>        
@@ -211,7 +201,7 @@ class Map extends Component  {
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker
               key={key}
-              pinColor={'#0097A7'}
+              pinColor={Constants.NEARBY_PIN_COLOR}
               coordinate={place.coordinates}
             >
               <MapView.Callout>
@@ -219,8 +209,8 @@ class Map extends Component  {
                   title={place.name}
                   address={place.address}
                   onSelect={() => {
-                    // checkInOpen state indicate we have a select place or not
-                    if (!checkInOpenReducer) { 
+                    // name indicate we have a select place or not
+                    if (!selectedPlaceReducer.name) { 
                       selectPlace(
                         place.coordinates.latitude, 
                         place.coordinates.longitude, 
@@ -230,13 +220,14 @@ class Map extends Component  {
                         place.address.split(', ')[1] ? place.address.split(', ')[1] : place.address.split(', ')[0], 
                         ''
                       );
+                      openCheckIn();
                     }
                     else {
                       clearSelectedPlace();
+                      closeCheckIn();
                     }
-                    toggleCheckIn(checkInOpenReducer);
                   }}
-                  checkInOpenReducer={checkInOpenReducer}
+                  selectedPlaceReducer={selectedPlaceReducer}
                 />
               </MapView.Callout>
             </MapView.Marker>        

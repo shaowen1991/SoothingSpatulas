@@ -47,17 +47,18 @@ const openProfileView = () => ({
 const closeProfileView = () => ({
   type: 'CLOSE_PROFILE'
 });
+
 /* Comments Actions
 --------------------------------*/
-const addTextComment = (comment, latitude, longitude, rating, user_id, username, location) => ({
+const addTextComment = (comment, latitude, longitude, rating, user_id, location_id, name) => ({
   type: 'ADD_TEXT_COMMENT',
   comment: comment,
   latitude: latitude,
   longitude: longitude,
   rating: rating,
   user_id: user_id,
-  username: username,
-  location: location
+  location_id: location_id,
+  name: name
 });
 
 const updateTextCommentsDB = (textCommentsFromDB) => ({
@@ -99,20 +100,6 @@ const moveMyLocation = (latitude, longitude, latitudeDelta, longitudeDelta) => (
 
 const clearMyLocation = () => ({
   type: 'CLEAR_MY_LOCATION'
-})
-
-const dropCheckInPin = (latitude, longitude, name, des) => ({
-  type: 'DROP_PIN',
-  coordinates: {
-    latitude: latitude,
-    longitude: longitude
-  },
-  name: name,
-  des: des
-})
-
-const clearCheckInPin = () => ({
-  type: 'CLEAR_PIN'
 })
 
 const addNearbyPlace = (latitude, longitude, name, address, img, category) => ({
@@ -175,8 +162,6 @@ export {
   clearRegion,
   moveMyLocation,
   clearMyLocation,
-  dropCheckInPin,
-  clearCheckInPin,
   addNearbyPlace,
   clearNearbyPlace,
   selectPlace,

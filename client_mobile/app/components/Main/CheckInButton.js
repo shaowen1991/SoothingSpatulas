@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
     width: "70%",
     zIndex: 6,
     padding: 10,
-    backgroundColor: Constants.ICON_GREY_COLOR,
+    backgroundColor: Constants.ICON_COLOR,
     justifyContent: 'center',
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.3,
     alignItems: "center",
   },
@@ -82,5 +82,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: 'white',
+    fontFamily: Constants.TEXT_FONT
   },
 })
