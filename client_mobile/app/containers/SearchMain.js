@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     right: 22,
     zIndex: 5,
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.3,  
   },
   searchButton: {

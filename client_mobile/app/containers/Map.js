@@ -190,7 +190,7 @@ class Map extends Component  {
             textCommentsReducer.map((comment, key) => (
               <MapView.Marker
                 key={key}
-                pinColor={comment.user_id === useridReducer ? 'D32F2F' : 'black'} // red pin indicate current user pin
+                pinColor={comment.user_id === useridReducer ? Constants.COMMENT_PIN_COLOR : Constants.COMMENT_PIN_COLOR} // red pin indicate current user pin
                 coordinate={{
                   latitude: JSON.parse(comment.latitude),
                   longitude: JSON.parse(comment.longitude)
@@ -215,7 +215,7 @@ class Map extends Component  {
           {nearbyPlacesReducer.map((place, key) => (
             <MapView.Marker
               key={key}
-              pinColor={Constants.ICON_COLOR}
+              pinColor={Constants.NEARBY_PIN_COLOR}
               coordinate={place.coordinates}
             >
               <MapView.Callout>

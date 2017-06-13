@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.ICON_COLOR,
     justifyContent: 'center',
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.3,
     alignItems: "center",
   },

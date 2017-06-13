@@ -223,6 +223,7 @@ class CheckInFooter extends Component {
         duration={300}
         easing={"ease-out"}
         transition={transitionProps}
+        onPress={Keyboard.dismiss}
       >
         {/* ---------------------------------
           Header that include text and stars
@@ -302,6 +303,7 @@ class CheckInFooter extends Component {
             maxLength={200}
             numberOfLines={4}
             clearButtonMode={'always'}
+            autoCorrect={false}
           />
           :
           <Recorder />  
@@ -331,9 +333,10 @@ class CheckInFooter extends Component {
           <TouchableOpacity
             style={styles.checkinbutton}
             onPress={() => {
-              if (this.state.typeOfComment === 'Text') this.clearText();
+              if (this.state.typeOfComment === 'Text') {
+                this.setState({ typeInComment: '' });
+              }
               this.toggleTypeOfComment();
-              Keyboard.dismiss();
             }}
           >
             <Text style={styles.buttontext}>
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
     backgroundColor: Constants.BACK_GROUND_GREY,
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.3, 
   },
   inputbox: {
@@ -429,12 +432,14 @@ const styles = StyleSheet.create({
     top: 100,
     height: 100,
     zIndex: 6,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     backgroundColor: '#fff',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3, 
     fontFamily: Constants.TEXT_FONT,
+    fontSize: 16
   },
   buttons: {
     position: 'absolute',
@@ -501,6 +506,7 @@ const styles = StyleSheet.create({
     right: "25%",
     height: 35,
     top: 58,
+    paddingLeft: "2.5%",
     flexDirection: 'row',
     alignItems: "center",
   },

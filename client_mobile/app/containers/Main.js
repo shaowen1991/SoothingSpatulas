@@ -34,7 +34,7 @@ import Map from './Map';
 import CheckInFooter from './CheckInFooter';
 import Profile from './Profile';
 import SearchMain from './SearchMain';
-import { NavigationIcon, BackToMyLocationIcon, CheckInButton, ProfileIcon }  from '../components';
+import { BackToMyLocationIcon, CheckInButton, ProfileIcon }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -128,20 +128,15 @@ class Main extends Component  {
     // console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
-        <NavigationIcon 
-          icon={checkInOpenReducer ? 'arrowLeft' : 'hamburger'}
-          checkInOpenReducer={checkInOpenReducer}
-          toggleCheckIn={toggleCheckIn}
+        <ProfileIcon 
+          icon={profileViewOpen ? 'arrowLeft' : 'hamburger'}
+          profileViewOpen={profileViewOpen}
+          onPress={toggleProfileView}
         />
         <BackToMyLocationIcon 
           myLocationReducer={myLocationReducer}
           regionReducer={regionReducer}
           backToMyLocation={backToMyLocation}
-        />
-        <ProfileIcon 
-          icon={profileViewOpen ? 'arrow-left' : 'hamburger'}
-          profileViewOpen={profileViewOpen}
-          onPress={toggleProfileView}
         />
         <SearchMain 
           closeCheckIn={closeCheckIn}
