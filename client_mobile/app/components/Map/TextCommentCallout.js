@@ -16,21 +16,21 @@ export default class TextCommentCallout extends Component {
   constructor (props) {
     super (props);
     this.state = {
-      // userInfo: {
-      //   first: '',
-      //   last: '',
-      //   id: 0,
-      //   email: ''
-      // }
+      userInfo: {
+        first: '',
+        last: '',
+        id: 0,
+        email: ''
+      }
     }
   }
 
   componentDidMount () {
-    // getUserById(this.props.user_id)
-    // .then((fetchedUserInfo) => {
-    //   this.setState({ userInfo: fetchedUserInfo });
-    // })
-    // .catch((error) => {console.log(error)})
+    getUserById(this.props.user_id)
+    .then((fetchedUserInfo) => {
+      this.setState({ userInfo: fetchedUserInfo });
+    })
+    .catch((error) => {console.log(error)})
   }
 
   render () {

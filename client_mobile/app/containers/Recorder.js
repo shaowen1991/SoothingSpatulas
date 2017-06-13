@@ -234,7 +234,7 @@ react-native link react-native-audio-player-recorder
 
 ### Configration for iOS and Android
 
-On iOS you need to add a usage description to ios/build/Info.plist:
+On iOS you need to add a usage description to ios/client_mobile/Info.plist:
 
 <key>NSMicrophoneUsageDescription</key>
 <string>This sample uses the microphone to record your speech and convert it to text.</string>
