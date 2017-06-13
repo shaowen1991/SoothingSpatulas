@@ -64,7 +64,8 @@ class Profile extends Component {
       selectedTab: 'most-viewed',
       userHist: [],
       userPic: this.props.userPic,
-      userName: this.props.userName
+      userName: this.props.userName,
+      userID: this.props.userID
     }
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
@@ -87,8 +88,13 @@ class Profile extends Component {
       .then((response) => response.json())
       .then((responseJSON) => {
         // if (responseJSON.isArray()) {
+          console.log('USER ID!!!!!: ', this.props.useridReducer);
+          console.log('RESPONSE: ', responseJSON)
           for (var i = 0; i < responseJSON.length; i++) {
-            histArray.push(responseJSON[i]);
+            console.log('RESONSE ID!!!!!: ', responseJSON[i].user_id)
+            if(responseJSON[i].user_id === this.props.useridReducer) {
+              histArray.push(responseJSON[i]);
+            } 
           }
         // } else {
         //   histArray.push(responseJSON)
@@ -103,8 +109,14 @@ class Profile extends Component {
       })
   }
 
-  componentWillMount() {
-    
+  componentDidMount() {
+    this.userCheckinHistory()
+  }
+
+  changeUserID(userid) {
+    this.setState({
+      userID: userid
+    })
   }
 
   render() {
@@ -116,7 +128,12 @@ class Profile extends Component {
       userHistoryReducer
     } = this.props
     // console.log('***profile state***: ', this.state)
-    this.userCheckinHistory(useridReducer);
+    // this.setState({
+    //   userID: useridReducer
+    // })
+    console.log('PROFILE STATE: ', this.state)
+    console.log('MY USER ID: ', useridReducer)
+    // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
       top: profileViewOpen ? 0 : windowHeight,
@@ -142,6 +159,7 @@ class Profile extends Component {
               userPic={this.state.userPic}
               userName={this.state.userName}
               userHist={this.state.userHist}
+              userID={this.state.userID}
             />
             <Chart userHist={this.state.userHist}/>
           </View>

@@ -85,7 +85,11 @@ const styles = StyleSheet.create({
   },
   trends: {
     flexDirection: 'column',
+<<<<<<< HEAD
     height: '91.75%',
+=======
+    height: '100%',
+>>>>>>> filtering db data by userid correctly
     width: '100%',
     alignContent: 'center',
     fontSize: 10,
@@ -96,12 +100,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: '1%',
+<<<<<<< HEAD
     color: '#9CCC65'
   },
   trendsBody: {
     color: '#4527A0',
     fontSize: 10,
     backgroundColor: '#ecf0f1'
+=======
+    marginTop: '10%'
+>>>>>>> filtering db data by userid correctly
   },
   info: {
     flexDirection: 'column',
