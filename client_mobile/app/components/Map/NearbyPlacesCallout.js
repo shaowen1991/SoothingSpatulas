@@ -14,9 +14,9 @@ import Constants from '../../Constants';
 /* ----------------------------------
                 Class
 ---------------------------------- */
-export default class NearbyPlacesCallout extends React.Component {
+export default class NearbyPlacesCallout extends Component {
 
-  render() {
+  render () {
     const { title, address, onSelect, selectedPlaceReducer } = this.props;
 
     return (

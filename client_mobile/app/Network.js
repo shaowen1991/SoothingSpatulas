@@ -12,7 +12,7 @@ const getTextComments = () => {
     fetch('http://localhost:3000/api/locationsusers')
       .then((response) => response.json())
       .then((responseJSON) => {
-        console.log('GET locationsusers: ', responseJSON);
+        console.log('-------> GET locationsusers: ', responseJSON);
         resolve(responseJSON);
       })
       .catch((error) => {
@@ -42,7 +42,7 @@ const postTextComments = (textComment) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> Post comment db', responseJSON);
+      console.log('-------> POST comment db', responseJSON);
       resolve(responseJSON);
     })
     .catch((error) => {
@@ -111,11 +111,11 @@ const postLocation = (location) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> post location db', responseJSON);
+      console.log('-------> POST location db', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
-      console.logr('-------> new location post error: ', error);
+      console.logr('-------> new location POST error: ', error);
       reject(error);
     });  
   })
@@ -132,7 +132,7 @@ const getLocationId = (name) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> get location id: ', responseJSON);
+      console.log('-------> GET location id: ', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
@@ -174,7 +174,7 @@ const getUserById = (user_id) => {
     fetch('http://localhost:3000/api/users/' + user_id)
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('GET user: ', responseJSON);
+      console.log('-------> GET user: ', responseJSON);
       resolve(responseJSON);
     })
     .catch((error) => {
@@ -195,7 +195,7 @@ const getUserByEmail = (email) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> get login user data: ', responseJSON);
+      console.log('-------> GET login user data: ', responseJSON);
       resolve(responseJSON.id)
     })
     .catch((error) => {
@@ -217,11 +217,11 @@ const postUser = (userLoginInfo) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> new user posted: ', responseJSON);
+      console.log('-------> POST new user: ', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
-      console.log('-------> new user post error: ', error);
+      console.log('-------> new user POST error: ', error);
       reject(error)
     })    
   })

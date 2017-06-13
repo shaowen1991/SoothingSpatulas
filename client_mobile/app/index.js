@@ -126,21 +126,6 @@ const myLocationReducer = (state = {}, action) => {
   } 
 }
 
-const pinCoordinatesReducer = (state = {}, action) => {
-  switch (action.type) {
-    case ('DROP_PIN') : return {
-      coordinates: {
-        latitude: action.coordinates.latitude, 
-        longitude: action.coordinates.longitude
-      },
-      name: action.name,
-      des: action.des  
-    }
-    case ('CLEAR_PIN') : return {};
-    default : return state;
-  }
-}
-
 const nearbyPlacesReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_NEARBY_PLACE') : return [
@@ -205,7 +190,6 @@ const reducers = combineReducers({
   regionReducer,
   myLocationReducer,
   selectedPlaceReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   // User Reducers
   userHistoryReducer

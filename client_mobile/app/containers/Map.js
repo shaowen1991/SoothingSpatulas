@@ -19,7 +19,7 @@ import Constants from '../Constants';
 /* ----------------------------------
          Import Components
 ---------------------------------- */
-import { NearbyPlacesCallout, TextCommentPin }  from '../components';
+import { NearbyPlacesCallout, TextCommentCallout, TextCommentMarker }  from '../components';
 
 /* ----------------------------------
        Import Redux Actions
@@ -38,7 +38,6 @@ import {
 const mapStateToProps = ({
   regionReducer,
   myLocationReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
@@ -46,7 +45,6 @@ const mapStateToProps = ({
 }) => ({
   regionReducer,
   myLocationReducer,
-  pinCoordinatesReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
@@ -135,7 +133,6 @@ class Map extends Component  {
       onLogoutClick,
       selectPlace,
       myLocationReducer,
-      pinCoordinatesReducer,
       nearbyPlacesReducer,
       selectedPlaceReducer,
       clearSelectedPlace,
@@ -151,7 +148,7 @@ class Map extends Component  {
       longitudeDelta: .005
     }
 
-    console.log('Map props: ', this.props);
+    // console.log('Map props: ', this.props);
     // console.log('Map state: ', this.state);
     return (
         <MapView 
@@ -170,34 +167,23 @@ class Map extends Component  {
           rotateEnabled={false}
           showsTraffic={false}
           loadingEnabled={true}
-          showMyLocationButton={true}
           onPress={Keyboard.dismiss}
         >
-          {/* user pin drop */}
-          {/*{(Object.keys(pinCoordinatesReducer)).length > 0  && useridReducer !== 0 ?
-            <MapView.Marker
-              key="1"
-              pinColor={'D32F2F'}
-              coordinate={pinCoordinatesReducer.coordinates}
-              title={pinCoordinatesReducer.name}
-              description={pinCoordinatesReducer.des}
-            />    
-            :
-            null
-          }*/}
           {/*text comments pin*/}
-          {useridReducer !== 0 ?
+          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 ?
             textCommentsReducer.map((comment, key) => (
               <MapView.Marker
                 key={key}
-                pinColor={comment.user_id === useridReducer ? Constants.COMMENT_PIN_COLOR : Constants.COMMENT_PIN_COLOR} // red pin indicate current user pin
                 coordinate={{
                   latitude: JSON.parse(comment.latitude),
                   longitude: JSON.parse(comment.longitude)
                 }}
               >
+                <TextCommentMarker                 
+                  user_id={comment.user_id}
+                />
                 <MapView.Callout>
-                  <TextCommentPin
+                  <TextCommentCallout
                     user_id={comment.user_id}
                     name={comment.name}
                     comment={comment.comment}

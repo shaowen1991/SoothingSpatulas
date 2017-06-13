@@ -30,7 +30,6 @@ import {
   openCheckIn,
   closeCheckIn,
   addTextComment,
-  dropCheckInPin,
   clearSelectedPlace,
   clearNearbyPlace
 } from '../Actions.js';
@@ -44,7 +43,6 @@ const mapStateToProps = ({
   checkInOpenReducer,
   textCommentsReducer,
   audioCommentsReducer,
-  pinCoordinatesReducer,
   myLocationReducer,
   selectedPlaceReducer
 }) => ({
@@ -53,7 +51,6 @@ const mapStateToProps = ({
   checkInOpenReducer,
   textCommentsReducer,
   audioCommentsReducer,
-  pinCoordinatesReducer,
   myLocationReducer,
   selectedPlaceReducer
 });
@@ -69,9 +66,6 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(openCheckIn());
     }
-  },
-  dropCheckInPin: (latitude, longitude, name, des) => {
-    dispatch(dropCheckInPin(latitude, longitude, name, des));
   },
   onCommentSubmit: (comment, latitude, longitude, rating, user_id, location_id, name) => {
     dispatch(addTextComment(comment, latitude, longitude, rating, user_id, location_id, name));
@@ -99,7 +93,6 @@ class CheckInFooter extends Component {
     this._keyboardWillShow = this._keyboardWillShow.bind(this);
     this._keyboardWillHide = this._keyboardWillHide.bind(this);
     this.clearText = this.clearText.bind(this);
-    // this.onPinDrop = this.onPinDrop.bind(this);
     this.setRating = this.setRating.bind(this);
     this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
@@ -152,15 +145,6 @@ class CheckInFooter extends Component {
       this.setState({ typeOfComment: 'Text'});     
     }
   }
-
-  // onPinDrop (username, comment) {
-  //   this.props.dropCheckInPin(
-  //     this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.latitude : this.props.myLocationReducer.latitude, 
-  //     this.props.selectedPlaceReducer.name ? this.props.selectedPlaceReducer.longitude : this.props.myLocationReducer.longitude,
-  //     username,
-  //     comment
-  //   )
-  // }
 
   postTextComment (location_id) {
     postTextComments({
@@ -223,7 +207,6 @@ class CheckInFooter extends Component {
         duration={300}
         easing={"ease-out"}
         transition={transitionProps}
-        onPress={Keyboard.dismiss}
       >
         {/* ---------------------------------
           Header that include text and stars
@@ -402,7 +385,6 @@ class CheckInFooter extends Component {
                 else {
                   this.postTextComment(null);
                 }
-                {/*this.onPinDrop(usernameReducer, this.state.typeInComment);*/}
                 clearNearbyPlace();
                 Keyboard.dismiss();
               }

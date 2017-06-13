@@ -16,7 +16,7 @@ const hitSlop = {
 ---------------------------------- */
 export default class BackToMyLocationIcon extends Component {
 
-  render() {
+  render () {
     const { myLocationReducer, regionReducer, backToMyLocation } = this.props;
     
     return (

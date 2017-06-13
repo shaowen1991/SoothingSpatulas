@@ -5,7 +5,8 @@ import NavigationIcon from './Main/NavigationIcon';
 import BackToMyLocationIcon from './Main/BackToMyLocationIcon';
 import CheckInButton from './Main/CheckInButton';
 import NearbyPlacesCallout from './Map/NearbyPlacesCallout';
-import TextCommentPin from './Map/TextCommentPin';
+import TextCommentCallout from './Map/TextCommentCallout';
+import TextCommentMarker from './Map/TextCommentMarker';
 import ProfileIcon from './ProfileIcon';
 
 export {
@@ -16,6 +17,7 @@ export {
   BackToMyLocationIcon,
   NearbyPlacesCallout,
   CheckInButton,
-  TextCommentPin,
+  TextCommentCallout,
+  TextCommentMarker,
   ProfileIcon
 };
