@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
-import { postTextComments, postLocation, getLocationId } from '../Network.js';
+import { postTextComments, postLocation, getLocationId, postAudioComments } from '../Network.js';
 
 /* ----------------------------------
          Import Constants
@@ -18,8 +18,19 @@ import Constants from '../Constants';
        Import Redux Actions
 ---------------------------------- */
 import {
+  turnOnTextComments,
+  turnOffTextComments,
   addTextComment,
-  clearNearbyPlace
+  clearNearbyPlace,
+  // Recorder Actions
+  startRecording,
+  stopRecording, 
+  finishRecording,  
+  unfinishRecording,  
+  startPlaying,  
+  stopPlaying, 
+  updateAudioCurrentTime,
+  updateAudioLength,
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -27,23 +38,46 @@ import {
 ---------------------------------- */
 const mapStateToProps = ({
   useridReducer,
+  usernameReducer,
   myLocationReducer,
-  selectedPlaceReducer
+  selectedPlaceReducer,
+  isFinishRecorded
 }) => ({
   useridReducer,
+  usernameReducer,
   myLocationReducer,
-  selectedPlaceReducer
+  selectedPlaceReducer,
+  isFinishRecorded
 });
 
 /* ----------------------------------
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  onCommentSubmit: (comment, latitude, longitude, rating, user_id, location_id, name) => {
+  addTextCommentToState: (comment, latitude, longitude, rating, user_id, location_id, name) => {
     dispatch(addTextComment(comment, latitude, longitude, rating, user_id, location_id, name));
+  },
+  refreshTextComments: () => {
+    dispatch(turnOffTextComments());
+    setTimeout(() => {dispatch(turnOnTextComments())}, 0);
   },
   clearNearbyPlace: () => {
     dispatch(clearNearbyPlace());
+  },
+  stopRecording: () => {
+    dispatch(stopRecording());
+  },
+  unfinishRecording: () => {
+    dispatch(unfinishRecording());
+  },  
+  stopPlaying: () => {
+    dispatch(stopPlaying());
+  }, 
+  updateAudioCurrentTime: (currentTime) => {
+    dispatch(updateAudioCurrentTime(currentTime));
+  },
+  updateAudioLength: (audioLength) => {
+    dispatch(updateAudioLength(audioLength));
   }
 });
 
@@ -54,17 +88,22 @@ class CheckInSubmitButton extends Component {
   constructor(props) {
     super(props);
     this.postTextComment = this.postTextComment.bind(this);
+    this.textCommentOnPress = this.textCommentOnPress.bind(this);
+    this.audioCommentOnPress = this.audioCommentOnPress.bind(this);
   }
 
   postTextComment (location_id) {
     const { 
+      // props
       typeInComment, 
-      selectedPlaceReducer, 
-      myLocationReducer, 
       rating, 
       useridReducer,
       clearTextAndRating,
-      clearSelectedPlace
+      clearSelectedPlace,
+      // Map Actions
+      selectedPlaceReducer, 
+      myLocationReducer, 
+      clearNearbyPlace,
     } = this.props;
 
     postTextComments({
@@ -81,86 +120,135 @@ class CheckInSubmitButton extends Component {
     ---------------------------------------------------- */
     .then(() => {clearTextAndRating()})
     .then(() => {clearSelectedPlace()})
+    .then(() => {clearNearbyPlace()})
+    .then(() => {Keyboard.dismiss()})
     .catch((error) => {console.log(error)});
   }  
 
-  render () {
+  textCommentOnPress () {
     const { 
+      // props
       typeInComment, 
       toggleCheckIn, 
-      onCommentSubmit, 
-      selectedPlaceReducer, 
-      myLocationReducer,
       rating,
       useridReducer,
+      // Comments Actions
+      addTextCommentToState, 
+      refreshTextComments,
+      // Map Actions
+      selectedPlaceReducer, 
+      myLocationReducer,
       clearNearbyPlace,
     } = this.props;
+    /* ---------------------------------------------------------
+        check in button only available when user has input
+    --------------------------------------------------------- */
+    if (typeInComment.length > 0) {
+      toggleCheckIn();
+      /* ----------------------------------------------------
+        comment, latitude, longitude, rating, userid, username
+                pass the text commet details here
+              first method is send data to Redux
+                second if-block is send data to DB
+      ----------------------------------------------------- */            
+      addTextCommentToState(
+        typeInComment,
+        selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
+        selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
+        rating,
+        useridReducer,
+        null,
+        selectedPlaceReducer.name ? selectedPlaceReducer.name : null
+      );
+      /* ---------------------------------------------------------
+        only post new location to db when a location is selected
+      --------------------------------------------------------- */
+      if (selectedPlaceReducer.name) {
+        let newLocation = {
+          category: selectedPlaceReducer.category,
+          latitude: selectedPlaceReducer.latitude,
+          longitude: selectedPlaceReducer.longitude,
+          name: selectedPlaceReducer.name,
+          city: selectedPlaceReducer.city,
+          state: ''
+        }
+        getLocationId(newLocation.name)
+        .then((location_id) => {
+          this.postTextComment(location_id);
+        })
+        .catch((error) => {
+          postLocation(newLocation)
+          /* ----------------------------------------------------
+            In this POST request, send new location info to DB
+            and get the location object back from response, 
+            which include the locationid
+          ---------------------------------------------------- */
+          .then((location_id) => {this.postTextComment(location_id)})
+          .catch((error) => {console.log(error)})
+        })
+      }
+      /* ---------------------------------------------------------
+            if no location selected, post comment directly
+      --------------------------------------------------------- */
+      else {
+        this.postTextComment(null);
+      }
+      /* ---------------------------------------------------------
+      dummy way to hard-refresh the textComments to avoid layout issue
+      --------------------------------------------------------- */
+      refreshTextComments();
+    }
+  }
 
-    return (
-      <TouchableOpacity
-        style={typeInComment.length > 0 ? styles.checkinButton : styles.checkinCanClickButton}
-        onPress={() => {
-          /* ---------------------------------------------------------
-              check in button only available when user has input
-          --------------------------------------------------------- */
-          if (typeInComment.length > 0) {
-            toggleCheckIn();
-            /* ----------------------------------------------------
-              comment, latitude, longitude, rating, userid, username
-                      pass the text commet details here
-                    first method is send data to Redux
-                      second if-block is send data to DB
-            ----------------------------------------------------- */            
-            onCommentSubmit(
-              typeInComment,
-              selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
-              selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
-              rating,
-              useridReducer,
-              null,
-              selectedPlaceReducer.name ? selectedPlaceReducer.name : null
-            );
-            /* ---------------------------------------------------------
-              only post new location to db when a location is selected
-            --------------------------------------------------------- */
-            if (selectedPlaceReducer.name) {
-              let newLocation = {
-                category: selectedPlaceReducer.category,
-                latitude: selectedPlaceReducer.latitude,
-                longitude: selectedPlaceReducer.longitude,
-                name: selectedPlaceReducer.name,
-                city: selectedPlaceReducer.city,
-                state: ''
-              }
-              getLocationId(newLocation.name)
-              .then((location_id) => {
-                this.postTextComment(location_id);
-              })
-              .catch((error) => {
-                postLocation(newLocation)
-                /* ----------------------------------------------------
-                  In this POST request, send new location info to DB
-                  and get the location object back from response, 
-                  which include the locationid
-                ---------------------------------------------------- */
-                .then((location_id) => {this.postTextComment(location_id)})
-                .catch((error) => {console.log(error)})
-              })
-            }
-            /* ---------------------------------------------------------
-                  if no location selected, post comment directly
-            --------------------------------------------------------- */
-            else {
-              this.postTextComment(null);
-            }
-            clearNearbyPlace();
-            Keyboard.dismiss();
-          }
-        }} 
-      >
-        <Text style={styles.buttonText}>{"Check In"}</Text>
-      </TouchableOpacity>
-    )
+  audioCommentOnPress () {
+    const { 
+      // props
+      toggleCheckIn, 
+      usernameReducer,
+      // Recorder Actions
+      stopRecording,
+      unfinishRecording, 
+      stopPlaying,
+      updateAudioCurrentTime,
+      updateAudioLength
+    } = this.props;
+
+    const filename = usernameReducer + '.aac';
+    const filepath = Constants.AUDIO_PATH + '/' + filename;
+    // postAudioComments(filepath, filename);
+
+    // onAudioCommentSubmit(usernameReducer, filepath);
+    stopRecording();
+    unfinishRecording(); 
+    stopPlaying();
+    updateAudioCurrentTime(0);
+    updateAudioLength(0); 
+    toggleCheckIn();
+    console.log('Submit audio: ', filepath);
+  }
+  
+  render () {
+    const { typeInComment, typeOfComment, isFinishRecorded } = this.props;
+    if (typeOfComment === 'Text') {
+      return (
+        <TouchableOpacity
+          style={typeInComment.length > 0 ? styles.checkinButton : styles.checkinCanClickButton}
+          onPress={this.textCommentOnPress}
+        >
+          <Text style={styles.buttonText}>{"Check In"}</Text>
+        </TouchableOpacity>
+      )
+    }
+    else {
+      return (
+        <TouchableOpacity
+          style={isFinishRecorded ? styles.checkinButton : styles.checkinCanClickButton}
+          onPress={this.audioCommentOnPress}
+        >
+          <Text style={styles.buttonText}>{"Check In"}</Text>
+        </TouchableOpacity>        
+      )
+    }
   }
 }
 

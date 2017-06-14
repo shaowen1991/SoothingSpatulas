@@ -41,14 +41,16 @@ const mapStateToProps = ({
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
-  useridReducer
+  useridReducer,
+  textCommentsRefreshIndicatorReducer
 }) => ({
   regionReducer,
   myLocationReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
   textCommentsReducer,
-  useridReducer
+  useridReducer,
+  textCommentsRefreshIndicatorReducer
 });
 
 /* ----------------------------------
@@ -100,14 +102,6 @@ class Map extends Component  {
       this.props.updateTextCommentsFromDB(comments);
     })
     .catch((error) => {console.log(error)});
-    
-    setInterval(() => {
-      getTextComments()
-      .then((comments) => {
-        this.props.updateTextCommentsFromDB(comments);
-      })
-      .catch((error) => {console.log(error)});
-    }, 30000)
   }
 
   watchLocation () {
@@ -145,7 +139,8 @@ class Map extends Component  {
       clearSelectedPlace,
       regionReducer,
       textCommentsReducer,
-      useridReducer
+      useridReducer,
+      textCommentsRefreshIndicatorReducer
     } = this.props;
     
     const initialRegion = {
@@ -177,10 +172,11 @@ class Map extends Component  {
           onPress={Keyboard.dismiss}
         >
           {/*text comments pin*/}
-          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 ?
+          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 && textCommentsRefreshIndicatorReducer ?
             textCommentsReducer.map((comment, key) => (
               <MapView.Marker
                 key={key}
+                flat={true}
                 coordinate={{
                   latitude: JSON.parse(comment.latitude),
                   longitude: JSON.parse(comment.longitude)

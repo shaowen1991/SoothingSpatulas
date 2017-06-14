@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  ScrollView,
   StyleSheet,
   Dimensions
 } from 'react-native';
@@ -10,7 +9,6 @@ import {
   AudioRecorder, 
 } from 'react-native-audio-player-recorder';
 import * as Animatable from 'react-native-animatable';
-// import { postAudioComments } from '../Network.js';
 
 /* ----------------------------------
          Import Components
@@ -30,10 +28,14 @@ import Constants from '../Constants';
        Import Redux Actions
 ---------------------------------- */
 import { 
-  addAudioComment,
-  incrementID,
-  openCheckIn,
-  closeCheckIn 
+  startRecording,
+  stopRecording, 
+  finishRecording,  
+  unfinishRecording,  
+  startPlaying,  
+  stopPlaying, 
+  updateAudioCurrentTime,
+  updateAudioLength,
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -41,30 +43,48 @@ import {
 ---------------------------------- */
 const mapStateToProps = ({ 
   usernameReducer,
-  testCommentIDReducer,
-  checkInOpenReducer
+  isRecording,
+  isFinishRecorded,
+  isPlaying,
+  currentTime,
+  audioLength,
 }) => ({
   usernameReducer,
-  testCommentIDReducer,
-  checkInOpenReducer
+  isRecording,
+  isFinishRecorded,
+  isPlaying,
+  currentTime,
+  audioLength,
 });
 
 /* ----------------------------------
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  onAudioCommentSubmit: (user, audioPath) => {
-    dispatch(addAudioComment(user, audioPath));
-    dispatch(incrementID());
+  startRecording: () => {
+    dispatch(startRecording());
   },
-  toggleCheckIn: (checkInOpenReducer) => {
-    if (checkInOpenReducer) {
-      dispatch(closeCheckIn());
-    }
-    else {
-      dispatch(openCheckIn());
-    }
+  stopRecording: () => {
+    dispatch(stopRecording());
+  }, 
+  finishRecording: () => {
+    dispatch(finishRecording());
+  },  
+  unfinishRecording: () => {
+    dispatch(unfinishRecording());
+  },  
+  startPlaying: () => {
+    dispatch(startPlaying());
+  },  
+  stopPlaying: () => {
+    dispatch(stopPlaying());
+  }, 
+  updateAudioCurrentTime: (currentTime) => {
+    dispatch(updateAudioCurrentTime(currentTime));
   },
+  updateAudioLength: (audioLength) => {
+    dispatch(updateAudioLength(audioLength));
+  }
 });
 
 /* ----------------------------------
@@ -73,25 +93,21 @@ const mapDispatchToProps = (dispatch) => ({
 class Recorder extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isRecording: false,
-      isFinishRecorded: false,
-      isPlaying: false,
-      currentTime: 0,
-      audioLength: 0
-    };
     this.timer = null;
-    this.userAudioPath = '';
+    this.prepareRecordingPath = this.prepareRecordingPath.bind(this);
+    this.record = this.record.bind(this);
+    this.stopRecord = this.stopRecord.bind(this);
+    this.startPlay = this.startPlay.bind(this);
+    this.stopPlay = this.stopPlay.bind(this);
   }
 
   prepareRecordingPath () {
-    this.userAudioPath = 
+    const userAudioPath = 
       Constants.AUDIO_PATH + '/' 
-      + this.props.usernameReducer + '_' 
-      + this.props.testCommentIDReducer + '.aac';
+      + this.props.usernameReducer + '.aac';
       
     AudioRecorder.prepareRecordingAtPath(
-      this.userAudioPath, 
+      userAudioPath, 
       {
         SampleRate: 22050,
         Channels: 1,
@@ -101,110 +117,78 @@ class Recorder extends Component {
       });
   }
 
-  record = () => {
-    const { isPlaying } = this.state;
-    if (isPlaying) {
-      this.stopPlaying();
+  record () {
+    if (this.props.isPlaying) {
+      this.stopPlay();
     }
 
     this.prepareRecordingPath();
     AudioRecorder.startRecording();
-    this.setState({
-      isPlaying: false,
-      isRecording: true,
-      isFinishRecorded: false,
-      audioLength: 0,
-      currentTime: 0
-    });
+    this.props.stopPlaying();
+    this.props.startRecording();
+    this.props.unfinishRecording();
+    this.props.updateAudioCurrentTime(0);
+    this.props.updateAudioLength(0);
 
     this.timer = setInterval(() => {
-      const time = this.state.currentTime + 1;
-      this.setState({currentTime: time});
+      let time = this.props.currentTime + 1;
+      this.props.updateAudioCurrentTime(time);
       if (time === Constants.MAX_AUDIO_LENGTH) {
-        this.stopRecording();
+        this.stopRecord();
       }
     }, 1000);
   }
 
-  stopRecording = () => {
-    const { isRecording } = this.state;
-    if (!isRecording) return;
+  stopRecord () {
+    if (!this.props.isRecording) return;
 
     AudioRecorder.stopRecording();
-    this.setState({audioLength: this.state.currentTime + 1});
+    this.props.updateAudioLength(this.props.currentTime + 1);
     clearInterval(this.timer);
-    this.setState({ isRecording: false, isFinishRecorded: true, currentTime: 0});
+    this.props.stopRecording();
+    this.props.finishRecording();
+    this.props.updateAudioCurrentTime(0);
   }
 
-  startPlaying = () => {
-    this.userAudioPath = 
+  startPlay () {
+    const userAudioPath = 
       Constants.AUDIO_PATH + '/' 
-      + this.props.usernameReducer + '_' 
-      + this.props.testCommentIDReducer + '.aac';
-    AudioPlayer.play(this.userAudioPath);
-    this.setState({isPlaying: true});
+      + this.props.usernameReducer + '.aac';
+
+    AudioPlayer.play(userAudioPath);
+    this.props.startPlaying();
     AudioPlayer.onFinished = () => {
-      this.setState({isPlaying: false})
+      this.props.stopPlaying();
     }
     AudioPlayer.setFinishedSubscription()
   }
 
-  stopPlaying = () => {
+  stopPlay () {
     AudioPlayer.stop();
-    this.setState({isPlaying: false});
-  }
-
-  onAudioCommentSubmit = () => {
-    this.userAudioPath = 
-      Constants.AUDIO_PATH + '/' 
-      + this.props.usernameReducer + '_' 
-      + this.props.testCommentIDReducer + '.aac';
-
-
-    // const filename = this.props.usernameReducer + '_'  + this.props.testCommentIDReducer + '.aac';
-    // const filepath = Constants.AUDIO_PATH + '/' + filename;
-    // postAudioComments(filepath, filename);
-
-
-    this.props.onAudioCommentSubmit(this.props.usernameReducer, this.userAudioPath);
-    this.props.toggleCheckIn(this.props.checkInOpenReducer);
-    this.setState({
-      isRecording: false,
-      isFinishRecorded: false,
-      isPlaying: false,
-      currentTime: 0,
-      audioLength: 0
-    });
+    this.props.stopPlaying();
   }
 
   render () {
-    const { 
-      isRecording, 
-      isFinishRecorded, 
-      isPlaying, 
-    } = this.state;
-    const playStopIcon = isPlaying ? 'stop' : 'play';
-    const playStopHandler = isPlaying ? this.stopPlaying : this.startPlaying;
-    console.log('Recorder props: ', this.props);
+    const playStopIcon = this.props.isPlaying ? 'stop' : 'play';
+    const playStopHandler = this.props.isPlaying ? this.stopPlay : this.startPlay;
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
     const style = {
       width: windowWidth,
     }
+
+    console.log('Recorder props: ', this.props);
     return (
       <Animatable.View style={[styles.container, style]}>
         <ActionButtons 
-          isFinishRecorded={isFinishRecorded} 
-          isRecording={isRecording}
+          isFinishRecorded={this.props.isFinishRecorded} 
           playStopIcon={playStopIcon}
           playStopHandler={playStopHandler}
-          stopRecording={this.stopRecording}
-          onAudioCommentSubmit={this.onAudioCommentSubmit}
         />
         <RecordButton 
-          isRecording={isRecording} 
-          isFinishRecorded={isFinishRecorded}
+          isRecording={this.props.isRecording} 
+          isFinishRecorded={this.props.isFinishRecorded}
           onPressInHandler={this.record} 
-          onPressOutHandler={this.stopRecording}
+          onPressOutHandler={this.stopRecord}
         />
       </Animatable.View>
     )

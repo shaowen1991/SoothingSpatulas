@@ -46,7 +46,7 @@ export default class TextCommentCallout extends Component {
     
     return (
       <View style={styles.container}>
-        <Animatable.View style={styles.profilecontainer}>
+        <Animatable.View style={styles.profileContainer}>
           <Animatable.View style={styles.circle}>
             <Image
               style={styles.image}
@@ -56,15 +56,15 @@ export default class TextCommentCallout extends Component {
           <View>
             <Text 
               numberOfLines={1} 
-              style={styles.usernametext}
+              style={styles.usernameText}
             >
               {this.state.userInfo.first || 'id-' + user_id}
             </Text>
           </View>
         </Animatable.View>
-        <View style={styles.textcontainer}>
+        <View style={styles.textContainer}>
           <Text style={styles.comment}>{'\"' + comment + '\"'}</Text>
-          <Text ellipsizeMode={'tail'} numberOfLines={1} style={styles.placetext}>{'@' + (name ? name : coordinatesString)}</Text>
+          <Text ellipsizeMode={'tail'} numberOfLines={1} style={styles.placeText}>{'@ ' + (name ? name : coordinatesString)}</Text>
           <Text style={styles.rating}>Rating: {rating}</Text>
         </View>
       </View>
@@ -75,8 +75,9 @@ export default class TextCommentCallout extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    zIndex: 5
   },
-  profilecontainer: {
+  profileContainer: {
     width: 70,
     paddingRight: 10,
     paddingTop: 7,
@@ -98,22 +99,19 @@ const styles = StyleSheet.create({
     height: 58,
     borderRadius: 58/2,
   },
-  usernamecontainer: {
-    width: 70,
-  },
-  usernametext: {
+  usernameText: {
     fontSize: 11,
     paddingTop: 5,
     alignSelf: 'center',
     fontFamily: Constants.TEXT_FONT
   },
-  textcontainer: {
+  textContainer: {
     width: 250,
     flexDirection: 'column',
     paddingLeft: 10,
     alignSelf: 'center',
   },
-  placetext: {
+  placeText: {
     fontSize: 12,
     fontFamily: Constants.TEXT_FONT
   },

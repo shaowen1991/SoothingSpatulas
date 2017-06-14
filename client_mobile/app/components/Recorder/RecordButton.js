@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import {
-  View,
   TouchableOpacity,
   Text,
   StyleSheet
@@ -44,6 +43,7 @@ RecordButton.propTypes = {
   isRecording: PropTypes.bool.isRequired,
   isFinishRecorded: PropTypes.bool.isRequired,
   onPressInHandler: PropTypes.func,
+  onPressOutHandler: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

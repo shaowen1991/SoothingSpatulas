@@ -78,6 +78,14 @@ const textCommentsReducer = (state = [], action) => {
   }    
 };
 
+const textCommentsRefreshIndicatorReducer = (state = true, action) => {
+  switch (action.type) {
+    case ('TURN_OFF_TEXT_COMMENTS') : return false;
+    case ('TURN_ON_TEXT_COMMENTS') : return true;
+    default: return state;
+  }
+}
+
 const audioCommentsReducer = (state = [], action) => {
   switch (action.type) {
     case ('ADD_AUDIO_COMMENT') : return [
@@ -91,12 +99,45 @@ const audioCommentsReducer = (state = [], action) => {
   }      
 }
 
-const testCommentIDReducer = (state = 0, action) => {
+/* Recorder Reducers
+--------------------------------*/
+const isRecording = (state = false, action) => {
   switch (action.type) {
-    case ('INCREMENT_ID') : return state + 1;
+    case ('START_RECORDING') : return true;
+    case ('STOP_RECORDING') : return false;
     default : return state;
-  }    
-}
+  }  
+};
+
+const isFinishRecorded = (state = false, action) => {
+  switch (action.type) {
+    case ('FINISH_RECORDING') : return true;
+    case ('UNFINISH_RECORDING') : return false;
+    default : return state;
+  }  
+};
+
+const isPlaying = (state = false, action) => {
+  switch (action.type) {
+    case ('START_PLAYING') : return true;
+    case ('STOP_PLAYING') : return false;
+    default : return state;
+  }  
+};
+
+const currentTime = (state = 0, action) => {
+  switch (action.type) {
+    case ('UPDATE_AUDIO_CURRENT_TIME') : return action.currentTime;
+    default : return state;
+  }
+};
+
+const audioLength = (state = 0, action) => {
+  switch (action.type) {
+    case ('UPDATE_AUDIO_LENGTH') : return action.audioLength;
+    default : return state;
+  }
+};
 
 /* Map Reducers
 --------------------------------*/
@@ -184,8 +225,14 @@ const reducers = combineReducers({
   profileViewOpen,
   // Comments Reducers
   textCommentsReducer,
+  textCommentsRefreshIndicatorReducer,
   audioCommentsReducer,
-  testCommentIDReducer,
+  // Recorder Reducers
+  isRecording,
+  isFinishRecorded,
+  isPlaying,
+  currentTime,
+  audioLength,
   // Map Reducers
   regionReducer,
   myLocationReducer,

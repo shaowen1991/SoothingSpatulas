@@ -12,7 +12,6 @@ import IconButton from './IconButton';
 export default function ActionButtons(props) {
   const {
     isFinishRecorded, 
-    isRecording, 
     playStopIcon, 
     playStopHandler
   } = props;
@@ -34,7 +33,6 @@ export default function ActionButtons(props) {
 
 ActionButtons.propTypes = {
   isFinishRecorded: PropTypes.bool.isRequired,
-  isRecording: PropTypes.bool.isRequired,
   playStopIcon: PropTypes.string.isRequired,
   playStopHandler: PropTypes.func.isRequired,
 };
