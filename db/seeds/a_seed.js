@@ -21,7 +21,9 @@ function createUser(knex, user) {
     .insert({
       first: user.first,
       last: user.last,
-      email: user.email
+      email: user.email,
+      photo_small: user.photo_small,
+      photo_large: user.photo_large
     })
     .catch((error) => {
       console.log('ERROR:', error);
