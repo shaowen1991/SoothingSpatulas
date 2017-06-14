@@ -17,8 +17,14 @@ class Chat extends Component {
       messages: [],
       toUserId: this.props.userDetails.users_b_id,
       user:{
-        _id:'',
-        name: ''
+        _id: this.props.userDetails.users_a_id,
+        name: '',
+        avatar:''
+      },
+      other_user:{
+        _id: this.props.userDetails.users_b_id,
+        name: this.props.userDetails.connection_name,
+        avatar:''
       }
     };
 
@@ -44,6 +50,7 @@ determineUser() {
         var user = {};
         user["_id"] = responseJson.id;
         user["name"] = responseJson.first + responseJson.last;
+        user["avatar"] = responseJson.photo_small;
 
         this.setState({ user: user });
         this.socket.emit('userJoined', {
@@ -63,6 +70,7 @@ determineUser() {
           var other_user = {};
           other_user["_id"] = responseJson.id;
           other_user["name"] = responseJson.first + responseJson.last;
+          other_user["avatar"] = responseJson.photo_small;
 
           this.setState({ other_user: other_user });
         })
@@ -109,14 +117,6 @@ determineUser() {
   }
 
   render() {
-    var user = {
-            _id: 1,
-            name: 'React Native',
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          };
-
-          console.log('in Chat.js', this.props.userId);
-
     return (<View style = {{marginTop: 45, width: 375, height: 540, backgroundColor: 'whitesmoke' }} >
       <GiftedChat messages = { this.state.messages }
       onSend = {this.onSend}
