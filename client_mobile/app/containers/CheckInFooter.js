@@ -298,6 +298,7 @@ class CheckInFooter extends Component {
             typeInComment={this.state.typeInComment}
             typeOfComment={this.state.typeOfComment}
             toggleCheckIn={() => {toggleCheckIn(checkInOpenReducer)}}
+            toggleTypeOfComment={this.toggleTypeOfComment}
             clearTextAndRating={this.clearTextAndRating}
             clearSelectedPlace={clearSelectedPlace}
           />

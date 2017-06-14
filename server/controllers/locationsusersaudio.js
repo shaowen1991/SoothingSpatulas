@@ -2,7 +2,14 @@
 const models = require('../../db/models');
 const fs = require('fs');
 const path = require('path');
-const voiceRecognize = require('../service/voiceRecognize.js');
+const { voiceRecognize } = require('../service/voiceRecognize.js');
+/* ----------------------------------
+            AWS config
+---------------------------------- */
+const AWS = require('aws-sdk');
+const AWSCredentials = require('../service/AWS.json');
+AWS.config.credentials = AWSCredentials;
+const s3 = new AWS.S3({credentials: AWSCredentials});
 
 module.exports.getAll = (req, res) => {
   models.LocationUser.fetchAll()
@@ -16,11 +23,30 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.create = (req, res) => {
-  console.log('req.body:', req.body);
-  const filepath = path.join(__dirname, '../service/user_audio/' + 'temp.aac');
+  const audioBuffer = Buffer.from(req.body.buffer, 'base64');
+  const filename = req.body.filename;
+  const uploadParams = {
+    Bucket: 'momentouseraudio',
+    Key: filename,
+    Body: audioBuffer
+  }
+  /* ----------------------------------
+            Upload to S3
+  ---------------------------------- */
+  s3.upload (uploadParams, function (err, data) {
+    if (err) {
+      console.log("Error when upload to S3", err);
+    } if (data) {
+      console.log("Upload to S3 Success", data.Location);
+    }
+  });
+  /* ----------------------------------
+            Save it locally 
+  ---------------------------------- */
+  const filepath = path.join(__dirname, '../service/user_audio/' + filename);
   console.log('saving file path: ', filepath);
   
-  fs.writeFile(filepath, req.body, (err) => {
+  fs.writeFile(filepath, audioBuffer, (err) => {
     if (err) {
       res.status(500).send({err});
       console.log('failed write file');
@@ -28,8 +54,15 @@ module.exports.create = (req, res) => {
     else {
       res.status(201);
       console.log('success write file');
-      // let transcription = voiceRecognize.asyncRecognize('temp.aac', 'FLAC', 22050, 'en-US');
-      // res.status(201).send({transcription: transcription});    
+      voiceRecognize(filename)
+      .then((transcription) => {
+        console.log(`Transcription: ${transcription}`);
+        res.status(201).send(transcription);    
+      })
+      .catch((err) => {
+        console.error('ERROR in voiceRecognize:', err);
+        res.status(500).send(err);
+      })
     }
   });
 };

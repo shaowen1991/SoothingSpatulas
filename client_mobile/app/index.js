@@ -101,6 +101,13 @@ const audioCommentsReducer = (state = [], action) => {
 
 /* Recorder Reducers
 --------------------------------*/
+const audioCurrentFileName = (state = '', action) => {
+  switch (action.type) {
+    case ('UPDATE_AUDIO_CURRENT_FILENAME') : return action.filename;
+    default : return state;
+  }  
+}
+
 const isRecording = (state = false, action) => {
   switch (action.type) {
     case ('START_RECORDING') : return true;
@@ -228,6 +235,7 @@ const reducers = combineReducers({
   textCommentsRefreshIndicatorReducer,
   audioCommentsReducer,
   // Recorder Reducers
+  audioCurrentFileName,
   isRecording,
   isFinishRecorded,
   isPlaying,

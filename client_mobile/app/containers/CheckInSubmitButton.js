@@ -41,12 +41,14 @@ const mapStateToProps = ({
   usernameReducer,
   myLocationReducer,
   selectedPlaceReducer,
+  audioCurrentFileName,
   isFinishRecorded
 }) => ({
   useridReducer,
   usernameReducer,
   myLocationReducer,
   selectedPlaceReducer,
+  audioCurrentFileName,
   isFinishRecorded
 });
 
@@ -203,9 +205,11 @@ class CheckInSubmitButton extends Component {
   audioCommentOnPress () {
     const { 
       // props
-      toggleCheckIn, 
+      toggleCheckIn,
+      toggleTypeOfComment,
       usernameReducer,
       // Recorder Actions
+      audioCurrentFileName,
       stopRecording,
       unfinishRecording, 
       stopPlaying,
@@ -213,18 +217,20 @@ class CheckInSubmitButton extends Component {
       updateAudioLength
     } = this.props;
 
-    const filename = usernameReducer + '.aac';
-    const filepath = Constants.AUDIO_PATH + '/' + filename;
-    // postAudioComments(filepath, filename);
-
-    // onAudioCommentSubmit(usernameReducer, filepath);
-    stopRecording();
-    unfinishRecording(); 
-    stopPlaying();
-    updateAudioCurrentTime(0);
-    updateAudioLength(0); 
-    toggleCheckIn();
-    console.log('Submit audio: ', filepath);
+    const filepath = Constants.AUDIO_PATH + '/' + audioCurrentFileName;
+    postAudioComments(filepath, audioCurrentFileName)
+    .then((transcription) => {
+      // addAudioCommentToState(usernameReducer, filepath);
+      console.log('transcription:', transcription);
+      stopRecording();
+      unfinishRecording(); 
+      stopPlaying();
+      updateAudioCurrentTime(0);
+      updateAudioLength(0); 
+      toggleCheckIn();
+      toggleTypeOfComment();
+    })
+    .catch((error) => {console.log('Submit audio error: ', error)})
   }
   
   render () {

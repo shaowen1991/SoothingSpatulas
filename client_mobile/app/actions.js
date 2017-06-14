@@ -82,6 +82,11 @@ const turnOffTextComments = () => ({
 
 /* Recorder Actions
 --------------------------------*/
+const updateAudioCurrentFileName = (filename) => ({
+  type: 'UPDATE_AUDIO_CURRENT_FILENAME',
+  filename: filename
+});
+
 const startRecording = () => ({
   type: 'START_RECORDING'
 });
@@ -199,6 +204,7 @@ export {
   turnOnTextComments,
   turnOffTextComments,
   // Recorder Actions
+  updateAudioCurrentFileName,
   startRecording,
   stopRecording, 
   finishRecording,  

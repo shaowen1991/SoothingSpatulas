@@ -9,7 +9,8 @@ import {
   AudioRecorder, 
 } from 'react-native-audio-player-recorder';
 import * as Animatable from 'react-native-animatable';
-
+import UUIDGenerator from 'react-native-uuid-generator';
+import RNFetchBlob from 'react-native-fetch-blob';
 /* ----------------------------------
          Import Components
 ---------------------------------- */
@@ -28,6 +29,7 @@ import Constants from '../Constants';
        Import Redux Actions
 ---------------------------------- */
 import { 
+  updateAudioCurrentFileName,
   startRecording,
   stopRecording, 
   finishRecording,  
@@ -43,6 +45,7 @@ import {
 ---------------------------------- */
 const mapStateToProps = ({ 
   usernameReducer,
+  audioCurrentFileName,
   isRecording,
   isFinishRecorded,
   isPlaying,
@@ -50,6 +53,7 @@ const mapStateToProps = ({
   audioLength,
 }) => ({
   usernameReducer,
+  audioCurrentFileName,
   isRecording,
   isFinishRecorded,
   isPlaying,
@@ -61,6 +65,9 @@ const mapStateToProps = ({
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
+  updateAudioCurrentFileName: (filename) => {
+    dispatch(updateAudioCurrentFileName(filename));
+  },
   startRecording: () => {
     dispatch(startRecording());
   },
@@ -100,21 +107,35 @@ class Recorder extends Component {
     this.startPlay = this.startPlay.bind(this);
     this.stopPlay = this.stopPlay.bind(this);
   }
+  
+  componentDidMount () {
+    UUIDGenerator.getRandomUUID()
+    .then((uuid) => {
+      console.log(uuid);
+      this.props.updateAudioCurrentFileName(uuid + '.aac');
+    })
+  }
+
+  componentWillUnmount () {
+    RNFetchBlob.fs.unlink(Constants.AUDIO_PATH + '/' + this.props.audioCurrentFileName);
+    this.props.stopRecording();
+    this.props.unfinishRecording(); 
+    this.props.stopPlaying();
+    this.props.updateAudioCurrentTime(0);
+    this.props.updateAudioLength(0);   
+  }   
 
   prepareRecordingPath () {
-    const userAudioPath = 
-      Constants.AUDIO_PATH + '/' 
-      + this.props.usernameReducer + '.aac';
-      
     AudioRecorder.prepareRecordingAtPath(
-      userAudioPath, 
+      Constants.AUDIO_PATH + '/' + this.props.audioCurrentFileName, 
       {
         SampleRate: 22050,
         Channels: 1,
         AudioQuality: 'Low',
         AudioEncoding: 'aac',
         AudioEncodingBitRate: 32000
-      });
+      }
+    );
   }
 
   record () {
@@ -151,11 +172,7 @@ class Recorder extends Component {
   }
 
   startPlay () {
-    const userAudioPath = 
-      Constants.AUDIO_PATH + '/' 
-      + this.props.usernameReducer + '.aac';
-
-    AudioPlayer.play(userAudioPath);
+    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.audioCurrentFileName);
     this.props.startPlaying();
     AudioPlayer.onFinished = () => {
       this.props.stopPlaying();
