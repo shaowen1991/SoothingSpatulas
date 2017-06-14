@@ -113,7 +113,6 @@ class Profile extends Component {
   componentDidMount() {
     setInterval(function() {
       var filteredCheckins = [];
-      console.log('SAY WHAAAA?: ', this.props.textCommentsReducer)
       for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
         if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
           filteredCheckins.push(this.props.textCommentsReducer[i])
@@ -125,27 +124,7 @@ class Profile extends Component {
       
     }.bind(this), 5000)
 
-    setInterval(function() {
-      var categories = [];
-      this.state.checkins.forEach((place) => {
-        fetch("http://localhost:3000/api/locations/name/" + place.name, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((response) => response.json())
-        .then((responseJSON) => {
-          console.log('CATEGORY RESPONSE: ', responseJSON)
-          var cat = responseJSON.category.split(',', 1);
-          categories.push(cat)    
-        })
-      })
-      this.setState({
-        categories: categories
-      })
-    }.bind(this), 10000)
+
   }
 
   changeUserID(userid) {
@@ -167,7 +146,6 @@ class Profile extends Component {
     //   userID: useridReducer
     // })
     console.log('PROFILE STATE CATEGORIES: ', this.state.categories)
-    console.log('MY USER ID: ', useridReducer)
     // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
@@ -197,7 +175,7 @@ class Profile extends Component {
               userID={this.state.userID}
             />
             <Trends 
-              userHist={this.state.checkins}
+              checkins={this.state.checkins}
               categories={this.state.categories}
             />
             

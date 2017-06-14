@@ -23,31 +23,57 @@ class Trends extends Component {
     super(props);
     this.state = {
       checkins: [],
-      categoryWords: ['bar', 'restaurant', 'gym', 'museum', 'bar', 'bar'],
-      categories: []
+      categoryHash: []
     }
+    this.filterCategories = this.filterCategories.bind(this);
+    this.categoryHash = this.categoryHash.bind(this);
   }
 
-  categoryHash(array) {
+  categoryHash() {
     var categories = {};
     var catArray = [];
-    for (var i = 0; i < array.length; i++) {
-      if (categories[array[i]]) {
-        categories[array[i]]++;
+    for (var i = 0; i < this.state.checkins.length; i++) {
+      if (categories[this.state.checkins[i]]) {
+        categories[this.state.checkins[i]]++;
       } else {
-          categories[array[i]] = 1;
+          categories[this.state.checkins[i]] = 1;
       }
     }
-    for (category in categories) {
+    for (var category in categories) {
       catArray.push([category, categories[category]])
     }
     this.setState({
-      categories: categories
+      categoryHash: catArray
     })
+    console.log('HASHED ARRAY', this.state.categoryHash)
+  }
+
+  filterCategories() {
+    console.log('FILTER INVOKED')
+    var categories = [];
+    this.props.checkins.forEach((place) => {
+      fetch("http://localhost:3000/api/locations/name/" + place.name, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        var cat = responseJSON.category.split(',', 1);
+        categories.push(cat[0].replace(/\W/g, ''))
+      })
+      .catch((error) => console.log('error: ', error))
+    })
+    this.setState({
+      checkins: categories
+    })
+  console.log('trends state categories: ', this.state.checkins)
   }
 
   componendDidMount() {
-    categoryHash(this.state.categoryWords);
+    // categoryHash(this.state.categoryWords);
   }
 
   render() {
@@ -57,19 +83,26 @@ class Trends extends Component {
       textCommentsReducer
     } = this.props
 
-    console.log('trends in categories: ', this.state.categories)
-
-    console.log('CATEGORIES!!!!: ', this.props.categories)
 
     return (
       <View>
         <View style={styles.trends}>
           <Text style={styles.trendsHeader}>Trends</Text>
-          <Text>Total checkins: {this.props.userHist.length}</Text>
-            {this.state.categories.map((category) => {
+          <Text>Total checkins: {this.props.checkins.length}</Text>
+          <Button 
+            onPress={this.filterCategories}
+            title="Filter User's Categories"
+            color="#841584"
+          />
+           <Button 
+            onPress={this.categoryHash}
+            title="Hash Categories"
+            color="#841584"
+          />
+            {this.state.categoryHash.map((category, key) => {
             return (
-              <Text>
-                {category} visited {this.state.categories.category}
+              <Text key={key}>
+                {category[0]} checkins: {category[1]} {category[1] / this.state.checkins.length}
               </Text>
               )
               
