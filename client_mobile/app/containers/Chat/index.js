@@ -10,19 +10,21 @@ import ChatList from './ChatList'
 
 class ChatMain extends Component {
   constructor (props){
-    super();
+    super(props);
   }
 
   render() {
+
+    console.log('in index.js', this.props.userId);
       return (
         <NavigatorIOS
-
           initialRoute={{
             component: ChatList,
-            title:''
+            title:'',
+            passProps: { userId: this.props.userId }
           }}
-        navigationBarHidden={true}
-        style={{width: 375, height: 700}}
+        navigationBarHidden={false}
+        style={{width: 375, height: 800}}
          />
       )
     }

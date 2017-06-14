@@ -16,20 +16,29 @@ class ChatAdd extends Component {
   add = (email) => {
     this._textInput.setNativeProps({text: ''});
 
-    return fetch('http://localhost:3000/api/connections', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        id: 5 /*+ userId*/
-      })
+    email.split('').forEach((value) => {
+      if(value === '@') {
+
+        return fetch('https://activesort.com/api/connections', {
+        // return fetch('http://localhost:3000/api/connections', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            id: this.props.userId
+          })
+        });
+
+      }
     });
   }
 
   render(){
+
+    console.log('in ChatAdd.js', this.props.userId);
     return (
       <View style={styles.container}>
       <TextInput style = {styles.input}
@@ -56,6 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   input: {
+    marginTop: 45,
     flex: 0.7,
     padding: 10,
     height: 40,
@@ -65,6 +75,7 @@ const styles = StyleSheet.create({
   },
 
   submitButton: {
+    marginTop: 45,
     flex: 0.3,
     backgroundColor: '#7a42f4',
     padding: 10,

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { 
-  AppRegistry, 
+import {
+  AppRegistry,
   Dimensions,
-  View, 
-  Image, 
-  StyleSheet, 
-  Text, 
-  TabBarIOS, 
-  Button 
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  TabBarIOS,
+  Button
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
@@ -80,7 +80,7 @@ class Profile extends Component {
         method: "GET",
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'            
+          'Content-Type': 'application/json'
         }
       })
       .then((response) => response.json())
@@ -130,31 +130,31 @@ class Profile extends Component {
         transition={transitionProps}
       >
         <TabBarIOS>
-          <TabBarIOS.Item 
+          <TabBarIOS.Item
             systemIcon="most-viewed"
             selected={this.state.selectedTab === 'most-viewed'}
             onPress={() => {this.setTab('most-viewed')}}
           >
           <View>
-            <ProfileHeader 
+            <ProfileHeader
               userPic={this.state.userPic}
               userName={this.state.userName}
               userHist={this.state.userHist}
             />
             <Chart userHist={this.state.userHist}/>
-            
+
           </View>
           </TabBarIOS.Item>
-          <TabBarIOS.Item 
+          <TabBarIOS.Item
             systemIcon="contacts"
             selected={this.state.selectedTab === 'contacts'}
             onPress={() => {this.setTab('contacts')}}
           >
           <View>
-            <FriendList/>
+            <FriendList userId={this.props.useridReducer}/>
           </View>
           </TabBarIOS.Item>
-          <TabBarIOS.Item 
+          <TabBarIOS.Item
             systemIcon="history"
             selected={this.state.selectedTab === 'history'}
             onPress={() => {this.setTab('history')}}

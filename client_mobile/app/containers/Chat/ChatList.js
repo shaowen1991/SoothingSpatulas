@@ -25,35 +25,30 @@ class ChatList extends Component {
 
   componentDidMount(){
     setInterval(function() {
-      AsyncStorage.getItem('userId')
-        .then((userId) => {
-            console.log('AUth id &&&&&&&',userId);
 
-            fetch("http://localhost:3000/api/connections/5" /*+ userId*/, {
-              method: 'GET'
-            })
-            .then((response) => {
+      return fetch("https://activesort.com/api/connections/" + this.props.userId, {
+      // return fetch("http://localhost:3000/api/connections/" + this.props.userId, {
+        method: 'GET'
+      })
+      .then((response) => {
 
-              console.log(response);
-              return response.json()})
-            .then((responseJson) => {
-              this.setState({chatConnections: responseJson});
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+        console.log(response);
+        return response.json()})
+      .then((responseJson) => {
+        this.setState({chatConnections: responseJson});
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-            })
-        .catch((e) => console.log(e));
     }.bind(this), 1000);
   }
 
   goToChat(userDetails){
-    console.log("gtc called", this, this.props, userDetails);
     this.props.navigator.push({
     component: Chat,
     title: 'Chat',
-    passProps: {userDetails}
+    passProps: { userDetails,  userId: this.props.userId }
    });
   }
 
@@ -80,10 +75,14 @@ class ChatList extends Component {
       )
     })
 
+    console.log('in ChatList.js', this.props.userId);
+
     return(
       <View>
-        <ChatAdd/>
-        <ScrollView>
+        <ChatAdd userId={this.props.userId}/>
+        <ScrollView
+          style={{width: 375, height: 500}}
+          userId={this.props.userId}>
           {list}
         </ScrollView>
       </View>
@@ -93,6 +92,7 @@ class ChatList extends Component {
 
 var styles = StyleSheet.create({
     containerProfile:{
+        height: 50,
         flexDirection: 'row',
         marginLeft: 10,
         padding:5

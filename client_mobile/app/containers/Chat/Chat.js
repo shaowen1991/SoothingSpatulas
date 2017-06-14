@@ -26,55 +26,56 @@ class Chat extends Component {
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
-    this.socket = SocketIOClient('http://localhost:8000');
+    this.socket = SocketIOClient('ws://198.199.93.251:7999');
     this.socket.on('message', this.onReceivedMessage);
     this.determineUser();
   }
 
 
 determineUser() {
-    AsyncStorage.getItem('userId')
-      .then((userId) => {
-        fetch("http://localhost:3000/api/users/5" /*+ userId*/, {
-            method: 'GET'
-          })
-          .then((response) => {
-            return response.json() })
-          .then((responseJson) => {
-            var user = {};
-            user["_id"] = responseJson.id;
-            user["name"] = responseJson.first + responseJson.last;
 
-            this.setState({ user: user });
-            this.socket.emit('userJoined', {
-              userId: user._id,
-              toId: this.state.toUserId
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    return fetch("https://activesort.com/api/users/" + this.props.userId, {
+    // return fetch("http://localhost:3000/api/users/" + this.props.userId, {
+        method: 'GET'
+      })
+      .then((response) => {
+        return response.json() })
+      .then((responseJson) => {
+        var user = {};
+        user["_id"] = responseJson.id;
+        user["name"] = responseJson.first + responseJson.last;
 
+        this.setState({ user: user });
+        this.socket.emit('userJoined', {
+          userId: user._id,
+          toId: this.state.toUserId
+        });
+      })
+      .then(() => {
 
-           fetch("http://localhost:3000/api/users/" + this.state.toUserId, {
-            method: 'GET'
-          })
-          .then((response) => {
-            return response.json() })
-          .then((responseJson) => {
-            var other_user = {};
-            other_user["_id"] = responseJson.id;
-            other_user["name"] = responseJson.first + responseJson.last;
+        return fetch("https://activesort.com/api/users/" + this.state.toUserId, {
+        // return fetch("http://localhost:3000/api/users/" + this.state.toUserId, {
+          method: 'GET'
+        })
+        .then((response) => {
+          return response.json() })
+        .then((responseJson) => {
+          var other_user = {};
+          other_user["_id"] = responseJson.id;
+          other_user["name"] = responseJson.first + responseJson.last;
 
-            this.setState({ other_user: other_user });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          this.setState({ other_user: other_user });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
 
       })
-      .catch((e) => console.log(e));
-  }
+      .catch((error) => {
+        console.error(error);
+      });
+
+}
 
   onReceivedMessage(messages) {
     var context = this;
@@ -114,7 +115,9 @@ determineUser() {
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
           };
 
-    return (<View style = {{ width: 375, height: 600, backgroundColor: 'whitesmoke' }} >
+          console.log('in Chat.js', this.props.userId);
+
+    return (<View style = {{marginTop: 45, width: 375, height: 540, backgroundColor: 'whitesmoke' }} >
       <GiftedChat messages = { this.state.messages }
       onSend = {this.onSend}
       user = {this.state.user}
