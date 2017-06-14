@@ -20,7 +20,8 @@ export default class TextCommentCallout extends Component {
         first: '',
         last: '',
         id: 0,
-        email: ''
+        email: '',
+        photo_large: 'http://sourcebits.wpengine.netdna-cdn.com/wp-content/themes/sb7/images/icons/spinner.png',
       }
     }
   }
@@ -50,7 +51,7 @@ export default class TextCommentCallout extends Component {
           <Animatable.View style={styles.circle}>
             <Image
               style={styles.image}
-              source={{uri: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/arts/2005/06/17/gilmour128.jpg?w=300&q=55&auto=format&usm=12&fit=max&s=d921a38feae9196db19661175ea23167'}}
+              source={{uri: this.state.userInfo.photo_large}}
             />
           </Animatable.View>
           <View>

@@ -5,8 +5,24 @@ import {
   Image
 } from 'react-native';
 import Constants from '../../Constants';
+import { getUserById } from '../../Network.js';
 
-class TextCommentMarker extends Component {
+class TextCommentMarker extends Component { 
+  constructor (props) {
+    super (props);
+    this.state = {
+      photo_small: 'http://sourcebits.wpengine.netdna-cdn.com/wp-content/themes/sb7/images/icons/spinner.png',
+    }
+  }
+
+  componentDidMount () {
+    getUserById(this.props.user_id)
+    .then((fetchedUserInfo) => {
+      this.setState({ photo_small: fetchedUserInfo.photo_small });
+    })
+    .catch((error) => {console.log(error)})
+  }
+  
   render () {
     const { user_id } = this.props;
     return (
@@ -14,7 +30,7 @@ class TextCommentMarker extends Component {
         <View style={styles.circle}>
           <Image
             style={styles.image}
-            source={{uri: 'https://cdn-images-1.medium.com/fit/c/36/36/1*N1v5rIR69gke7ZqC-C9cQg.png'}}
+            source={{uri: this.state.photo_small}}
           />
         </View>
         <View style={styles.arrowBorder} />
