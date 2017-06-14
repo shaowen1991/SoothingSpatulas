@@ -22,10 +22,34 @@ class Trends extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkins: []
+      checkins: [],
+      categoryWords: ['bar', 'restaurant', 'gym', 'museum', 'bar', 'bar'],
+      categories: []
     }
   }
-  
+
+  categoryHash(array) {
+    var categories = {};
+    var catArray = [];
+    for (var i = 0; i < array.length; i++) {
+      if (categories[array[i]]) {
+        categories[array[i]]++;
+      } else {
+          categories[array[i]] = 1;
+      }
+    }
+    for (category in categories) {
+      catArray.push([category, categories[category]])
+    }
+    this.setState({
+      categories: categories
+    })
+  }
+
+  componendDidMount() {
+    categoryHash(this.state.categoryWords);
+  }
+
   render() {
 
     const {
@@ -33,11 +57,29 @@ class Trends extends Component {
       textCommentsReducer
     } = this.props
 
+    console.log('trends in categories: ', this.state.categories)
+
+    console.log('CATEGORIES!!!!: ', this.props.categories)
+
     return (
-      <View style={styles.trends}>
-        <Text style={styles.trendsHeader}>Recent Trends</Text>
-        <Text>Total checkins: {this.props.userHist.length}</Text>
-      </View>
+      <View>
+        <View style={styles.trends}>
+          <Text style={styles.trendsHeader}>Trends</Text>
+          <Text>Total checkins: {this.props.userHist.length}</Text>
+            {this.state.categories.map((category) => {
+            return (
+              <Text>
+                {category} visited {this.state.categories.category}
+              </Text>
+              )
+              
+            })
+          }
+        </View>
+        <View style={styles.graph}>
+          
+        </View>
+      </View> 
     );
   }
 }

@@ -65,7 +65,8 @@ class Profile extends Component {
       checkins: [],
       userPic: this.props.userPic,
       userName: this.props.userName,
-      userID: this.props.userID
+      userID: this.props.userID,
+      categories: []
     }
     this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
@@ -123,6 +124,28 @@ class Profile extends Component {
       })
       
     }.bind(this), 5000)
+
+    setInterval(function() {
+      var categories = [];
+      this.state.checkins.forEach((place) => {
+        fetch("http://localhost:3000/api/locations/name/" + place.name, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => response.json())
+        .then((responseJSON) => {
+          console.log('CATEGORY RESPONSE: ', responseJSON)
+          var cat = responseJSON.category.split(',', 1);
+          categories.push(cat)    
+        })
+      })
+      this.setState({
+        categories: categories
+      })
+    }.bind(this), 10000)
   }
 
   changeUserID(userid) {
@@ -143,7 +166,7 @@ class Profile extends Component {
     // this.setState({
     //   userID: useridReducer
     // })
-    console.log('PROFILE STATE: ', this.state)
+    console.log('PROFILE STATE CATEGORIES: ', this.state.categories)
     console.log('MY USER ID: ', useridReducer)
     // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
@@ -173,7 +196,10 @@ class Profile extends Component {
               userHist={this.state.checkins}
               userID={this.state.userID}
             />
-            <Trends userHist={this.state.checkins}/>
+            <Trends 
+              userHist={this.state.checkins}
+              categories={this.state.categories}
+            />
             
           </View>
           </TabBarIOS.Item>
