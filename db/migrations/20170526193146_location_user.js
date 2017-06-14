@@ -6,6 +6,8 @@ exports.up = function (knex, Promise) {
       table.string('first', 100).nullable();
       table.string('last', 100).nullable();
       table.string('email', 100).nullable().unique();
+      table.string('photo_small', 200).nullable();
+      table.string('photo_large', 200).nullable();
       table.timestamps(true, true);
     }),
     knex.schema.createTableIfNotExists('locations_users', function(table) {

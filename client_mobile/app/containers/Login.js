@@ -63,10 +63,14 @@ const mapDispatchToProps = (dispatch) => ({
       if (!profile.extraInfo.given_name) {
         userLoginInfo.first = profile.nickname;
         userLoginInfo.email = profile.email;
+        userLoginInfo.photo_small = profile.picture;
+        userLoginInfo.photo_large = profile.picture;
       } else {
         userLoginInfo.first = profile.extraInfo.given_name;
         userLoginInfo.last = profile.extraInfo.family_name;
         userLoginInfo.email = profile.email;
+        userLoginInfo.photo_small = profile.picture;
+        userLoginInfo.photo_large = profile.extraInfo.picture_large;
       }
       
       console.log('PROFILE: ', profile)

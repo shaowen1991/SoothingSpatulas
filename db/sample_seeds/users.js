@@ -1,21 +1,31 @@
 module.exports = [{
         first: 'System',
         last: 'Admin',
-        email: 'admin@momento.com'
+        email: 'admin@momento.com',
+        photo_small: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg',
+        photo_large: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg'
       }, {
         first: 'Chris',
         last: 'Keating',
-        email: 'chris@momento.com'
+        email: 'chris@momento.com',
+        photo_small: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg',
+        photo_large: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg'
       }, {
         first: 'Michael',
         last: 'Sermersheim',
-        email: 'michael@momento.com'
+        email: 'michael@momento.com',
+        photo_small: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg',
+        photo_large: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg'
       }, {
         first: 'Jack',
         last: 'Ren',
-        email: 'jack@momento.com'
+        email: 'jack@momento.com',
+        photo_small: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg',
+        photo_large: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg'
       }, {
         first: 'Nick',
         last: 'Anderson',
-        email: 'nicasioca@gmail.com'
+        email: 'nicasioca@gmail.com',
+        photo_small: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg',
+        photo_large: 'https://static.giantbomb.com/uploads/scale_small/0/5201/229734-ralphnose.jpg'
       }];
