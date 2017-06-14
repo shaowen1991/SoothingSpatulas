@@ -15,7 +15,9 @@ module.exports.create = (req, res) => {
   models.User.forge({
     first: req.body.first,
     last: req.body.last,
-    email: req.body.email
+    email: req.body.email,
+    photo_small: req.body.photo_small,
+    photo_large: req.body.photo_large
   })
   .save()
   .then(result => {
