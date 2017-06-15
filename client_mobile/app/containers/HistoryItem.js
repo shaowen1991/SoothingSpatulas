@@ -9,7 +9,7 @@ class HistoryItem extends Component {
 
   render() {
     return (
-      <View style={styles.info}>
+      <View >
         <Text style={styles.name}>- {this.props.place}</Text>
         <Text style={styles.hometown}>Rating: {this.props.rating}</Text>
         <Text style={styles.hometown}>{this.props.city}, {this.props.state}</Text>
@@ -28,11 +28,13 @@ const styles = StyleSheet.create({
   },
   name: {
     marginLeft: '3%',
-    fontSize: 20
+    fontSize: 20,
+    color: '#4527A0',
   },
   hometown: {
     marginLeft: '10%',
-    fontSize: 15
+    fontSize: 15,
+    color: '#4527A0',
   },
   image: {
     height: 75,

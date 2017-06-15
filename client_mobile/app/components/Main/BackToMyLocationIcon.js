@@ -43,8 +43,8 @@ export default class BackToMyLocationIcon extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 36,
-    right: 22,
+    top: 34,
+    right: 21,
     zIndex: 5,
   },
   icon: {
