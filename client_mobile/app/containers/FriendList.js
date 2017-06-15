@@ -16,7 +16,6 @@ class FriendList extends Component {
 
     return (
       <View style={styles.trends}>
-        <Text style={styles.trendsHeader}>Connections</Text>
         <Chat userId={this.props.userId}/>
       </View>
     );

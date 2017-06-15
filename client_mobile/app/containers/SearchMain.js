@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 90,
+    top: 70,
     left: 22,
     right: 22,
     zIndex: 5,

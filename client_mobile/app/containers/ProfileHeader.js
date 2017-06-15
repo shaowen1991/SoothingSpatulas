@@ -30,23 +30,14 @@ class ProfileHeader extends Component {
     console.log('****PROFILE HEADER item 0 name: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
-        <View style={styles.placehold}>
-          <Text style={styles.appName}>Momento</Text>
-        </View>
         <View style={styles.header}>
           <Image
             style={styles.picture}
             source={{uri: this.props.userPic}}
           />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{this.props.userName}</Text>
-            <Text style={styles.hometown}>{}</Text>
-            <Text style={styles.lastVisit}>
-              Last checked in at {}, 
-              rated it {} stars, 
-              and commented, "{}"
-            </Text>
-            <Text style={styles.lastVisitDate}>on {}</Text>
+            <Text style={styles.name}>{this.props.userName + ' LastName'}</Text>
+            <Text style={styles.hometown}>{'USA'}</Text>
           </View>
         </View>
       </View>
@@ -60,59 +51,49 @@ ProfileHeader.propTypes = {
 
 const styles = StyleSheet.create({
   profileheader: {
-    height: '30%',
-    marginBottom: '3%'
+    height: 170,
+    marginBottom: 20
+  },
+  headerBar: {
+    width: '100%',
+    height: 38,
+    backgroundColor: '#4527A0',
+    marginTop: 25,
+    textAlign: 'center'
+  },
+  appName: {
+    fontSize: 17,
+    textAlign: 'center',
+    color: 'white'
+  },
+  header: {
+    flexDirection: 'row',
+    height: '90%'
   },
   picture: {
-    width: '40%',
-    height: '80%',
-    marginTop: '5%',
-    marginLeft: '5%',
-    borderRadius: 10
+    width: 150,
+    height: 150,
+    margin: 20,
+    marginRight: '0%',
+    borderRadius: 5
   },
   headerText: {
     flexDirection: 'column',
+    textAlign: 'center',
     width: '50%',
-    marginTop: '1%',
+    marginTop: 35,
   },
   name: {
-    fontSize: 40,
+    fontSize: 35,
     textAlign: 'center',
+    color: '#9CCC65'
   },
   hometown: {
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 7
+    marginTop: 15,
+    color: '#9CCC65'
   },
-  lastVisit: {
-    fontSize: 12, 
-    marginBottom: '1%',
-    textAlign: 'center',
-  },
-  lastVisitDate: {
-    color: 'grey',
-    fontSize: 10,
-    textAlign: 'center',
-  },
-  placehold: {
-    width: '100%',
-    height: 25,
-    backgroundColor: 'grey',
-    marginTop: 20,
-    flexDirection: 'row'
-  },
-  appName: {
-    fontSize: 20,
-    textAlign: 'right'
-  },
-  header: {
-    flexDirection: 'row'
-  },
-  graph: {
-    width: '90%',
-    height: '90%',
-    marginLeft: '5%',
-  }
 });
 
 export default ProfileHeader;
