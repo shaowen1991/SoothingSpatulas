@@ -21,7 +21,7 @@ module.exports.voiceRecognize = (filename) => {
         if (error !== null) {
           // This error may include converted file already exist
           console.log('exec error: ' + error);
-          reject(err);
+          reject(error);
           return;
         }
         /* ----------------------------------
