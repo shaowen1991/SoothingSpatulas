@@ -121,10 +121,7 @@ class Profile extends Component {
       this.setState({
         checkins: filteredCheckins
       })
-      
-    }.bind(this), 5000)
-
-
+    }.bind(this), 1000)
   }
 
   changeUserID(userid) {
@@ -145,7 +142,8 @@ class Profile extends Component {
     // this.setState({
     //   userID: useridReducer
     // })
-    console.log('PROFILE STATE CATEGORIES: ', this.state.categories)
+    console.log('PROFILE- ALL CHECKINS: ', this.props.textCommentsReducer)
+    console.log('PROFILE- filteredCheckins', this.state.checkins)
     // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {

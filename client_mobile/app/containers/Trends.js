@@ -23,7 +23,8 @@ class Trends extends Component {
     super(props);
     this.state = {
       checkins: [],
-      categoryHash: []
+      categoryHash: [],
+      categoryHashHash: {}
     }
     this.filterCategories = this.filterCategories.bind(this);
     this.categoryHash = this.categoryHash.bind(this);
@@ -48,6 +49,40 @@ class Trends extends Component {
     console.log('HASHED ARRAY', this.state.categoryHash)
   }
 
+  // componendDidMount() {
+  //   var categories = [];
+  //   var categoryHash = {};
+  //   var catArray = [];
+  //   this.props.checkins.forEach((place) => {
+  //     fetch("http://localhost:3000/api/locations/name/" + place.name, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     .then((response) => response.json())
+  //     .then((responseJSON) => {
+  //       var cat = responseJSON.category.split(',', 1)
+  //       var str = cat[0].replace(/\W/g, '');
+  //       var readCat = str.replace(/_/g, ' ');
+  //       categories.push(readCat)
+  //     })
+  //     .catch((error) => console.log('error: ', error))
+  //   })
+  //   .then(())
+  //   for (var i = 0 i < categories.length; i++) {
+  //     if (categoryHash[categories[i]]) {
+  //       categoryHash[categories[i]]++;
+  //     } else {
+  //       categoryHash[categories[i]] = 1;
+  //     }
+  //   }
+  //   this.setState({
+  //     categoryHashHash: categoryHash
+  //   })
+  // }
+
   filterCategories() {
     console.log('FILTER INVOKED')
     var categories = [];
@@ -62,7 +97,9 @@ class Trends extends Component {
       .then((response) => response.json())
       .then((responseJSON) => {
         var cat = responseJSON.category.split(',', 1);
-        categories.push(cat[0].replace(/\W/g, ''))
+        var str = cat[0].replace(/\W/g, '');
+        var readCat = str.replace(/_/g, ' ');
+        categories.push(readCat)
       })
       .catch((error) => console.log('error: ', error))
     })
@@ -72,9 +109,6 @@ class Trends extends Component {
   console.log('trends state categories: ', this.state.checkins)
   }
 
-  componendDidMount() {
-    // categoryHash(this.state.categoryWords);
-  }
 
   render() {
 
@@ -87,7 +121,7 @@ class Trends extends Component {
     return (
       <View>
         <View style={styles.trends}>
-          <Text style={styles.trendsHeader}>Trends</Text>
+          <Text style={styles.trendsHeader}>Your Trends</Text>
           <Text>Total checkins: {this.props.checkins.length}</Text>
           <Button 
             onPress={this.filterCategories}
@@ -99,13 +133,13 @@ class Trends extends Component {
             title="Hash Categories"
             color="#841584"
           />
+          <Text>category | checkins | percentage</Text>
             {this.state.categoryHash.map((category, key) => {
-            return (
-              <Text key={key}>
-                {category[0]} checkins: {category[1]} {category[1] / this.state.checkins.length}
-              </Text>
+              return (
+                <Text key={key}>
+                  {category[0]} | {category[1]} | {Math.floor((category[1] / this.state.checkins.length) * 100)}%
+                </Text>
               )
-              
             })
           }
         </View>
