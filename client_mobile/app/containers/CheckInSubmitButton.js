@@ -4,11 +4,12 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
-  Text
+  Text,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import { postTextComments, postLocation, getLocationId, postAudioComments } from '../Network.js';
-
+import AssetMap from '../config/AssetMap'
 /* ----------------------------------
          Import Constants
 ---------------------------------- */
@@ -106,10 +107,12 @@ class CheckInSubmitButton extends Component {
       useridReducer,
       clearTextAndRating,
       clearSelectedPlace,
+      refreshComments,
       // Map Actions
       selectedPlaceReducer, 
       myLocationReducer, 
       clearNearbyPlace,
+      stopLoading
     } = this.props;
 
     postTextComments({
@@ -121,13 +124,18 @@ class CheckInSubmitButton extends Component {
       user_id: useridReducer,
       location_id: location_id
     })
+    /* ---------------------------------------------------------
+    dummy way to hard-refresh the textComments to avoid layout issue
+    --------------------------------------------------------- */
+    .then(() => {refreshComments()})
+    .then(() => {toggleCheckIn()})
     /* ----------------------------------------------------
     Invoke clearTextAndRating callback after data inserted
     ---------------------------------------------------- */
-    .then(() => {toggleCheckIn()})
     .then(() => {clearTextAndRating()})
     .then(() => {clearSelectedPlace()})
     .then(() => {clearNearbyPlace()})
+    .then(() => {stopLoading()})
     .then(() => {Keyboard.dismiss()})
     .catch((error) => {console.log(error)});
   }  
@@ -138,9 +146,9 @@ class CheckInSubmitButton extends Component {
       typeInComment, 
       rating,
       useridReducer,
+      startLoading,
       // Comments Actions
       addCommentToState, 
-      refreshComments,
       // Map Actions
       selectedPlaceReducer, 
       myLocationReducer,
@@ -150,6 +158,7 @@ class CheckInSubmitButton extends Component {
         check in button only available when user has input
     --------------------------------------------------------- */
     if (typeInComment.length > 0) {
+      startLoading();
       /* ----------------------------------------------------
         comment, latitude, longitude, rating, userid, username
                 pass the text commet details here
@@ -198,10 +207,7 @@ class CheckInSubmitButton extends Component {
       else {
         this.postTextComment(null);
       }
-      /* ---------------------------------------------------------
-      dummy way to hard-refresh the textComments to avoid layout issue
-      --------------------------------------------------------- */
-      refreshComments();
+
     }
   }
 
@@ -218,6 +224,7 @@ class CheckInSubmitButton extends Component {
       clearTextAndRating,
       clearSelectedPlace,
       addCommentToState,
+      refreshComments,
       // Map Actions
       selectedPlaceReducer, 
       myLocationReducer, 
@@ -227,7 +234,8 @@ class CheckInSubmitButton extends Component {
       unfinishRecording, 
       stopPlaying,
       updateAudioCurrentTime,
-      updateAudioLength
+      updateAudioLength,
+      stopLoading
     } = this.props;
 
     postAudioComments(
@@ -266,16 +274,24 @@ class CheckInSubmitButton extends Component {
       stopPlaying();
       updateAudioCurrentTime(0);
       updateAudioLength(0); 
-      toggleCheckIn();
-      toggleTypeOfComment();
     })
+    /* ---------------------------------------------------------
+    dummy way to hard-refresh the textComments to avoid layout issue
+    --------------------------------------------------------- */
+    .then(() => {refreshComments()})
     /* ----------------------------------------------------
     Invoke clearTextAndRating callback after data inserted
     ---------------------------------------------------- */
+    .then(() => {toggleCheckIn()})
+    .then(() => {toggleTypeOfComment()})
+    .then(() => {stopLoading()})
     .then(() => {clearTextAndRating()})
     .then(() => {clearSelectedPlace()})
     .then(() => {clearNearbyPlace()})
-    .catch((error) => {console.log('Submit audio error: ', error)});
+    .catch((error) => {
+      console.log('Submit audio error: ', error);
+      stopLoading();
+    });
   }  
 
   audioCommentOnPress () {
@@ -285,6 +301,7 @@ class CheckInSubmitButton extends Component {
       toggleTypeOfComment,
       usernameReducer,
       clearSelectedPlace,
+      startLoading,
       // Recorder Actions
       audioCurrentFileName,
       isFinishRecorded,
@@ -295,7 +312,6 @@ class CheckInSubmitButton extends Component {
       updateAudioLength,
       // Comments Actions
       addCommentToState, 
-      refreshComments,
       // Map Actions
       selectedPlaceReducer, 
       myLocationReducer,
@@ -307,6 +323,7 @@ class CheckInSubmitButton extends Component {
         check in button only available when user has recorded
     --------------------------------------------------------- */   
     if (isFinishRecorded) {
+      startLoading();
       /* ---------------------------------------------------------
         only post new location to db when a location is selected
       --------------------------------------------------------- */
@@ -340,22 +357,33 @@ class CheckInSubmitButton extends Component {
       else {
         this.postAudioComment(filepath, audioCurrentFileName, null);
       }
-      /* ---------------------------------------------------------
-      dummy way to hard-refresh the textComments to avoid layout issue
-      --------------------------------------------------------- */
-      refreshComments();
     }
   }
   
   render () {
-    const { typeInComment, typeOfComment, isFinishRecorded } = this.props;
+    const { 
+      typeInComment, 
+      typeOfComment, 
+      isFinishRecorded, 
+      onLoading, 
+      startLoading, 
+      stopLoading 
+    } = this.props;
+
     if (typeOfComment === 'Text') {
       return (
         <TouchableOpacity
           style={typeInComment.length > 0 ? styles.checkinButton : styles.checkinCanClickButton}
-          onPress={this.textCommentOnPress}
+          onPress={() => {onLoading ? null : this.textCommentOnPress()}}
         >
+        { onLoading ? 
+          <Image
+            style={styles.icon}
+            source={AssetMap.spinner}
+          />        
+          :
           <Text style={styles.buttonText}>{"Check In"}</Text>
+        }
         </TouchableOpacity>
       )
     }
@@ -363,9 +391,16 @@ class CheckInSubmitButton extends Component {
       return (
         <TouchableOpacity
           style={isFinishRecorded ? styles.checkinButton : styles.checkinCanClickButton}
-          onPress={this.audioCommentOnPress}
+          onPress={() => {onLoading ? null : this.audioCommentOnPress()}}
         >
+        { onLoading ? 
+          <Image
+            style={styles.icon}
+            source={AssetMap.spinner}
+          />        
+          :
           <Text style={styles.buttonText}>{"Check In"}</Text>
+        }
         </TouchableOpacity>        
       )
     }
@@ -401,6 +436,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontFamily: Constants.TEXT_FONT
+  },
+  icon: {
+    width: 21,
+    height: 21,
   },
 })
 

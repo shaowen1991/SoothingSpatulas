@@ -73,7 +73,7 @@ const postAudioComments = (filepath, filename, commentBody) => {
           user_id: commentBody.user_id,
           name: commentBody.name,
           location_id: commentBody.location_id        
-        }
+        },
       })
       .then((response) => {
         let transcription = response.data;

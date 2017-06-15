@@ -75,7 +75,8 @@ class CheckInFooter extends Component {
       typeInComment: '',
       rating: 0,
       typeOfComment: 'Text',
-      keyboardHeight: 0
+      keyboardHeight: 0,
+      onLoading: false
     }
     this._keyboardWillShow = this._keyboardWillShow.bind(this);
     this._keyboardWillHide = this._keyboardWillHide.bind(this);
@@ -84,6 +85,8 @@ class CheckInFooter extends Component {
     this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
     this.updateTypeOfComment = this.updateTypeOfComment.bind(this);
+    this.startLoading = this.startLoading.bind(this);
+    this.stopLoading = this.stopLoading.bind(this);    
   }
   /* ----------------------------------------------------
                 Handle keyboard pop up
@@ -135,6 +138,14 @@ class CheckInFooter extends Component {
 
   updateTypeOfComment (type) {
     this.setState({ typeOfComment: type });
+  }
+
+  startLoading () {
+    this.setState({ onLoading: true });
+  }
+
+  stopLoading () {
+    this.setState({ onLoading: false});
   }
 
   render() {
@@ -256,9 +267,12 @@ class CheckInFooter extends Component {
             numberOfLines={4}
             clearButtonMode={'always'}
             autoCorrect={false}
+            editable={!this.state.onLoading}
           />
           :
-          <Recorder />  
+          <Recorder 
+            onLoading={this.state.onLoading}
+          />  
         }
         {/* ---------------------------------
                       Buttons
@@ -268,14 +282,16 @@ class CheckInFooter extends Component {
                        Back Button
           ---------------------------------- */} 
           <TouchableOpacity
-            style={styles.backButton}
+            style={this.state.onLoading ? styles.backButtonNotAvailable : styles.backButton}
             onPress={() => {
-              toggleCheckIn(checkInOpenReducer);
-              Keyboard.dismiss();
-              if (this.state.typeOfComment === 'Text') this.clearText();
-              clearSelectedPlace();
-              this.setRating(0);
-              this.updateTypeOfComment('Text');
+              if (!this.state.onLoading) {
+                toggleCheckIn(checkInOpenReducer);
+                Keyboard.dismiss();
+                if (this.state.typeOfComment === 'Text') this.clearText();
+                clearSelectedPlace();
+                this.setRating(0);
+                this.updateTypeOfComment('Text');
+              }
             }}
           >
             <Text style={styles.buttonText}>{"Back"}</Text>
@@ -284,12 +300,14 @@ class CheckInFooter extends Component {
                  Switch Recorder Buttons
           ---------------------------------- */} 
           <TouchableOpacity
-            style={styles.switchButton}
+            style={this.state.onLoading ? styles.switchButtonNotAvailable : styles.switchButton}
             onPress={() => {
-              if (this.state.typeOfComment === 'Text') {
-                this.setState({ typeInComment: '' });
+              if (!this.state.onLoading) {
+                if (this.state.typeOfComment === 'Text') {
+                  this.setState({ typeInComment: '' });
+                }
+                this.toggleTypeOfComment();
               }
-              this.toggleTypeOfComment();
             }}
           >
             <Text style={styles.buttonText}>
@@ -307,6 +325,9 @@ class CheckInFooter extends Component {
             toggleTypeOfComment={this.toggleTypeOfComment}
             clearTextAndRating={this.clearTextAndRating}
             clearSelectedPlace={clearSelectedPlace}
+            onLoading={this.state.onLoading}
+            startLoading={this.startLoading}
+            stopLoading={this.stopLoading}
           />
         </Animatable.View>
       </Animatable.View>
@@ -359,12 +380,36 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,
   },
+  switchButtonNotAvailable: {
+    height: "170%",
+    width: "37%",
+    zIndex: 6,
+    marginRight: "3%",
+    backgroundColor: Constants.ICON_NOT_AVAILABLE_COLOR,
+    alignItems: "center",
+    justifyContent: 'center',
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+  },
   backButton: {
     height: "170%",
     width: "20%",
     zIndex: 6,
     marginRight: "3%",
     backgroundColor: Constants.ICON_COLOR,
+    alignItems: "center",
+    justifyContent: 'center',
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+  },
+  backButtonNotAvailable: {
+    height: "170%",
+    width: "20%",
+    zIndex: 6,
+    marginRight: "3%",
+    backgroundColor: Constants.ICON_NOT_AVAILABLE_COLOR,
     alignItems: "center",
     justifyContent: 'center',
     shadowColor: 'black',

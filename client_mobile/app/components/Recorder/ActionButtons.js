@@ -13,10 +13,11 @@ export default function ActionButtons(props) {
   const {
     isFinishRecorded, 
     playStopIcon, 
-    playStopHandler
+    playStopHandler,
+    onLoading
   } = props;
 
-  if (isFinishRecorded) {
+  if (isFinishRecorded && !onLoading) {
     return (
       <Animatable.View style={styles.playerButton}>
         <IconButton 

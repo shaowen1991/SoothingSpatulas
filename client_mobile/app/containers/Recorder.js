@@ -200,12 +200,14 @@ class Recorder extends Component {
           isFinishRecorded={this.props.isFinishRecorded} 
           playStopIcon={playStopIcon}
           playStopHandler={playStopHandler}
+          onLoading={this.props.onLoading}
         />
         <RecordButton 
           isRecording={this.props.isRecording} 
           isFinishRecorded={this.props.isFinishRecorded}
           onPressInHandler={this.record} 
           onPressOutHandler={this.stopRecord}
+          onLoading={this.props.onLoading}
         />
       </Animatable.View>
     )
