@@ -24,7 +24,6 @@ class TextCommentMarker extends Component {
   }
   
   render () {
-    const { user_id } = this.props;
     return (
       <View>
         <View style={styles.circle}>

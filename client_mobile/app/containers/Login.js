@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
+  TouchableOpacity, 
 } from 'react-native';
 import { connect } from 'react-redux';
 import Auth0Lock from 'react-native-lock';
 import { getUserByEmail, postUser } from '../Network.js';
-
+import Constants from '../Constants';
 const credentials = require('../config/config.js');
 const lock = new Auth0Lock(credentials);
 
@@ -117,10 +117,14 @@ class Login extends Component {
         <Text style={styles.welcome}>
           Welcome to Momento!
         </Text>
-        <Button 
-          title="Log In"
-          onPress={() => {onLoginClick()}}
-        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onLoginClick}
+        >
+          <Text style={styles.buttonText}>
+            {'Log In'}
+          </Text>
+        </TouchableOpacity> 
       </View>
     );
   }
@@ -134,14 +138,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 25,
     textAlign: 'center',
     margin: 10,
+    fontFamily: Constants.TEXT_FONT,
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  button: {
+    width: 140,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    backgroundColor: Constants.ICON_COLOR,
+    marginTop: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    color: 'white',
+    fontFamily: Constants.TEXT_FONT
   },
 });
 

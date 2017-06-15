@@ -83,6 +83,7 @@ class CheckInFooter extends Component {
     this.setRating = this.setRating.bind(this);
     this.clearTextAndRating = this.clearTextAndRating.bind(this);
     this.toggleTypeOfComment = this.toggleTypeOfComment.bind(this);
+    this.updateTypeOfComment = this.updateTypeOfComment.bind(this);
   }
   /* ----------------------------------------------------
                 Handle keyboard pop up
@@ -130,6 +131,10 @@ class CheckInFooter extends Component {
     else {
       this.setState({ typeOfComment: 'Text'});     
     }
+  }
+
+  updateTypeOfComment (type) {
+    this.setState({ typeOfComment: type });
   }
 
   render() {
@@ -268,8 +273,9 @@ class CheckInFooter extends Component {
               toggleCheckIn(checkInOpenReducer);
               Keyboard.dismiss();
               if (this.state.typeOfComment === 'Text') this.clearText();
-              this.setRating(0);
               clearSelectedPlace();
+              this.setRating(0);
+              this.updateTypeOfComment('Text');
             }}
           >
             <Text style={styles.buttonText}>{"Back"}</Text>

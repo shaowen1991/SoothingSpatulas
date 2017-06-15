@@ -54,13 +54,17 @@ module.exports.create = (req, res) => {
     else {
       res.status(201);
       console.log('success write file');
+      /* --------------------------------------
+       Start voiceRecognize service as promise
+      -------------------------------------- */
       voiceRecognize(filename)
       .then((transcription) => {
-        console.log(`Transcription: ${transcription}`);
+        fs.unlink(filepath);
         res.status(201).send(transcription);    
       })
       .catch((err) => {
         console.error('ERROR in voiceRecognize:', err);
+        fs.unlink(filepath);
         res.status(500).send(err);
       })
     }

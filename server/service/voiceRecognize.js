@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const exec = require('child_process').exec;
+const fs = require('fs');
 
 module.exports.voiceRecognize = (filename) => {
   /* -----------------------------------------------------
@@ -28,9 +29,11 @@ module.exports.voiceRecognize = (filename) => {
         else {
           syncRecognize(outputFilename)
           .then((transcription) => {
+            fs.unlink(outputFilename);
             resolve(transcription);
           })
           .catch((err) => {
+            fs.unlink(outputFilename);
             reject(err);
           })
         }

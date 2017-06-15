@@ -208,6 +208,7 @@ class CheckInSubmitButton extends Component {
       toggleCheckIn,
       toggleTypeOfComment,
       usernameReducer,
+      clearSelectedPlace,
       // Recorder Actions
       audioCurrentFileName,
       stopRecording,
@@ -224,6 +225,7 @@ class CheckInSubmitButton extends Component {
       console.log('transcription:', transcription);
       stopRecording();
       unfinishRecording(); 
+      clearSelectedPlace();
       stopPlaying();
       updateAudioCurrentTime(0);
       updateAudioLength(0); 
