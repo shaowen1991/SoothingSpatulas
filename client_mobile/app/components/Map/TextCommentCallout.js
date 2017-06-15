@@ -91,8 +91,7 @@ export default class TextCommentCallout extends Component {
         ', Longitude: ' + 
         JSON.stringify(longitude).substring(0, 10);
     }
-    console.log('textCommentCallout state:', this.state);
-    console.log('textCommentCallout props:', this.props);
+
     return (
       <View style={styles.container}>
         <Animatable.View style={styles.profileContainer}>
