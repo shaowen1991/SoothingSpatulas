@@ -52,7 +52,7 @@ class ChatAdd extends Component {
         style = {styles.submitButton}
         onPress = { () => this.add(this.state.email) }>
         <Text style = {styles.text}>
-          Submit
+          Add
         </Text>
       </TouchableOpacity>
       </View>
@@ -62,7 +62,9 @@ class ChatAdd extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 20,
+    marginRight: 15
   },
   input: {
     marginTop: 45,

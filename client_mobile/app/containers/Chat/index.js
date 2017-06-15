@@ -20,11 +20,14 @@ class ChatMain extends Component {
         <NavigatorIOS
           initialRoute={{
             component: ChatList,
-            title:'',
+            title:'Momento',
             passProps: { userId: this.props.userId }
           }}
-        navigationBarHidden={false}
-        style={{width: 375, height: 800}}
+          barTintColor='#260b7c'
+          titleTextColor='#fff'
+          tintColor='#fff'
+          navigationBarHidden={false}
+          style={{width: '100%', height: 500, top: 20, zIndex: 100, position: 'absolute', zIndex: 1000}}
          />
       )
     }
