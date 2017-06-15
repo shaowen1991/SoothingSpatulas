@@ -7,7 +7,7 @@ import {
 var styles = StyleSheet.create({
   separator: {
     height: 1,
-    backgroundColor: '#E4E4E4'
+    backgroundColor: '#4527A0'
   }
 });
 
