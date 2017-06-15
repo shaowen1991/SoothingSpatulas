@@ -21,14 +21,14 @@ export default class NearbyPlacesCallout extends Component {
 
     return (
       <Animatable.View style={[styles.container]}>
-        <Text style={styles.titletext}>{title}</Text>
-        <Text style={styles.destext}>{address}</Text>
+        <Text style={styles.titleText}>{title}</Text>
+        <Text style={styles.addressText}>{address}</Text>
 
         <TouchableOpacity
           style={styles.button}
           onPress={onSelect}
         >
-          <Text style={styles.buttontext}>
+          <Text style={styles.buttonText}>
             {selectedPlaceReducer.name ? 'Cancel' : 'Check In Here'}
           </Text>
         </TouchableOpacity>    
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 140,
+    borderRadius: 5,
     flexDirection: 'row',
     alignSelf: 'center',
     backgroundColor: Constants.ICON_COLOR,
@@ -58,16 +59,16 @@ const styles = StyleSheet.create({
   amount: {
     flex: 1,
   },
-  titletext: {
+  titleText: {
     fontSize: 16,
     fontWeight: 'bold', 
     fontFamily: Constants.TEXT_FONT
   },
-  destext: {
+  addressText: {
     fontSize: 14,
     fontFamily: Constants.TEXT_FONT
   },
-  buttontext: {
+  buttonText: {
     fontSize: 14,
     color: 'white',
     fontFamily: Constants.TEXT_FONT

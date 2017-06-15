@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import {
-  View,
   TouchableOpacity,
   Text,
   StyleSheet
@@ -12,7 +11,7 @@ import Constants from '../../Constants';
                 Class
 ---------------------------------- */
 export default function RecordButton(props) {
-  const { isRecording, isFinishRecorded, onPressInHandler, onPressOutHandler} = props;
+  const { isRecording, isFinishRecorded, onPressInHandler, onPressOutHandler, onLoading} = props;
   
   let text = 'Press and hold to record';
   if (isRecording) {
@@ -21,8 +20,14 @@ export default function RecordButton(props) {
   if (isFinishRecorded) {
     text = 'Press and hold to renew';
   }
-  
-  if (isRecording) {
+  if (onLoading) {
+    return (
+      <TouchableOpacity style={styles.buttonNotAvailable}>
+        <Text style={styles.text}>{ 'Uploading Voice' }</Text>
+      </TouchableOpacity>
+    );
+  }
+  else if (isRecording) {
     console.log('-----> On recording');
     return (
       <TouchableOpacity style={styles.button} onPressOut={onPressOutHandler}>
@@ -44,18 +49,26 @@ RecordButton.propTypes = {
   isRecording: PropTypes.bool.isRequired,
   isFinishRecorded: PropTypes.bool.isRequired,
   onPressInHandler: PropTypes.func,
+  onPressOutHandler: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
   button: {
     width: "50%",
     height: 100,
-    // top: 1,
-    // marginRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    // padding: 10,
-    backgroundColor: Constants.NEARBY_PIN_COLOR,
+    backgroundColor: Constants.COMMENT_PIN_COLOR,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3, 
+  },
+  buttonNotAvailable: {
+    width: "50%",
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Constants.ICON_NOT_AVAILABLE_COLOR,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3, 

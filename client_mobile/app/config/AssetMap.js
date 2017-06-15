@@ -10,4 +10,5 @@ export default {
   starEmpty: require('../images/star_empty.png'),
   play: require('../images/play.png'),
   stop: require('../images/stop.png'),  
+  spinner: require('../images/spinner.gif'),
 }

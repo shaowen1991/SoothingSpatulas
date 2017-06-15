@@ -34,6 +34,9 @@ dist/
 node_modules/
 bower_components/
 
+# AWS
+server/service/AWS.json
+
 # google speechs
 server/service/Momento-300463bf99db.json
 server/service/user_audio/

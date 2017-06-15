@@ -25,11 +25,13 @@ import { NearbyPlacesCallout, TextCommentCallout, TextCommentMarker }  from '../
        Import Redux Actions
 ---------------------------------- */
 import {
-  updateTextCommentsDB,
+  updateCommentsDB,
   moveRegion,
   moveMyLocation,
   selectPlace,
-  clearSelectedPlace
+  clearSelectedPlace,
+  startPlaying,  
+  stopPlaying
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -40,15 +42,19 @@ const mapStateToProps = ({
   myLocationReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
-  textCommentsReducer,
-  useridReducer
+  commentsReducer,
+  useridReducer,
+  commentsRefreshIndicatorReducer,
+  isPlaying,
 }) => ({
   regionReducer,
   myLocationReducer,
   nearbyPlacesReducer,
   selectedPlaceReducer,
-  textCommentsReducer,
-  useridReducer
+  commentsReducer,
+  useridReducer,
+  commentsRefreshIndicatorReducer,
+  isPlaying,
 });
 
 /* ----------------------------------
@@ -61,15 +67,21 @@ const mapDispatchToProps = (dispatch) => ({
   moveMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveMyLocation(latitude, longitude, latitudeDelta, longitudeDelta));
   },
-  updateTextCommentsFromDB: (comments) => {
-    dispatch(updateTextCommentsDB(comments));
+  updateCommentsFromDB: (comments) => {
+    dispatch(updateCommentsDB(comments));
   },
   selectPlace: (latitude, longitude, category, name, city, state) => {
     dispatch(selectPlace(latitude, longitude, category, name, city, state));
   },
   clearSelectedPlace: () => {
     dispatch(clearSelectedPlace());
-  }
+  },
+  startPlaying: () => {
+    dispatch(startPlaying());
+  },  
+  stopPlaying: () => {
+    dispatch(stopPlaying());
+  }, 
 });
 /* ----------------------------------
             Other Props
@@ -95,10 +107,9 @@ class Map extends Component  {
 
   componentDidMount () {
     this.watchLocation();
-
     getTextComments()
     .then((comments) => {
-      this.props.updateTextCommentsFromDB(comments);
+      this.props.updateCommentsFromDB(comments);
     })
     .catch((error) => {console.log(error)});
   }
@@ -137,8 +148,12 @@ class Map extends Component  {
       selectedPlaceReducer,
       clearSelectedPlace,
       regionReducer,
-      textCommentsReducer,
-      useridReducer
+      commentsReducer,
+      useridReducer,
+      commentsRefreshIndicatorReducer,
+      isPlaying,
+      startPlaying,
+      stopPlaying
     } = this.props;
     
     const initialRegion = {
@@ -170,10 +185,11 @@ class Map extends Component  {
           onPress={Keyboard.dismiss}
         >
           {/*text comments pin*/}
-          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 ?
-            textCommentsReducer.map((comment, key) => (
+          {useridReducer !== 0 && nearbyPlacesReducer.length === 0 && commentsRefreshIndicatorReducer ?
+            commentsReducer.map((comment, key) => (
               <MapView.Marker
                 key={key}
+                flat={true}
                 coordinate={{
                   latitude: JSON.parse(comment.latitude),
                   longitude: JSON.parse(comment.longitude)
@@ -187,9 +203,13 @@ class Map extends Component  {
                     user_id={comment.user_id}
                     name={comment.name}
                     comment={comment.comment}
+                    comment_audio={comment.comment_audio}
                     rating={comment.rating}
                     latitude={JSON.parse(comment.latitude)}
                     longitude={JSON.parse(comment.longitude)}
+                    isPlaying={isPlaying}
+                    startPlaying={startPlaying}
+                    stopPlaying={stopPlaying}
                   />
                 </MapView.Callout>
               </MapView.Marker>        

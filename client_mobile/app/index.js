@@ -59,9 +59,9 @@ const profileViewOpen = (state = false, action) => {
 
 /* Comments Reducers
 --------------------------------*/
-const textCommentsReducer = (state = [], action) => {
+const commentsReducer = (state = [], action) => {
   switch (action.type) {
-    case ('ADD_TEXT_COMMENT') : return [
+    case ('ADD_COMMENT') : return [
       ...state,
       { 
         comment: action.comment,
@@ -70,33 +70,69 @@ const textCommentsReducer = (state = [], action) => {
         rating: action.rating,
         user_id: action.user_id,
         location_id: action.location_id,
-        name: action.name
+        name: action.name,
+        comment_audio: action.comment_audio
       }
     ];
-    case ('UPDATE_TEXT_COMMENT') : return action.textComments;
+    case ('UPDATE_COMMENT') : return action.textComments;
     default : return state;
   }    
 };
 
-const audioCommentsReducer = (state = [], action) => {
+const commentsRefreshIndicatorReducer = (state = true, action) => {
   switch (action.type) {
-    case ('ADD_AUDIO_COMMENT') : return [
-      ...state,
-      { 
-        user: action.user,
-        audioPath: action.audioPath
-      }
-    ];
-    default : return state;
-  }      
+    case ('TURN_OFF_COMMENTS') : return false;
+    case ('TURN_ON_COMMENTS') : return true;
+    default: return state;
+  }
 }
 
-const testCommentIDReducer = (state = 0, action) => {
+/* Recorder Reducers
+--------------------------------*/
+const audioCurrentFileName = (state = '', action) => {
   switch (action.type) {
-    case ('INCREMENT_ID') : return state + 1;
+    case ('UPDATE_AUDIO_CURRENT_FILENAME') : return action.filename;
     default : return state;
-  }    
+  }  
 }
+
+const isRecording = (state = false, action) => {
+  switch (action.type) {
+    case ('START_RECORDING') : return true;
+    case ('STOP_RECORDING') : return false;
+    default : return state;
+  }  
+};
+
+const isFinishRecorded = (state = false, action) => {
+  switch (action.type) {
+    case ('FINISH_RECORDING') : return true;
+    case ('UNFINISH_RECORDING') : return false;
+    default : return state;
+  }  
+};
+
+const isPlaying = (state = false, action) => {
+  switch (action.type) {
+    case ('START_PLAYING') : return true;
+    case ('STOP_PLAYING') : return false;
+    default : return state;
+  }  
+};
+
+const currentTime = (state = 0, action) => {
+  switch (action.type) {
+    case ('UPDATE_AUDIO_CURRENT_TIME') : return action.currentTime;
+    default : return state;
+  }
+};
+
+const audioLength = (state = 0, action) => {
+  switch (action.type) {
+    case ('UPDATE_AUDIO_LENGTH') : return action.audioLength;
+    default : return state;
+  }
+};
 
 /* Map Reducers
 --------------------------------*/
@@ -183,9 +219,15 @@ const reducers = combineReducers({
   checkInOpenReducer,
   profileViewOpen,
   // Comments Reducers
-  textCommentsReducer,
-  audioCommentsReducer,
-  testCommentIDReducer,
+  commentsReducer,
+  commentsRefreshIndicatorReducer,
+  // Recorder Reducers
+  audioCurrentFileName,
+  isRecording,
+  isFinishRecorded,
+  isPlaying,
+  currentTime,
+  audioLength,
   // Map Reducers
   regionReducer,
   myLocationReducer,

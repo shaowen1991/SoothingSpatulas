@@ -24,7 +24,6 @@ import {
   moveRegion,
   openProfileView,
   closeProfileView,
-  updateTextCommentsDB
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -99,9 +98,6 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openProfileView());
     }
   },
-  updateTextCommentsFromDB: (comments) => {
-    dispatch(updateTextCommentsDB(comments));
-  }
 });
 
 /* ----------------------------------

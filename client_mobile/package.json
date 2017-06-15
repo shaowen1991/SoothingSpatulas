@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "enzyme": "^2.8.2",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
@@ -15,11 +16,12 @@
     "react-native": "0.44.2",
     "react-native-animatable": "^1.2.0",
     "react-native-audio-player-recorder": "^2.0.0",
+    "react-native-fetch-blob": "^0.10.5",
     "react-native-gifted-chat": "^0.1.4",
     "react-native-icons": "^0.7.1",
     "react-native-lock": "^0.6.0",
     "react-native-maps": "^0.15.2",
-    "react-native-uploader": "0.0.10",
+    "react-native-uuid-generator": "^2.0.0",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",

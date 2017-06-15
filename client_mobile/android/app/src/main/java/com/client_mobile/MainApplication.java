@@ -3,6 +3,8 @@ package com.client_mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNUUIDGeneratorPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.auth0.lock.react.LockReactPackage;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNUUIDGeneratorPackage(),
+            new RNFetchBlobPackage(),
             new MapsPackage(),
             new LockReactPackage()
             new RNFSPackage(),

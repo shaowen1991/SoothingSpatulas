@@ -50,19 +50,20 @@ const closeProfileView = () => ({
 
 /* Comments Actions
 --------------------------------*/
-const addTextComment = (comment, latitude, longitude, rating, user_id, location_id, name) => ({
-  type: 'ADD_TEXT_COMMENT',
+const addComment = (comment, latitude, longitude, rating, user_id, location_id, name, comment_audio) => ({
+  type: 'ADD_COMMENT',
   comment: comment,
   latitude: latitude,
   longitude: longitude,
   rating: rating,
   user_id: user_id,
   location_id: location_id,
-  name: name
+  name: name,
+  comment_audio: comment_audio
 });
 
-const updateTextCommentsDB = (textCommentsFromDB) => ({
-  type: 'UPDATE_TEXT_COMMENT',
+const updateCommentsDB = (textCommentsFromDB) => ({
+  type: 'UPDATE_COMMENT',
   textComments: textCommentsFromDB
 });
 
@@ -70,11 +71,56 @@ const addAudioComment = (user, audioPath) => ({
   type: 'ADD_AUDIO_COMMENT',
   user: user,
   audioPath: audioPath
-})
+});
 
-const incrementID = () => ({
-  type: 'INCREMENT_ID'
-})
+const turnOnComments = () => ({
+  type: 'TURN_ON_COMMENTS'
+});
+
+const turnOffComments = () => ({
+  type: 'TURN_OFF_COMMENTS'
+});
+
+/* Recorder Actions
+--------------------------------*/
+const updateAudioCurrentFileName = (filename) => ({
+  type: 'UPDATE_AUDIO_CURRENT_FILENAME',
+  filename: filename
+});
+
+const startRecording = () => ({
+  type: 'START_RECORDING'
+});
+
+const stopRecording = () => ({
+  type: 'STOP_RECORDING'
+});
+
+const finishRecording = () => ({
+  type: 'FINISH_RECORDING'
+});
+
+const unfinishRecording = () => ({
+  type: 'UNFINISH_RECORDING'
+});
+
+const startPlaying = () => ({
+  type: 'START_PLAYING'
+});
+
+const stopPlaying = () => ({
+  type: 'STOP_PLAYING'
+});
+
+const updateAudioCurrentTime = (currentTime) => ({
+  type: 'UPDATE_AUDIO_CURRENT_TIME',
+  currentTime: currentTime
+});
+
+const updateAudioLength = (audioLength) => ({
+  type: 'UPDATE_AUDIO_LENGTH',
+  audioLength: audioLength
+});
 
 /* Map Actions
 --------------------------------*/
@@ -153,10 +199,21 @@ export {
   openProfileView,
   closeProfileView,
   // Comments Actions
-  addTextComment,
-  updateTextCommentsDB,
+  addComment,
+  updateCommentsDB,
   addAudioComment,
-  incrementID,
+  turnOnComments,
+  turnOffComments,
+  // Recorder Actions
+  updateAudioCurrentFileName,
+  startRecording,
+  stopRecording, 
+  finishRecording,  
+  unfinishRecording,  
+  startPlaying,  
+  stopPlaying, 
+  updateAudioCurrentTime,
+  updateAudioLength,
   // Map Actions
   moveRegion,
   clearRegion,

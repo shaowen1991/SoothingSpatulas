@@ -12,12 +12,12 @@ import IconButton from './IconButton';
 export default function ActionButtons(props) {
   const {
     isFinishRecorded, 
-    isRecording, 
     playStopIcon, 
-    playStopHandler
+    playStopHandler,
+    onLoading
   } = props;
 
-  if (isFinishRecorded) {
+  if (isFinishRecorded && !onLoading) {
     return (
       <Animatable.View style={styles.playerButton}>
         <IconButton 
@@ -34,7 +34,6 @@ export default function ActionButtons(props) {
 
 ActionButtons.propTypes = {
   isFinishRecorded: PropTypes.bool.isRequired,
-  isRecording: PropTypes.bool.isRequired,
   playStopIcon: PropTypes.string.isRequired,
   playStopHandler: PropTypes.func.isRequired,
 };

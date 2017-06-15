@@ -2,7 +2,10 @@
 
 import React from 'react';
 import { DeviceEventEmitter } from 'react-native';
-const RNUploader = require('NativeModules').RNUploader;
+import Constants from './Constants';
+
+import RNFetchBlob from 'react-native-fetch-blob';
+import axios from 'axios';
 
 /* ----------------------------------
     Comments (locationsusers *)
@@ -52,41 +55,66 @@ const postTextComments = (textComment) => {
   })
 };
 
-const postAudioComments = (filepath, filename) => {
-  console.log(filepath);
-  console.log(filename);
-	let files = [
-		{
-			filename: filename,
-			filepath: filepath,
-      filetype: 'audio/acc'
-		}
-	];
+const postAudioComments = (filepath, filename, commentBody) => {
+  console.log('filepath', filepath);
+  console.log('filename', filename);
+  return new Promise((resolve, reject) => {
+    RNFetchBlob.fs.readFile(filepath, 'base64')
+    .then((data) => {
+      axios({
+        method: 'POST',
+        url: 'http://localhost:3000/api/locationsusersaudio',
+        data: {
+          buffer: data,
+          filename: filename,
+          latitude: commentBody.latitude,
+          longitude: commentBody.longitude,
+          rating: commentBody.rating,
+          user_id: commentBody.user_id,
+          name: commentBody.name,
+          location_id: commentBody.location_id        
+        },
+      })
+      .then((response) => {
+        let transcription = response.data;
+        console.log('success send audio to server');
+        resolve(transcription);
+      })
+      .catch((err) => {
+        console.log('failed send audio to server:', err);
+        reject(err);
+      })
+    })
+    .catch((err) => {
+      console.log(err.message);
+      reject(err.message);
+    })
+  });
+}
 
-	let opts = {
-		url: 'http://localhost:3000/api/locationsusersaudio',
-		files: files, 
-		method: 'POST',                             
-		headers: { 
-      'Accept': 'audio/aac',
-      'Content-Type': 'audio/aac'
-    },
-		// params: { 'user_id': 1 }               
-	};
-
-	RNUploader.upload(opts, (err, response) => {
-		if( err ){
-			console.log('RNUploader err:', err);
-			return;
-		}
-  
-		let status = response.status;
-		let responseString = response.data;
-		// let json = JSON.parse( responseString );
-
-		console.log('upload complete with status ' + status);
-    // console.log('post response: ', json);
-	});
+const getAudioCommentByFileName = (filename) => {
+  console.log('getAudioCommentByFileName', filename);
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/api/locationsusersaudio/' + filename,
+    })
+    .then((response) => {
+      console.log('success get audio from server');   
+      RNFetchBlob.fs.writeFile(Constants.AUDIO_PATH + '/' + filename, response.data, 'base64')
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      })    
+    })
+    .catch((err) => {
+      console.log('failed get audio from server:', err);
+      reject(err);
+    })    
+  })
 }
 
 /* ----------------------------------
@@ -231,6 +259,7 @@ export {
   getTextComments,
   postTextComments,
   postAudioComments,
+  getAudioCommentByFileName,
   postLocation,
   getLocationId,
   getNearbyPlaces,

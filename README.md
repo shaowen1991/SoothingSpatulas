@@ -87,6 +87,8 @@ Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrat
 
 To run webpack build: `yarn build`
 
+To run Google Speech API: `export GOOGLE_APPLICATION_CREDENTIALS=/code/server/service/Momento-300463bf99db.json`
+
 To run server: `yarn start`
 
 To run tests: `yarn test`

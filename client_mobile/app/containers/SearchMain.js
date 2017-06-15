@@ -54,12 +54,16 @@ class SearchMain extends Component  {
   constructor (props) {
     super (props);
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      onLoading: false
     };
     this.addPOI = this.addPOI.bind(this);
+    this.startLoading = this.startLoading.bind(this);
+    this.stopLoading = this.stopLoading.bind(this);    
   }
 
   addPOI () {
+    this.startLoading();
     var lat = this.props.myLocationReducer.latitude;
     var lng = this.props.myLocationReducer.longitude;
     this.props.clearNearbyPlace();
@@ -73,8 +77,20 @@ class SearchMain extends Component  {
         '',
         place.types
       ))
+      this.stopLoading();
     })
-    .catch(error => {console.log(error)});
+    .catch(error => {
+      console.log(error);
+      this.stopLoading();
+    });
+  }
+
+  startLoading () {
+    this.setState({ onLoading: true });
+  }
+
+  stopLoading () {
+    this.setState({ onLoading: false});
   }
 
   render () {
@@ -113,13 +129,13 @@ class SearchMain extends Component  {
         />
  
         <TouchableOpacity 
-          style={styles.searchButton}
-          onPress={this.addPOI}
+          style={this.state.onLoading ? styles.searchButtonNotAvailable : styles.searchButton}
+          onPress={this.state.onLoading ? null : this.addPOI}
           accessibilityLabel="Get nearby locations from a Google API"
-        >
+        > 
           <Image
             style={styles.image}
-            source={AssetMap.search}
+            source={this.state.onLoading ? AssetMap.spinner : AssetMap.search}
           />
         </TouchableOpacity>
       </Animatable.View>
@@ -145,6 +161,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     backgroundColor: Constants.ICON_COLOR,
+  },
+  searchButtonNotAvailable: {
+    width: "20%",
+    height: "100%",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: Constants.ICON_NOT_AVAILABLE_COLOR,
   },
   textBox: {
     width: "80%",
