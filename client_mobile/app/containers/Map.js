@@ -31,7 +31,8 @@ import {
   selectPlace,
   clearSelectedPlace,
   startPlaying,  
-  stopPlaying
+  stopPlaying,
+  addAudioList
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -46,6 +47,7 @@ const mapStateToProps = ({
   useridReducer,
   commentsRefreshIndicatorReducer,
   isPlaying,
+  audioDownloadedList
 }) => ({
   regionReducer,
   myLocationReducer,
@@ -55,6 +57,7 @@ const mapStateToProps = ({
   useridReducer,
   commentsRefreshIndicatorReducer,
   isPlaying,
+  audioDownloadedList
 });
 
 /* ----------------------------------
@@ -82,6 +85,9 @@ const mapDispatchToProps = (dispatch) => ({
   stopPlaying: () => {
     dispatch(stopPlaying());
   }, 
+  addAudioList: (newAudioFilenane) => {
+    dispatch(addAudioList(newAudioFilenane));
+  }
 });
 /* ----------------------------------
             Other Props
@@ -153,7 +159,9 @@ class Map extends Component  {
       commentsRefreshIndicatorReducer,
       isPlaying,
       startPlaying,
-      stopPlaying
+      stopPlaying,
+      audioDownloadedList,
+      addAudioList
     } = this.props;
     
     const initialRegion = {
@@ -210,6 +218,8 @@ class Map extends Component  {
                     isPlaying={isPlaying}
                     startPlaying={startPlaying}
                     stopPlaying={stopPlaying}
+                    audioDownloadedList={audioDownloadedList}
+                    addAudioList={addAudioList}
                   />
                 </MapView.Callout>
               </MapView.Marker>        

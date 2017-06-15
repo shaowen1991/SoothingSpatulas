@@ -122,6 +122,16 @@ const updateAudioLength = (audioLength) => ({
   audioLength: audioLength
 });
 
+const addAudioList = (newAudioFilename) => ({
+  type: 'ADD_AUDIO_LIST',
+  newAudioFilename: newAudioFilename
+});
+
+const updateAudioList = (audioDownloadedList) => ({
+  type: 'UPDATE_AUDIO_LIST',
+  audioDownloadedList: audioDownloadedList
+});
+
 /* Map Actions
 --------------------------------*/
 const moveRegion = (latitude, longitude, latitudeDelta, longitudeDelta) => ({
@@ -214,6 +224,8 @@ export {
   stopPlaying, 
   updateAudioCurrentTime,
   updateAudioLength,
+  addAudioList,
+  updateAudioList,
   // Map Actions
   moveRegion,
   clearRegion,

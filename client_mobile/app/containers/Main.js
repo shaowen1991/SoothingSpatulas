@@ -10,6 +10,11 @@ import {
   TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
+import RNFetchBlob from 'react-native-fetch-blob';
+/* ----------------------------------
+         Import Constants
+---------------------------------- */
+import Constants from '../Constants';
 
 /* ----------------------------------
        Import Redux Actions
@@ -24,6 +29,7 @@ import {
   moveRegion,
   openProfileView,
   closeProfileView,
+  updateAudioList
 } from '../Actions.js';
 
 /* ----------------------------------
@@ -46,7 +52,8 @@ const mapStateToProps = ({
   checkInOpenReducer,
   profileViewOpen,
   myLocationReducer,
-  regionReducer
+  regionReducer,
+  audioDownloadedList
 }) => ({
   loginReducer,
   usernameReducer,
@@ -55,7 +62,8 @@ const mapStateToProps = ({
   checkInOpenReducer,
   profileViewOpen,
   myLocationReducer,
-  regionReducer
+  regionReducer,
+  audioDownloadedList
 });
 
 /* ----------------------------------
@@ -98,12 +106,23 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(openProfileView());
     }
   },
+  updateAudioList: (audioDownloadedList) => {
+    dispatch(updateAudioList(audioDownloadedList));
+  }
 });
 
 /* ----------------------------------
                 Class
 ---------------------------------- */
 class Main extends Component  {
+  componentDidMount() {
+    // Once the Main component is mounted, updateing the audioList in Redux
+    RNFetchBlob.fs.ls(Constants.AUDIO_PATH)
+    .then((files) => {
+      console.log('Updating audio file list');
+      this.props.updateAudioList(files);
+    })
+  }
 
   render() {
     const {

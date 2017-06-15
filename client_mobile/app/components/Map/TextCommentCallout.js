@@ -42,14 +42,22 @@ export default class TextCommentCallout extends Component {
     /* ----------------------------------
             Fetch comment audio
     ---------------------------------- */
-    if (this.props.comment_audio) { // should check if the file already exist
-      getAudioCommentByFileName(this.props.comment_audio)
-      .then(() => {
+    if (this.props.comment_audio) {
+      if (!this.props.audioDownloadedList.includes(this.props.comment_audio)) {
+        this.props.addAudioList(this.props.comment_audio);
+        getAudioCommentByFileName(this.props.comment_audio)
+        .then(() => {
+          this.setState({ 
+            comment_audio_path: Constants.AUDIO_PATH + '/' + this.props.comment_audio
+          })
+        })
+        .catch((error) => {console.log(error)})
+      }
+      else {
         this.setState({ 
           comment_audio_path: Constants.AUDIO_PATH + '/' + this.props.comment_audio
         })
-      })
-      .catch((error) => {console.log(error)})
+      }
     }
   }
 
@@ -78,7 +86,8 @@ export default class TextCommentCallout extends Component {
       longitude,
       isPlaying,
       startPlaying,
-      stopPlaying
+      stopPlaying,
+      audioDownloadedList
     } = this.props;
     const playStopIcon = this.props.isPlaying ? 'stop' : 'play';
     const playStopHandler = this.props.isPlaying ? this.stopPlay : this.startPlay;  
@@ -91,6 +100,9 @@ export default class TextCommentCallout extends Component {
         ', Longitude: ' + 
         JSON.stringify(longitude).substring(0, 10);
     }
+
+    // console.log('TextCommentCallout props', this.props);
+    // console.log('TextCommentCallout states', this.state);
 
     return (
       <View style={styles.container}>

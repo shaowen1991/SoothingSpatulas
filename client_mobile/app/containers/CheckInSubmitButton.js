@@ -81,7 +81,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateAudioLength: (audioLength) => {
     dispatch(updateAudioLength(audioLength));
-  }
+  },
 });
 
 /* ----------------------------------
@@ -235,7 +235,7 @@ class CheckInSubmitButton extends Component {
       stopPlaying,
       updateAudioCurrentTime,
       updateAudioLength,
-      stopLoading
+      stopLoading,
     } = this.props;
 
     postAudioComments(
@@ -268,7 +268,6 @@ class CheckInSubmitButton extends Component {
         selectedPlaceReducer.name ? selectedPlaceReducer.name : null,
         filename
       );
-      
       stopRecording();
       unfinishRecording(); 
       stopPlaying();

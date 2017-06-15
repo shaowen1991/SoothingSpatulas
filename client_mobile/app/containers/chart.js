@@ -11,7 +11,6 @@ import {
   TouchableHighlight, 
   View 
 } from 'react-native';
-//import { Icon } from 'react-native-icons';
 
 class Chart extends Component {
   constructor(props) {
