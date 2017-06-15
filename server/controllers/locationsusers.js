@@ -11,6 +11,17 @@ module.exports.getAll = (req, res) => {
     });
 };
 
+module.exports.getAllByUserId = (req, res) => {
+  models.LocationUser.where({ user_id: req.params.id }).fetchAll()
+    .then(locationsUsers => {
+      res.status(200).send(locationsUsers);
+    })
+    .catch(err => {
+      // This code indicates an outside service (the database) did not respond in time
+      res.status(503).send(err);
+    });
+};
+
 module.exports.create = (req, res) => {
   console.log(req.body);
   models.LocationUser.forge({
