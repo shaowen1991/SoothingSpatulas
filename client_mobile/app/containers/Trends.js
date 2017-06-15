@@ -28,146 +28,55 @@ class Trends extends Component {
     // this.filterCategories = this.filterCategories.bind(this);
     // this.categoryHash = this.categoryHash.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    // this.setState = this.setState.bind(this)
   }
-
-  // categoryHash() {
-  //   var categories = {};
-  //   var catArray = [];
-  //   for (var i = 0; i < this.state.checkins.length; i++) {
-  //     if (categories[this.state.checkins[i]]) {
-  //       categories[this.state.checkins[i]]++;
-  //     } else {
-  //         categories[this.state.checkins[i]] = 1;
-  //     }
-  //   }
-  //   for (var category in categories) {
-  //     catArray.push([category, categories[category]])
-  //   }
-  //   this.setState({
-  //     categoryHash: catArray
-  //   })
-  //   console.log('HASHED ARRAY', this.state.categoryHash)
-  // }
-
 
 
 
   componentDidMount() {
 
     setInterval(function() {
+      var categoryHash = {};
+      var catArray = [];
+      var categoriesArray = [];
 
-
-
-
-    
-    var categoryHash = {};
-    var catArray = [];
-
-    fetch("http://localhost:3000/api/locationsusers/user/6" /*+ this.props.useridReducer*/, {
-
-      method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+      fetch("http://localhost:3000/api/locationsusers/user/" + this.props.useridReducer, {
+        method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+      })
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        // console.log('USERID IN TRENDS: ', this.props.useridReducer)
+        console.log('LOCATIONUSERS RESPONSE: ', responseJSON.rows)
+        for (var i = 0; i < responseJSON.rows.length; i++) {
+          var cat = responseJSON.rows[i].category.split(',', 1);
+          var str = cat[0].replace(/\W/g, '');
+          var readCat = str.replace(/_/g, ' ');
+          categoriesArray.push(readCat);
         }
-    })
-    .then((response) => response.json())
-    .then((responseJSON) => {
-      console.log('USERID IN TRENDS: ', this.props.useridReducer)
-      console.log('LOCATIONUSERS RESPONSE: ', responseJSON)
-    
-
-      function getCategory(responseJSON, callback) {
-        var categories = [];
-         for (var i = 0; i < responseJSON.length; i++) {
-              fetch("http://localhost:3000/api/locations/" + responseJSON[i].location_id, {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                }
-              })
-              .then((response) => response.json())
-              .then((responseJSON) => {
-                console.log('TRENDS RESPONSE******: ', responseJSON)
-                var cat = responseJSON.category.split(',', 1)
-                var str = cat[0].replace(/\W/g, '');
-                var readCat = str.replace(/_/g, ' ');
-                categories.push(readCat);
-                
-                callback(categories);
-              })
-              .catch((error) => console.log('error: ', error))
+        console.log('categoriesArray', categoriesArray)
+        for (var j = 0; j < categoriesArray.length; j++) {
+          if (categoryHash[categoriesArray[j]]) {
+            categoryHash[categoriesArray[j]]++;
+          } else {
+            categoryHash[categoriesArray[j]] = 1;
+          }
         }
-      }
+        for (var key in categoryHash) {
+          catArray.push([key, categoryHash[key]])
+        }
+        console.log('CAT ARRAY: ', catArray)
+        this.setState({
+          userCategories: catArray
+        })
+      })
 
-      getCategory(responseJSON, function(categories) {
-
-
-        console.log('CATEGORIES GETTING THERE?: ', categories)
-              
-              // .then((categories) => {
-                for (var i = 0; i < categories.length; i++) {
-                  if (categoryHash[categories[i]]) {
-                    categoryHash[categories[i]]++;
-                  } else {
-                    categoryHash[categories[i]] = 1;
-                  }
-                }
-                for (var key in categoryHash) {
-                  catArray.push([key, categoryHash[key]])
-                }
-                this.setState({
-                  userCategories: catArray
-                })
-              // })
-              console.log('TRENDS STATE USERCATS*****', this.state.userCategories)
-
-      });
-    })
-    .catch((error) => console.log('fetch error: ', error))
-
-    
-    // .then(())
-    // for (var i = 0 i < categories.length; i++) {
-    //   if (categoryHash[categories[i]]) {
-    //     categoryHash[categories[i]]++;
-    //   } else {
-    //     categoryHash[categories[i]] = 1;
-    //   }
-    // }
-    // this.setState({
-    //   categoryHashHash: categoryHash
-    // })
-    }.bind(this), 1000)
+        
+    }.bind(this), 10000)
   }
-
-  // filterCategories() {
-  //   console.log('FILTER INVOKED')
-  //   var categories = [];
-  //   this.props.checkins.forEach((place) => {
-  //     fetch("http://localhost:3000/api/locations/name/" + place.name, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     .then((response) => response.json())
-  //     .then((responseJSON) => {
-  //       var cat = responseJSON.category.split(',', 1);
-  //       var str = cat[0].replace(/\W/g, '');
-  //       var readCat = str.replace(/_/g, ' ');
-  //       categories.push(readCat)
-  //     })
-  //     .catch((error) => console.log('error: ', error))
-  //   })
-  //   this.setState({
-  //     checkins: categories
-  //   })
-  // console.log('trends state categories: ', this.state.checkins)
-  // }
-
 
   render() {
 
@@ -176,28 +85,20 @@ class Trends extends Component {
       textCommentsReducer
     } = this.props
 
-
+    // setInterval(function() {
+    //   this.componentDidMount()
+    // }.bind(this), 10000)
 
     return (
       <View>
         <View style={styles.trends}>
           <Text style={styles.trendsHeader}>Your Trends</Text>
           <Text>Total checkins: {this.props.checkins.length}</Text>
-          <Button 
-            onPress={this.filterCategories}
-            title="Filter User's Categories"
-            color="#841584"
-          />
-           <Button 
-            onPress={this.categoryHash}
-            title="Hash Categories"
-            color="#841584"
-          />
           <Text>category | checkins | percentage</Text>
             {this.state.userCategories.map((category, key) => {
               return (
                 <Text key={key}>
-                  {category[0]} | {category[1]} | {Math.floor((category[1] / this.state.checkins.length) * 100)}%
+                  {category[0]} | {category[1]} | {Math.floor((category[1] / this.props.checkins.length) * 100)}%
                 </Text>
               )
             })
@@ -231,6 +132,62 @@ const styles = StyleSheet.create({
 });
 
 export default connect(mapStateToProps, {})(Trends);
+
+ // categoryHash() {
+  //   var categories = {};
+  //   var catArray = [];
+  //   for (var i = 0; i < this.state.checkins.length; i++) {
+  //     if (categories[this.state.checkins[i]]) {
+  //       categories[this.state.checkins[i]]++;
+  //     } else {
+  //         categories[this.state.checkins[i]] = 1;
+  //     }
+  //   }
+  //   for (var category in categories) {
+  //     catArray.push([category, categories[category]])
+  //   }
+  //   this.setState({
+  //     categoryHash: catArray
+  //   })
+  //   console.log('HASHED ARRAY', this.state.categoryHash)
+  // }
+/*
+            <Button 
+            onPress={this.filterCategories}
+            title="Filter User's Categories"
+            color="#841584"
+          />
+           <Button 
+            onPress={this.categoryHash}
+            title="Hash Categories"
+            color="#841584"
+          />
+*/
+    // filterCategories() {
+  //   console.log('FILTER INVOKED')
+  //   var categories = [];
+  //   this.props.checkins.forEach((place) => {
+  //     fetch("http://localhost:3000/api/locations/name/" + place.name, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     .then((response) => response.json())
+  //     .then((responseJSON) => {
+  //       var cat = responseJSON.category.split(',', 1);
+  //       var str = cat[0].replace(/\W/g, '');
+  //       var readCat = str.replace(/_/g, ' ');
+  //       categories.push(readCat)
+  //     })
+  //     .catch((error) => console.log('error: ', error))
+  //   })
+  //   this.setState({
+  //     checkins: categories
+  //   })
+  // console.log('trends state categories: ', this.state.checkins)
+  // }
 
 // {<TabBarIOS>
 //           <TabBarIOS.Item

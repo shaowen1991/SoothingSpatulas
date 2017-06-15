@@ -1,4 +1,5 @@
 const models = require('../../db/models');
+const knex = require('knex')(require('../../knexfile'));
 
 module.exports.getAll = (req, res) => {
   models.LocationUser.fetchAll()
@@ -12,14 +13,15 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.getAllByUserId = (req, res) => {
-  models.LocationUser.where({ user_id: req.params.id }).fetchAll()
-    .then(locationsUsers => {
-      res.status(200).send(locationsUsers);
-    })
-    .catch(err => {
-      // This code indicates an outside service (the database) did not respond in time
-      res.status(503).send(err);
-    });
+knex.schema.raw('select locations_users.user_id, locations_users.name, locations_users.location_id, locations.category from locations_users left outer join locations on locations_users.location_id = locations.id where locations_users.user_id = ' + req.params.id)
+  .then((categories) => {
+    res.status(200).send(categories);
+  })
+  .catch(err => {
+    console.log('err', err);
+    // This code indicates an outside service (the database) did not respond in time
+    res.status(503).send(err);
+  })
 };
 
 module.exports.create = (req, res) => {
