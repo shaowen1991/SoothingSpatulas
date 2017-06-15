@@ -9,6 +9,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import SocketIOClient from 'socket.io-client';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { getUserById } from '../../Network.js';
 
 class Chat extends Component {
   constructor(props) {
@@ -17,73 +18,52 @@ class Chat extends Component {
       messages: [],
       toUserId: this.props.userDetails.users_b_id,
       user:{
-        _id: this.props.userDetails.users_a_id,
+        _id: '',
         name: '',
-        avatar:''
+        avatar: ''
       },
       other_user:{
-        _id: this.props.userDetails.users_b_id,
-        name: this.props.userDetails.connection_name,
-        avatar:''
+        _id: '',
+        name: '',
+        avatar: ''
       }
     };
 
-    this.determineUser = this.determineUser.bind(this);
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
     this.socket = SocketIOClient('ws://198.199.93.251:7999');
     this.socket.on('message', this.onReceivedMessage);
-    this.determineUser();
   }
 
+  componentDidMount() {
+    getUserById(this.props.userId)
+    .then((fetchedUserInfo) => {
+      var user = {};
+      user["_id"] = fetchedUserInfo.id;
+      user["name"] = fetchedUserInfo.first + fetchedUserInfo.last;
+      user["avatar"] = fetchedUserInfo.photo_small;
 
-determineUser() {
-
-    return fetch("https://activesort.com/api/users/" + this.props.userId, {
-    // return fetch("http://localhost:3000/api/users/" + this.props.userId, {
-        method: 'GET'
-      })
-      .then((response) => {
-        return response.json() })
-      .then((responseJson) => {
-        var user = {};
-        user["_id"] = responseJson.id;
-        user["name"] = responseJson.first + responseJson.last;
-        user["avatar"] = responseJson.photo_small;
-
-        this.setState({ user: user });
-        this.socket.emit('userJoined', {
+      this.setState({ user: user });
+      this.socket.emit('userJoined', {
           userId: user._id,
-          toId: this.state.toUserId
-        });
-      })
-      .then(() => {
-
-        return fetch("https://activesort.com/api/users/" + this.state.toUserId, {
-        // return fetch("http://localhost:3000/api/users/" + this.state.toUserId, {
-          method: 'GET'
-        })
-        .then((response) => {
-          return response.json() })
-        .then((responseJson) => {
-          var other_user = {};
-          other_user["_id"] = responseJson.id;
-          other_user["name"] = responseJson.first + responseJson.last;
-          other_user["avatar"] = responseJson.photo_small;
-
-          this.setState({ other_user: other_user });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-      })
-      .catch((error) => {
-        console.error(error);
+          toId: this.props.userDetails.users_b_id
       });
+    })
+    .then(() => {
+      getUserById(this.props.userDetails.users_b_id)
+      .then((fetchedUserInfo) => {
+        var user = {};
+        user["_id"] = fetchedUserInfo.id;
+        user["name"] = fetchedUserInfo.first + fetchedUserInfo.last;
+        user["avatar"] = fetchedUserInfo.photo_small;
 
-}
+        this.setState({ other_user: user });
+      })
+      .catch((error) => {console.log(error)});
+    })
+    .catch((error) => {console.log(error)});
+  }
 
   onReceivedMessage(messages) {
     var context = this;
