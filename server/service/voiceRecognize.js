@@ -11,6 +11,7 @@ module.exports.voiceRecognize = (filename) => {
   const inputFilename = path.join(__dirname, '../service/user_audio/' + filename);
   const outputFilename = path.join(__dirname, '../service/user_audio_converted/' + filename.substring(0, filename.length - 3) + 'flac');
 
+  //docker run -v=`pwd`:/tmp/ffmpeg opencoconut/ffmpeg -i ./resources/temp.aac -y ./resources/temp.flac -ar 16000
   //ffmpeg -i ./resources/temp.aac -y ./resources/temp.flac -ar 16000
   return new Promise((resolve, reject) => {
     exec('ffmpeg -i ' + inputFilename + ' -y ' + ' -ar 16000 ' + outputFilename,
