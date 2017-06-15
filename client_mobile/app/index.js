@@ -59,9 +59,9 @@ const profileViewOpen = (state = false, action) => {
 
 /* Comments Reducers
 --------------------------------*/
-const textCommentsReducer = (state = [], action) => {
+const commentsReducer = (state = [], action) => {
   switch (action.type) {
-    case ('ADD_TEXT_COMMENT') : return [
+    case ('ADD_COMMENT') : return [
       ...state,
       { 
         comment: action.comment,
@@ -70,33 +70,21 @@ const textCommentsReducer = (state = [], action) => {
         rating: action.rating,
         user_id: action.user_id,
         location_id: action.location_id,
-        name: action.name
+        name: action.name,
+        comment_audio: action.comment_audio
       }
     ];
-    case ('UPDATE_TEXT_COMMENT') : return action.textComments;
+    case ('UPDATE_COMMENT') : return action.textComments;
     default : return state;
   }    
 };
 
-const textCommentsRefreshIndicatorReducer = (state = true, action) => {
+const commentsRefreshIndicatorReducer = (state = true, action) => {
   switch (action.type) {
-    case ('TURN_OFF_TEXT_COMMENTS') : return false;
-    case ('TURN_ON_TEXT_COMMENTS') : return true;
+    case ('TURN_OFF_COMMENTS') : return false;
+    case ('TURN_ON_COMMENTS') : return true;
     default: return state;
   }
-}
-
-const audioCommentsReducer = (state = [], action) => {
-  switch (action.type) {
-    case ('ADD_AUDIO_COMMENT') : return [
-      ...state,
-      { 
-        user: action.user,
-        audioPath: action.audioPath
-      }
-    ];
-    default : return state;
-  }      
 }
 
 /* Recorder Reducers
@@ -231,9 +219,8 @@ const reducers = combineReducers({
   checkInOpenReducer,
   profileViewOpen,
   // Comments Reducers
-  textCommentsReducer,
-  textCommentsRefreshIndicatorReducer,
-  audioCommentsReducer,
+  commentsReducer,
+  commentsRefreshIndicatorReducer,
   // Recorder Reducers
   audioCurrentFileName,
   isRecording,

@@ -50,19 +50,20 @@ const closeProfileView = () => ({
 
 /* Comments Actions
 --------------------------------*/
-const addTextComment = (comment, latitude, longitude, rating, user_id, location_id, name) => ({
-  type: 'ADD_TEXT_COMMENT',
+const addComment = (comment, latitude, longitude, rating, user_id, location_id, name, comment_audio) => ({
+  type: 'ADD_COMMENT',
   comment: comment,
   latitude: latitude,
   longitude: longitude,
   rating: rating,
   user_id: user_id,
   location_id: location_id,
-  name: name
+  name: name,
+  comment_audio: comment_audio
 });
 
-const updateTextCommentsDB = (textCommentsFromDB) => ({
-  type: 'UPDATE_TEXT_COMMENT',
+const updateCommentsDB = (textCommentsFromDB) => ({
+  type: 'UPDATE_COMMENT',
   textComments: textCommentsFromDB
 });
 
@@ -72,12 +73,12 @@ const addAudioComment = (user, audioPath) => ({
   audioPath: audioPath
 });
 
-const turnOnTextComments = () => ({
-  type: 'TURN_ON_TEXT_COMMENTS'
+const turnOnComments = () => ({
+  type: 'TURN_ON_COMMENTS'
 });
 
-const turnOffTextComments = () => ({
-  type: 'TURN_OFF_TEXT_COMMENTS'
+const turnOffComments = () => ({
+  type: 'TURN_OFF_COMMENTS'
 });
 
 /* Recorder Actions
@@ -198,11 +199,11 @@ export {
   openProfileView,
   closeProfileView,
   // Comments Actions
-  addTextComment,
-  updateTextCommentsDB,
+  addComment,
+  updateCommentsDB,
   addAudioComment,
-  turnOnTextComments,
-  turnOffTextComments,
+  turnOnComments,
+  turnOffComments,
   // Recorder Actions
   updateAudioCurrentFileName,
   startRecording,

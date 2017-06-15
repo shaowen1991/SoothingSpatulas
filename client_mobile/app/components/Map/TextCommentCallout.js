@@ -3,12 +3,13 @@ import {
   StyleSheet, 
   View, 
   Image,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Constants from '../../Constants';
-import { getUserById } from '../../Network.js';
-
+import { getUserById, getAudioCommentByFileName } from '../../Network.js';
+import { AudioPlayer } from 'react-native-audio-player-recorder';
 /* ----------------------------------
                 Class
 ---------------------------------- */
@@ -22,20 +23,66 @@ export default class TextCommentCallout extends Component {
         id: 0,
         email: '',
         photo_large: 'http://sourcebits.wpengine.netdna-cdn.com/wp-content/themes/sb7/images/icons/spinner.png',
-      }
+      },
+      comment_audio_path: ''
     }
+    this.startPlay = this.startPlay.bind(this);
+    this.stopPlay = this.stopPlay.bind(this);
   }
 
   componentDidMount () {
+    /* ----------------------------------
+            Fetch user info
+    ---------------------------------- */
     getUserById(this.props.user_id)
     .then((fetchedUserInfo) => {
       this.setState({ userInfo: fetchedUserInfo });
     })
     .catch((error) => {console.log(error)})
+    /* ----------------------------------
+            Fetch comment audio
+    ---------------------------------- */
+    if (this.props.comment_audio) { // should check if the file already exist
+      getAudioCommentByFileName(this.props.comment_audio)
+      .then(() => {
+        this.setState({ 
+          comment_audio_path: Constants.AUDIO_PATH + '/' + this.props.comment_audio
+        })
+      })
+      .catch((error) => {console.log(error)})
+    }
+  }
+
+  startPlay () {
+    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.comment_audio);
+    this.props.startPlaying();
+    AudioPlayer.onFinished = () => {
+      this.props.stopPlaying();
+    }
+    AudioPlayer.setFinishedSubscription()
+  }
+
+  stopPlay () {
+    AudioPlayer.stop();
+    this.props.stopPlaying();
   }
 
   render () {
-    const { user_id, name, comment, rating, latitude, longitude } = this.props;
+    const { 
+      user_id, 
+      name, 
+      comment, 
+      comment_audio, 
+      rating, 
+      latitude, 
+      longitude,
+      isPlaying,
+      startPlaying,
+      stopPlaying
+    } = this.props;
+    const playStopIcon = this.props.isPlaying ? 'stop' : 'play';
+    const playStopHandler = this.props.isPlaying ? this.stopPlay : this.startPlay;  
+
     let coordinatesString = '';
     if (!name) {
       coordinatesString = 
@@ -44,7 +91,8 @@ export default class TextCommentCallout extends Component {
         ', Longitude: ' + 
         JSON.stringify(longitude).substring(0, 10);
     }
-    
+    console.log('textCommentCallout state:', this.state);
+    console.log('textCommentCallout props:', this.props);
     return (
       <View style={styles.container}>
         <Animatable.View style={styles.profileContainer}>
@@ -65,6 +113,21 @@ export default class TextCommentCallout extends Component {
         </Animatable.View>
         <View style={styles.textContainer}>
           <Text style={styles.comment}>{'\"' + comment + '\"'}</Text>
+          {/* ---------------------------------
+                  Audio player button
+          ---------------------------------- */}         
+          { this.state.comment_audio_path.length > 0 ? 
+            <TouchableOpacity
+              style={styles.button}
+              onPress={playStopHandler}
+            >
+              <Text style={styles.buttonText}>
+                {playStopIcon}
+              </Text>
+            </TouchableOpacity>
+            :
+            null          
+          }
           <Text ellipsizeMode={'tail'} numberOfLines={1} style={styles.placeText}>{'@ ' + (name ? name : coordinatesString)}</Text>
           <Text style={styles.rating}>Rating: {rating}</Text>
         </View>
@@ -124,5 +187,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold', 
     fontFamily: Constants.TEXT_FONT
-  }
+  },
+  button: {
+    width: 140,
+    height: 30,
+    // flexDirection: 'row',
+    // alignSelf: 'center',
+    backgroundColor: Constants.COMMENT_PIN_COLOR,
+    borderRadius: 5,
+    marginBottom: 15,
+    marginTop: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    color: 'white',
+    fontFamily: Constants.TEXT_FONT
+  },
 });

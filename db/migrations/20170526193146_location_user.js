@@ -13,6 +13,7 @@ exports.up = function (knex, Promise) {
     knex.schema.createTableIfNotExists('locations_users', function(table) {
       table.increments('id').unsigned().primary();
       table.string('comment', 200).nullable();
+      table.string('comment_audio', 100).nullable();     
       table.string('latitude', 100).nullable();
       table.string('longitude', 100).nullable();
       table.string('name', 100).nullable();

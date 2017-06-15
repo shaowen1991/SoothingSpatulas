@@ -55,9 +55,9 @@ const postTextComments = (textComment) => {
   })
 };
 
-const postAudioComments = (filepath, filename) => {
-  console.log('filepath',filepath);
-  console.log('filename',filename);
+const postAudioComments = (filepath, filename, commentBody) => {
+  console.log('filepath', filepath);
+  console.log('filename', filename);
   return new Promise((resolve, reject) => {
     RNFetchBlob.fs.readFile(filepath, 'base64')
     .then((data) => {
@@ -66,7 +66,13 @@ const postAudioComments = (filepath, filename) => {
         url: 'http://localhost:3000/api/locationsusersaudio',
         data: {
           buffer: data,
-          filename: filename
+          filename: filename,
+          latitude: commentBody.latitude,
+          longitude: commentBody.longitude,
+          rating: commentBody.rating,
+          user_id: commentBody.user_id,
+          name: commentBody.name,
+          location_id: commentBody.location_id        
         }
       })
       .then((response) => {
@@ -84,6 +90,31 @@ const postAudioComments = (filepath, filename) => {
       reject(err.message);
     })
   });
+}
+
+const getAudioCommentByFileName = (filename) => {
+  console.log('getAudioCommentByFileName', filename);
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/api/locationsusersaudio/' + filename,
+    })
+    .then((response) => {
+      console.log('success get audio from server');   
+      RNFetchBlob.fs.writeFile(Constants.AUDIO_PATH + '/' + filename, response.data, 'base64')
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      })    
+    })
+    .catch((err) => {
+      console.log('failed get audio from server:', err);
+      reject(err);
+    })    
+  })
 }
 
 /* ----------------------------------
@@ -228,6 +259,7 @@ export {
   getTextComments,
   postTextComments,
   postAudioComments,
+  getAudioCommentByFileName,
   postLocation,
   getLocationId,
   getNearbyPlaces,

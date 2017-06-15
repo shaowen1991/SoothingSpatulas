@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 140,
+    borderRadius: 5,
     flexDirection: 'row',
     alignSelf: 'center',
     backgroundColor: Constants.ICON_COLOR,

@@ -18,9 +18,9 @@ import Constants from '../Constants';
        Import Redux Actions
 ---------------------------------- */
 import {
-  turnOnTextComments,
-  turnOffTextComments,
-  addTextComment,
+  turnOnComments,
+  turnOffComments,
+  addComment,
   clearNearbyPlace,
   // Recorder Actions
   startRecording,
@@ -56,12 +56,12 @@ const mapStateToProps = ({
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  addTextCommentToState: (comment, latitude, longitude, rating, user_id, location_id, name) => {
-    dispatch(addTextComment(comment, latitude, longitude, rating, user_id, location_id, name));
+  addCommentToState: (comment, latitude, longitude, rating, user_id, location_id, name, comment_audio) => {
+    dispatch(addComment(comment, latitude, longitude, rating, user_id, location_id, name, comment_audio));
   },
-  refreshTextComments: () => {
-    dispatch(turnOffTextComments());
-    setTimeout(() => {dispatch(turnOnTextComments())}, 0);
+  refreshComments: () => {
+    dispatch(turnOffComments());
+    setTimeout(() => {dispatch(turnOnComments())}, 0);
   },
   clearNearbyPlace: () => {
     dispatch(clearNearbyPlace());
@@ -91,13 +91,17 @@ class CheckInSubmitButton extends Component {
     super(props);
     this.postTextComment = this.postTextComment.bind(this);
     this.textCommentOnPress = this.textCommentOnPress.bind(this);
+    this.postAudioComment = this.postAudioComment.bind(this);
     this.audioCommentOnPress = this.audioCommentOnPress.bind(this);
   }
-
+  /* ----------------------------------
+        Text Comment Methods
+  ---------------------------------- */
   postTextComment (location_id) {
     const { 
       // props
       typeInComment, 
+      toggleCheckIn,
       rating, 
       useridReducer,
       clearTextAndRating,
@@ -120,6 +124,7 @@ class CheckInSubmitButton extends Component {
     /* ----------------------------------------------------
     Invoke clearTextAndRating callback after data inserted
     ---------------------------------------------------- */
+    .then(() => {toggleCheckIn()})
     .then(() => {clearTextAndRating()})
     .then(() => {clearSelectedPlace()})
     .then(() => {clearNearbyPlace()})
@@ -131,12 +136,11 @@ class CheckInSubmitButton extends Component {
     const { 
       // props
       typeInComment, 
-      toggleCheckIn, 
       rating,
       useridReducer,
       // Comments Actions
-      addTextCommentToState, 
-      refreshTextComments,
+      addCommentToState, 
+      refreshComments,
       // Map Actions
       selectedPlaceReducer, 
       myLocationReducer,
@@ -146,14 +150,13 @@ class CheckInSubmitButton extends Component {
         check in button only available when user has input
     --------------------------------------------------------- */
     if (typeInComment.length > 0) {
-      toggleCheckIn();
       /* ----------------------------------------------------
         comment, latitude, longitude, rating, userid, username
                 pass the text commet details here
               first method is send data to Redux
                 second if-block is send data to DB
       ----------------------------------------------------- */            
-      addTextCommentToState(
+      addCommentToState(
         typeInComment,
         selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
         selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
@@ -198,9 +201,82 @@ class CheckInSubmitButton extends Component {
       /* ---------------------------------------------------------
       dummy way to hard-refresh the textComments to avoid layout issue
       --------------------------------------------------------- */
-      refreshTextComments();
+      refreshComments();
     }
   }
+
+  /* ----------------------------------
+        Audio Comment Methods
+  ---------------------------------- */
+  postAudioComment (filepath, filename, location_id) {
+    const { 
+      // props
+      rating, 
+      toggleCheckIn,
+      toggleTypeOfComment,
+      useridReducer,
+      clearTextAndRating,
+      clearSelectedPlace,
+      addCommentToState,
+      // Map Actions
+      selectedPlaceReducer, 
+      myLocationReducer, 
+      clearNearbyPlace,
+      // Recorder Actions
+      stopRecording,
+      unfinishRecording, 
+      stopPlaying,
+      updateAudioCurrentTime,
+      updateAudioLength
+    } = this.props;
+
+    postAudioComments(
+      filepath,
+      filename,
+      {
+        latitude: selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
+        longitude: selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
+        rating: rating,
+        name: selectedPlaceReducer.name ? selectedPlaceReducer.name : null,
+        user_id: useridReducer,
+        location_id: location_id
+      }
+    )
+    .then((transcription) => {
+      console.log('transcription:', transcription);
+      /* ----------------------------------------------------
+        comment, latitude, longitude, rating, userid, username
+                pass the text commet details here
+              first method is send data to Redux
+                second if-block is send data to DB
+      ----------------------------------------------------- */            
+      addCommentToState(
+        transcription,
+        selectedPlaceReducer.name ? selectedPlaceReducer.latitude : myLocationReducer.latitude, 
+        selectedPlaceReducer.name ? selectedPlaceReducer.longitude : myLocationReducer.longitude,
+        rating,
+        useridReducer,
+        null,
+        selectedPlaceReducer.name ? selectedPlaceReducer.name : null,
+        filename
+      );
+      
+      stopRecording();
+      unfinishRecording(); 
+      stopPlaying();
+      updateAudioCurrentTime(0);
+      updateAudioLength(0); 
+      toggleCheckIn();
+      toggleTypeOfComment();
+    })
+    /* ----------------------------------------------------
+    Invoke clearTextAndRating callback after data inserted
+    ---------------------------------------------------- */
+    .then(() => {clearTextAndRating()})
+    .then(() => {clearSelectedPlace()})
+    .then(() => {clearNearbyPlace()})
+    .catch((error) => {console.log('Submit audio error: ', error)});
+  }  
 
   audioCommentOnPress () {
     const { 
@@ -211,28 +287,64 @@ class CheckInSubmitButton extends Component {
       clearSelectedPlace,
       // Recorder Actions
       audioCurrentFileName,
+      isFinishRecorded,
       stopRecording,
       unfinishRecording, 
       stopPlaying,
       updateAudioCurrentTime,
-      updateAudioLength
+      updateAudioLength,
+      // Comments Actions
+      addCommentToState, 
+      refreshComments,
+      // Map Actions
+      selectedPlaceReducer, 
+      myLocationReducer,
+      clearNearbyPlace,
     } = this.props;
 
     const filepath = Constants.AUDIO_PATH + '/' + audioCurrentFileName;
-    postAudioComments(filepath, audioCurrentFileName)
-    .then((transcription) => {
-      // addAudioCommentToState(usernameReducer, filepath);
-      console.log('transcription:', transcription);
-      stopRecording();
-      unfinishRecording(); 
-      clearSelectedPlace();
-      stopPlaying();
-      updateAudioCurrentTime(0);
-      updateAudioLength(0); 
-      toggleCheckIn();
-      toggleTypeOfComment();
-    })
-    .catch((error) => {console.log('Submit audio error: ', error)})
+    /* ---------------------------------------------------------
+        check in button only available when user has recorded
+    --------------------------------------------------------- */   
+    if (isFinishRecorded) {
+      /* ---------------------------------------------------------
+        only post new location to db when a location is selected
+      --------------------------------------------------------- */
+      if (selectedPlaceReducer.name) {
+        let newLocation = {
+          category: selectedPlaceReducer.category,
+          latitude: selectedPlaceReducer.latitude,
+          longitude: selectedPlaceReducer.longitude,
+          name: selectedPlaceReducer.name,
+          city: selectedPlaceReducer.city,
+          state: ''
+        }
+        getLocationId(newLocation.name)
+        .then((location_id) => {
+          this.postAudioComment(filepath, audioCurrentFileName, location_id);
+        })
+        .catch((error) => {
+          postLocation(newLocation)
+          /* ----------------------------------------------------
+            In this POST request, send new location info to DB
+            and get the location object back from response, 
+            which include the locationid
+          ---------------------------------------------------- */
+          .then((location_id) => {this.postAudioComment(filepath, audioCurrentFileName, location_id)})
+          .catch((error) => {console.log(error)})
+        })
+      }
+      /* ---------------------------------------------------------
+            if no location selected, post comment directly
+      --------------------------------------------------------- */
+      else {
+        this.postAudioComment(filepath, audioCurrentFileName, null);
+      }
+      /* ---------------------------------------------------------
+      dummy way to hard-refresh the textComments to avoid layout issue
+      --------------------------------------------------------- */
+      refreshComments();
+    }
   }
   
   render () {
