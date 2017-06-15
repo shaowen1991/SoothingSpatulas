@@ -42,8 +42,8 @@ export default class ProfileIcon extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 36,
-    left: 22,
+    top: 34,
+    left: 21,
     zIndex: 10,
   },
   icon: {

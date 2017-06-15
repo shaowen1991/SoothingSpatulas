@@ -52,7 +52,7 @@ class ChatAdd extends Component {
         style = {styles.submitButton}
         onPress = { () => this.add(this.state.email) }>
         <Text style = {styles.text}>
-          Submit
+          Add
         </Text>
       </TouchableOpacity>
       </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 45,
-    flex: 0.7,
+    width: 250,
     padding: 10,
     height: 40,
     textAlign: 'center',
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
 
   submitButton: {
     marginTop: 45,
-    flex: 0.3,
-    backgroundColor: '#7a42f4',
+    width: 70,
+    backgroundColor: '#4527A0',
     padding: 10,
     height: 40,
   },

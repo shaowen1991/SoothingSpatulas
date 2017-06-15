@@ -15,6 +15,7 @@ import ProfileHeader from './ProfileHeader';
 import Chart from './chart.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
+import MomentoBar from './MomentoBar';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 const transitionProps = ['top', 'height', 'width']
 
@@ -136,13 +137,13 @@ class Profile extends Component {
             onPress={() => {this.setTab('most-viewed')}}
           >
           <View>
+            <MomentoBar/>
             <ProfileHeader
               userPic={this.state.userPic}
               userName={this.state.userName}
               userHist={this.state.userHist}
             />
             <Chart userHist={this.state.userHist}/>
-
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item
@@ -160,6 +161,7 @@ class Profile extends Component {
             onPress={() => {this.setTab('history')}}
             >
             <View>
+              <MomentoBar/>
               <HistoryList userHist={this.state.userHist}/>
             </View>
           </TabBarIOS.Item>
@@ -174,7 +176,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: 'grey',
     zIndex: 6
   },
 })

@@ -53,7 +53,7 @@ export default class CheckInButton extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: "85%",
+    top: "88%",
     left: 30,
     right: 30,
     zIndex: 5,
