@@ -23,6 +23,7 @@
     "react-native-uuid-generator": "^2.0.0",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
+    "react-timer-mixin": "^0.13.3",
     "redux": "^3.6.0",
     "require": "^2.4.20",
     "socket.io": "^2.0.2",

@@ -1,8 +1,6 @@
 rootProject.name = 'client_mobile'
 include ':react-native-uuid-generator'
 project(':react-native-uuid-generator').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-uuid-generator/android')
-include ':react-native-fetch-blob'
-project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
 
 include ':react-native-maps'
 project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-maps/lib/android')
@@ -14,3 +12,5 @@ include ':react-native-audio-player-recorder'
 project(':react-native-audio-player-recorder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-audio-player-recorder/android')
 
 include ':app'
+include ':react-native-fetch-blob'
+project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')

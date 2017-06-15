@@ -12,7 +12,7 @@ import axios from 'axios';
 ---------------------------------- */
 const getTextComments = () => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/locationsusers')
+    fetch('https://activesort.com/api/locationsusers')
       .then((response) => response.json())
       .then((responseJSON) => {
         console.log('-------> GET locationsusers: ', responseJSON);
@@ -27,7 +27,7 @@ const getTextComments = () => {
 
 const postTextComments = (textComment) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/locationsusers', {
+    fetch('https://activesort.com/api/locationsusers', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -63,7 +63,7 @@ const postAudioComments = (filepath, filename, commentBody) => {
     .then((data) => {
       axios({
         method: 'POST',
-        url: 'http://localhost:3000/api/locationsusersaudio',
+        url: 'https://activesort.com/api/locationsusersaudio',
         data: {
           buffer: data,
           filename: filename,
@@ -97,7 +97,7 @@ const getAudioCommentByFileName = (filename) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
-      url: 'http://localhost:3000/api/locationsusersaudio/' + filename,
+      url: 'https://activesort.com/api/locationsusersaudio/' + filename,
     })
     .then((response) => {
       console.log('success get audio from server');   
@@ -122,7 +122,7 @@ const getAudioCommentByFileName = (filename) => {
 ---------------------------------- */
 const postLocation = (location) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/locations', {
+    fetch('https://activesort.com/api/locations', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -151,7 +151,7 @@ const postLocation = (location) => {
 
 const getLocationId = (name) => {
   return new Promise((resolve, reject) => {
-    fetch("http://localhost:3000/api/locations/name/" + name, {
+    fetch("https://activesort.com/api/locations/name/" + name, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -199,7 +199,7 @@ const getNearbyPlaces = (searchTerm, lat, lng, addNearbyPlace) => {
 ---------------------------------- */
 const getUserById = (user_id) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/users/' + user_id)
+    fetch('https://activesort.com/api/users/' + user_id)
     .then((response) => response.json())
     .then((responseJSON) => {
       console.log('-------> GET user: ', responseJSON);
@@ -214,7 +214,7 @@ const getUserById = (user_id) => {
 
 const getUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
-    fetch("http://localhost:3000/api/users/email/" + email, {
+    fetch("https://activesort.com/api/users/email/" + email, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -235,7 +235,7 @@ const getUserByEmail = (email) => {
 
 const postUser = (userLoginInfo) => {
   return new Promise((resolve, reject) => {
-    fetch("http://localhost:3000/api/users/", {
+    fetch("https://activesort.com/api/users/", {
       method: "POST",
       headers: {
         'Accept': 'application/json',

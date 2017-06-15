@@ -78,8 +78,8 @@ class ChatList extends Component {
     console.log('in ChatList.js', this.props.userId);
 
     return(
-      <View style={{marginTop: 8}}>
-        <ChatAdd style={{marginTop: 20}} userId={this.props.userId}/>
+      <View>
+        <ChatAdd userId={this.props.userId}/>
         <ScrollView
           style={{width: 375, height: 500}}
           userId={this.props.userId}>
@@ -91,36 +91,19 @@ class ChatList extends Component {
 }
 
 var styles = StyleSheet.create({
-  profileheader: {
-    height: 50,
-    marginBottom: 20
-  },
-  headerBar: {
-    width: '100%',
-    height: 38,
-    backgroundColor: '#4527A0',
-    marginTop: 25,
-    textAlign: 'center'
-  },
-  appName: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: 'white',
-    fontStyle: 'italic',
-  },
-  header: {
-    flexDirection: 'row',
-    height: '90%'
-  },
-  containerProfile:{
-    height: 50,
-    flexDirection: 'row',
-    marginLeft: 10,
-    padding:5
-  },
-  name: {
- 
-  }
+    containerProfile:{
+        height: 50,
+        flexDirection: 'row',
+        marginLeft: 10,
+        padding:5
+    },
+    name: {
+        fontSize: 18,
+        paddingBottom: 5,
+        paddingTop:5,
+        paddingLeft:20,
+        fontFamily: 'Avenir-Medium'
+    }
 });
 
 module.exports = ChatList;
