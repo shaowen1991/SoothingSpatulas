@@ -9,6 +9,9 @@ services:
     ports:
       - "8000:8000"
       - "3000:3000"
+    volumes:
+      - "./hostmount/:/code/server/service/user_audio"
+      - "./hostmount/:/code/server/service/user_audio_converted"
     deploy:
       replicas: 2
       restart_policy:

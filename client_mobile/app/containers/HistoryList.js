@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     height: '91.75%',
     width: '100%',
     alignContent: 'center',
-    fontSize: 10,
     paddingTop: 10
   },
   trendsHeader: {
@@ -111,11 +110,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: '1%',
     // color: '#9CCC65'
-  },
-  trendsBody: {
-    color: '#4527A0',
-    fontSize: 10,
-    backgroundColor: '#ecf0f1'
   },
   info: {
     flexDirection: 'column',

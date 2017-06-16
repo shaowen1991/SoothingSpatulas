@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
     height: '20%',
     width: '100%',
     alignContent: 'center',
-    fontSize: 10,
     marginBottom: '2%'
   },
   trendsHeader: {
