@@ -27,7 +27,7 @@ class ChatMain extends Component {
           titleTextColor='#fff'
           tintColor='#fff'
           navigationBarHidden={false}
-          style={{width: '100%', height: 500, top: 20, zIndex: 100, position: 'absolute', zIndex: 1000}}
+          style={{width: '100%', height: 590, top: 20, zIndex: 100, position: 'absolute', zIndex: 1000}}
          />
       )
     }
