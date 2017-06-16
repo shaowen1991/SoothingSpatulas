@@ -25,13 +25,11 @@ class ChatList extends Component {
 
   componentDidMount(){
     setInterval(function() {
-
       return fetch("https://activesort.com/api/connections/" + this.props.userId, {
       // return fetch("http://localhost:3000/api/connections/" + this.props.userId, {
         method: 'GET'
       })
       .then((response) => {
-
         console.log(response);
         return response.json()})
       .then((responseJson) => {
@@ -40,7 +38,6 @@ class ChatList extends Component {
       .catch((error) => {
         console.error(error);
       });
-
     }.bind(this), 5000);
   }
 
@@ -53,9 +50,9 @@ class ChatList extends Component {
   }
 
   render() {
-    console.log("render called");
+    // console.log("render called");
     var chats = this.state.chatConnections;
-    console.log('from chats ', chats);
+    // console.log('from chats ', chats);
     var list = chats.map((item, index) => {
       return (
         <View key={index}>
@@ -74,9 +71,7 @@ class ChatList extends Component {
         </View>
       )
     })
-
-    console.log('in ChatList.js', this.props.userId);
-
+    // console.log('in ChatList.js', this.props.userId);
     return(
       <View>
         <ChatAdd userId={this.props.userId}/>

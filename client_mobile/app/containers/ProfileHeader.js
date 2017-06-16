@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
-const mapStateToProps = ({
-  userPicReducer
-}) => ({
-  userPicReducer
-});
+// const mapStateToProps = ({
+//   userPicReducer
+// }) => ({
+//   userPicReducer
+// });
 
 class ProfileHeader extends Component {
   constructor(props) {
@@ -27,14 +27,14 @@ class ProfileHeader extends Component {
   //   }
 
   render() {
-    const {
-      userPicReducer
-    } = this.props
+    // const {
+    //   userPicReducer
+    // } = this.props
 
     var histArray = this.props.userHist;
-    console.log('PROFILE HEADER PROPS', this.props)
-    console.log('PROFILE HEADER STATE', this.state)
-    console.log('****PROFILE HEADER userHist: ', this.props.userHist)
+    // console.log('PROFILE HEADER PROPS', this.props)
+    // console.log('PROFILE HEADER STATE', this.state)
+    // console.log('****PROFILE HEADER userHist: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
         <View style={styles.header}>

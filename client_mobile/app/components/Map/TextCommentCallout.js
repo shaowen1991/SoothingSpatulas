@@ -202,8 +202,6 @@ const styles = StyleSheet.create({
   button: {
     width: 140,
     height: 30,
-    // flexDirection: 'row',
-    // alignSelf: 'center',
     backgroundColor: Constants.COMMENT_PIN_COLOR,
     borderRadius: 5,
     marginBottom: 15,

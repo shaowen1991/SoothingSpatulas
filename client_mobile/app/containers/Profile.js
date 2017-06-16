@@ -52,7 +52,6 @@ const mapDispatchToProps = (dispatch) => ({
     }
   },
   storeUserHistoryToState: (userhistory) => {
-    console.log('dispatching userhist: ', userhistory)
     dispatch(storeUserHistoryToState(usercomment))
   }
 })
@@ -108,8 +107,8 @@ class Profile extends Component {
     // this.setState({
     //   userID: useridReducer
     // })
-    console.log('PROFILE- ALL CHECKINS: ', this.props.commentsReducer)
-    console.log('PROFILE- filteredCheckins', this.state.checkins)
+    // console.log('PROFILE- ALL CHECKINS: ', this.props.commentsReducer)
+    // console.log('PROFILE- filteredCheckins', this.state.checkins)
     // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {

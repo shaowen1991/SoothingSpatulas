@@ -31,7 +31,7 @@ class Chart extends Component {
 
   componentDidMount() {
     var filteredCheckins = [];
-    console.log('SAY WHAAAATtttttt?: ', this.props.textCommentsReducer)
+    // console.log('SAY WHAAAATtttttt?: ', this.props.textCommentsReducer)
     for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
       if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
         filteredCheckins.push(this.props.textCommentsReducer[i])

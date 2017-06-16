@@ -50,7 +50,7 @@ class Trends extends Component {
       .then((response) => response.json())
       .then((responseJSON) => {
         // console.log('USERID IN TRENDS: ', this.props.useridReducer)
-        console.log('LOCATIONUSERS RESPONSE: ', responseJSON.rows)
+        // console.log('LOCATIONUSERS RESPONSE: ', responseJSON.rows)
         for (var i = 0; i < responseJSON.rows.length; i++) {
           if (responseJSON.rows[i].category) {
             var cat = responseJSON.rows[i].category.split(',', 1);
@@ -59,7 +59,7 @@ class Trends extends Component {
             categoriesArray.push(readCat);
           }
         }
-        console.log('categoriesArray', categoriesArray)
+        // console.log('categoriesArray', categoriesArray)
         for (var j = 0; j < categoriesArray.length; j++) {
           if (categoryHash[categoriesArray[j]]) {
             categoryHash[categoriesArray[j]]++;
@@ -70,7 +70,7 @@ class Trends extends Component {
         for (var key in categoryHash) {
           catArray.push([key, categoryHash[key]])
         }
-        console.log('CAT ARRAY: ', catArray)
+        // console.log('CAT ARRAY: ', catArray)
         this.setState({
           userCategories: catArray
         })
@@ -114,8 +114,6 @@ class Trends extends Component {
     );
   }
 }
-
-
 
 const styles = StyleSheet.create({
   trends: {
@@ -179,96 +177,3 @@ const styles = StyleSheet.create({
 });
 
 export default connect(mapStateToProps, {})(Trends);
-
- // categoryHash() {
-  //   var categories = {};
-  //   var catArray = [];
-  //   for (var i = 0; i < this.state.checkins.length; i++) {
-  //     if (categories[this.state.checkins[i]]) {
-  //       categories[this.state.checkins[i]]++;
-  //     } else {
-  //         categories[this.state.checkins[i]] = 1;
-  //     }
-  //   }
-  //   for (var category in categories) {
-  //     catArray.push([category, categories[category]])
-  //   }
-  //   this.setState({
-  //     categoryHash: catArray
-  //   })
-  //   console.log('HASHED ARRAY', this.state.categoryHash)
-  // }
-/*
-            <Button 
-            onPress={this.filterCategories}
-            title="Filter User's Categories"
-            color="#841584"
-          />
-           <Button 
-            onPress={this.categoryHash}
-            title="Hash Categories"
-            color="#841584"
-          />
-*/
-    // filterCategories() {
-  //   console.log('FILTER INVOKED')
-  //   var categories = [];
-  //   this.props.checkins.forEach((place) => {
-  //     fetch("http://localhost:3000/api/locations/name/" + place.name, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     .then((response) => response.json())
-  //     .then((responseJSON) => {
-  //       var cat = responseJSON.category.split(',', 1);
-  //       var str = cat[0].replace(/\W/g, '');
-  //       var readCat = str.replace(/_/g, ' ');
-  //       categories.push(readCat)
-  //     })
-  //     .catch((error) => console.log('error: ', error))
-  //   })
-  //   this.setState({
-  //     checkins: categories
-  //   })
-  // console.log('trends state categories: ', this.state.checkins)
-  // }
-
-// {<TabBarIOS>
-//           <TabBarIOS.Item
-//             title="Trends"
-//             onPress={() => {
-//               this.setState({
-//                 selectedTab: 'Trends',
-//               });
-//             }}
-//             selected={this.state.selectedTab = 'Trends'}
-//           ></TabBarIOS.Item>
-//           <TabBarIOS.Item
-//             title="Trends"
-//             onPress={() => {
-//               this.setState({
-//                 selectedTab: 'Connections',
-//               });
-//             }}
-//             selected={this.state.selectedTab = 'Connections'}></TabBarIOS.Item>
-//           <TabBarIOS.Item
-//             title="Trends"
-//             onPress={() => {
-//               this.setState({
-//                 selectedTab: 'MapView',
-//               });
-//             }}
-//             selected={this.state.selectedTab = 'Map View'}></TabBarIOS.Item>
-//         </TabBarIOS>}
-
-          // <Button title=''
-          // onPress={()=>{}}>
-          //   <Image
-          //     style={styles.hamburger}
-          //     source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png'}}
-          //   /> 
-          //   <Text>Marketing</Text>
-          // </Button>

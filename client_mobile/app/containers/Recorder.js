@@ -111,7 +111,7 @@ class Recorder extends Component {
   componentDidMount () {
     UUIDGenerator.getRandomUUID()
     .then((uuid) => {
-      console.log(uuid);
+      // console.log(uuid);
       this.props.updateAudioCurrentFileName(uuid + '.aac');
     })
   }
@@ -193,7 +193,7 @@ class Recorder extends Component {
       width: windowWidth,
     }
 
-    console.log('Recorder props: ', this.props);
+    // console.log('Recorder props: ', this.props);
     return (
       <Animatable.View style={[styles.container, style]}>
         <ActionButtons 

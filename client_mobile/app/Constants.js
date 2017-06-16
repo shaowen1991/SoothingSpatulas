@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { AudioUtils } from 'react-native-audio-player-recorder';
 
-console.log('Audio Path: ', AudioUtils.DocumentDirectoryPath);
+// console.log('Audio Path: ', AudioUtils.DocumentDirectoryPath);
 const Constants = {
   MAX_AUDIO_LENGTH: 60,
   AUDIO_PATH: AudioUtils.DocumentDirectoryPath,
