@@ -21,7 +21,6 @@ export default class ProfileIcon extends Component {
   }
 
   render() {
-
     const {onPress, icon, profileViewOpen, closeCheckIn} = this.props
 
     return (

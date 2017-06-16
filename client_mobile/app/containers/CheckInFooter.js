@@ -426,21 +426,13 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     flexDirection: 'row',
-    // alignItems: "center",
   },
   headerTextView: {
-    // flexDirection: 'row',
     zIndex: 6,
-    // paddingRight: 10,
     backgroundColor: 'transparent',
     justifyContent: 'center'
   },
   ratingHeader: {
-    // position: 'absolute',
-    // left: "25%",
-    // right: "25%",
-    // height: 35,
-    // top: 58,
     paddingLeft: "2.5%",
     flexDirection: 'row',
     alignItems: "center",
@@ -472,7 +464,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'black',
     fontWeight: 'bold',
-    // justifyContent: 'center', 
     fontFamily: Constants.TEXT_FONT
   },
   addressText: {

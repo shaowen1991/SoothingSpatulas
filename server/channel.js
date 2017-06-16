@@ -64,6 +64,8 @@ function _sendAndSaveMessage(message, socket) {
   .save()
   .then(function(data){
     console.log('Channel data inserted into database');
+    var emitter = socket.broadcast;
+    emitter.emit(‘message’, [message]);
   })
   .catch(function(err){
     console.log(err);

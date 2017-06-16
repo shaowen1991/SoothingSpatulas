@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     backgroundColor: 'white',
-    borderWidth: 1,
     zIndex: 6
   },
 })

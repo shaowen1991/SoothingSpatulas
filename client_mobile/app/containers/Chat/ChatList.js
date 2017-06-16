@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   Button,
+  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -30,7 +31,7 @@ class ChatList extends Component {
         method: 'GET'
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         return response.json()})
       .then((responseJson) => {
         this.setState({chatConnections: responseJson});
@@ -51,9 +52,15 @@ class ChatList extends Component {
 
   render() {
     // console.log("render called");
-    var chats = this.state.chatConnections;
+    let chats = this.state.chatConnections;
     // console.log('from chats ', chats);
-    var list = chats.map((item, index) => {
+    const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+    const style = {
+      height: windowHeight,
+      width: windowWidth,
+    }
+
+    let list = chats.map((item, index) => {
       return (
         <View key={index}>
           <View>
@@ -61,10 +68,10 @@ class ChatList extends Component {
               onPress={this.goToChat.bind(this, item)}
               underlayColor='transparent'>
               <View>
-              <View style={styles.containerProfile} >
-              <Text style={styles.name}>{item.connection_name}</Text>
-              </View>
-              <Separator/>
+                <View style={styles.containerProfile} >
+                  <Text style={styles.name}>{item.connection_name}</Text>
+                </View>
+                <Separator/>
               </View>
             </TouchableHighlight>
           </View>
@@ -76,7 +83,7 @@ class ChatList extends Component {
       <View>
         <ChatAdd userId={this.props.userId}/>
         <ScrollView
-          style={{width: 375, height: 500}}
+          style={[style]}
           userId={this.props.userId}>
           {list}
         </ScrollView>
@@ -86,19 +93,19 @@ class ChatList extends Component {
 }
 
 var styles = StyleSheet.create({
-    containerProfile:{
-        height: 50,
-        flexDirection: 'row',
-        marginLeft: 10,
-        padding:5
-    },
-    name: {
-        fontSize: 18,
-        paddingBottom: 5,
-        paddingTop:5,
-        paddingLeft:20,
-        fontFamily: 'Avenir-Medium'
-    }
+  containerProfile:{
+    height: 50,
+    flexDirection: 'row',
+    marginLeft: 10,
+    padding:5
+  },
+  name: {
+    fontSize: 18,
+    paddingBottom: 5,
+    paddingTop:5,
+    paddingLeft:20,
+    fontFamily: 'Avenir-Medium'
+  }
 });
 
 module.exports = ChatList;

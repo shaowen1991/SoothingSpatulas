@@ -14,7 +14,6 @@ const hitSlop = {
                 Class
 ---------------------------------- */
 export default class BackToMyLocationIcon extends Component {
-
   render () {
     const { clearNearbyPlace } = this.props;
     return (

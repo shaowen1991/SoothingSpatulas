@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import SocketIOClient from 'socket.io-client';
@@ -34,10 +35,10 @@ class Chat extends Component {
     this._storeMessages = this._storeMessages.bind(this);
     this.socket = SocketIOClient('ws://198.199.93.251:7999');
     // this.socket = SocketIOClient('http://localhost:8000');
-    this.socket.on('message', this.onReceivedMessage);
   }
 
   componentDidMount() {
+    this.socket.on('message', this.onReceivedMessage);
     getUserById(this.props.userId)
     .then((fetchedUserInfo) => {
       var user = {};
@@ -67,21 +68,23 @@ class Chat extends Component {
   }
 
   onReceivedMessage(messages) {
-    var context = this;
-    var newMsgObj = messages.map(function(message) {
-      var newmessage = {};
-      newmessage['_id'] = message['id'];
-      newmessage['text'] = message['message'];
-      newmessage['createdAt'] = message['created_at'];
-      if(message.from_id===context.state.user._id)
-          newmessage['user'] = context.state.user;
-      else
-          newmessage['user'] = context.state.other_user;
-      newmessage['to_user'] = message['to_id'];
-      return newmessage;
-    });
-    messages = newMsgObj;
-    this._storeMessages(messages);
+    // setInterval(function() {
+      var context = this;
+      var newMsgObj = messages.map(function(message) {
+        var newmessage = {};
+        newmessage['_id'] = message['id'];
+        newmessage['text'] = message['message'];
+        newmessage['createdAt'] = message['created_at'];
+        if(message.from_id===context.state.user._id)
+            newmessage['user'] = context.state.user;
+        else
+            newmessage['user'] = context.state.other_user;
+        newmessage['to_user'] = message['to_id'];
+        return newmessage;
+      });
+      messages = newMsgObj;
+      this._storeMessages(messages);
+    // }.bind(this), 1000);
   }
 
   onSend(messages = []) {
@@ -98,11 +101,19 @@ class Chat extends Component {
   }
 
   render() {
-    return (<View style = {{marginTop: 45, width: 375, height: 540, backgroundColor: 'whitesmoke' }} >
-      <GiftedChat messages = { this.state.messages }
-      onSend = {this.onSend}
-      user = {this.state.user}
-      keyboardShouldPersistTaps = {'always'}/>
+    const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+    const style = {
+      height: windowHeight - 200,
+      width: windowWidth,
+    }
+
+    return (
+      <View style = {{marginTop: 45, width: style.width, height: style.height, backgroundColor: 'whitesmoke' }} >
+        <GiftedChat 
+          messages = { this.state.messages }
+          onSend = {this.onSend}
+          user = {this.state.user}
+          keyboardShouldPersistTaps = {'always'}/>
       </View>
     )
   }

@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableHighlight,
-  NavigatorIOS
+  NavigatorIOS,
+  Dimensions
 } from 'react-native';
 import ChatList from './ChatList'
 
@@ -14,53 +15,57 @@ class ChatMain extends Component {
   }
 
   render() {
-
-    // console.log('in index.js', this.props.userId);
-      return (
-        <NavigatorIOS
-          initialRoute={{
-            component: ChatList,
-            title:'Momento',
-            passProps: { userId: this.props.userId }
-          }}
-          barTintColor='#260b7c'
-          titleTextColor='#fff'
-          tintColor='#fff'
-          navigationBarHidden={false}
-          style={{width: '100%', height: 500, top: 20, zIndex: 100, position: 'absolute'}}
-         />
-      )
+    const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+    const style = {
+      height: windowHeight,
+      width: windowWidth,
     }
+
+    return (
+      <NavigatorIOS
+        initialRoute={{
+          component: ChatList,
+          title:'Momento',
+          passProps: { userId: this.props.userId }
+        }}
+        barTintColor='#260b7c'
+        titleTextColor='#fff'
+        tintColor='#fff'
+        navigationBarHidden={false}
+        style={{height: style.height, width: style.width, top: 20, zIndex: 100, position: 'absolute'}}
+        />
+    )
+  }
 }
 
 var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    rowContainer: {
-        flexDirection: 'column',
-        flex: 1,
-        padding: 10
-    },
-    name: {
-        color: '#48BBEC',
-        fontSize: 18,
-        paddingBottom: 5
-    },
-    stars: {
-        color: '#48BBEC',
-        fontSize: 14,
-        paddingBottom: 5
-    },
-    description: {
-        fontSize: 14,
-        paddingBottom: 5
-    },
-    text: {
-      fontSize: 24,
-      marginTop: 300,
-      color: 'black',
-      alignSelf: 'center'
+  container: {
+    flex: 1,
+  },
+  rowContainer: {
+    flexDirection: 'column',
+    flex: 1,
+    padding: 10
+  },
+  name: {
+    color: '#48BBEC',
+    fontSize: 18,
+    paddingBottom: 5
+  },
+  stars: {
+    color: '#48BBEC',
+    fontSize: 14,
+    paddingBottom: 5
+  },
+  description: {
+    fontSize: 14,
+    paddingBottom: 5
+  },
+  text: {
+    fontSize: 24,
+    marginTop: 300,
+    color: 'black',
+    alignSelf: 'center'
   }
 });
 

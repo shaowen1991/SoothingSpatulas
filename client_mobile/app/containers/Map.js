@@ -183,7 +183,7 @@ class Map extends Component  {
           key="AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc"
           mapType="standard"
           showsUserLocation={true}
-          followsUserLocation={true}
+          followsUserLocation={false}
           showsPointsOfInterest={false}
           showCompass={true}
           showsBuildings={true}

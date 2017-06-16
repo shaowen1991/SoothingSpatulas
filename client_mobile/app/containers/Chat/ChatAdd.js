@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
-
+import Constants from '../../Constants.js';
 class ChatAdd extends Component {
   constructor (props){
     super(props);
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     height: 40,
     textAlign: 'center',
     borderColor: 'transparent',
-    borderWidth: 1
+    borderWidth: 1,
+    fontFamily: Constants.TEXT_FONT
   },
 
   submitButton: {
@@ -81,11 +82,11 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 40,
   },
-
   text: {
     textAlign: 'center',
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    fontFamily: Constants.TEXT_FONT
   }
 })
 

@@ -32,10 +32,7 @@ class Trends extends Component {
     // this.setState = this.setState.bind(this)
   }
 
-
-
   componentDidMount() {
-
     setInterval(function() {
       var categoryHash = {};
       var catArray = [];
@@ -125,7 +122,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignContent: 'center',
     marginBottom: '2%',
-    fontFamily: Constants.TEXT_FONT
   },
   trendsHeader: {
     color: 'black',
@@ -141,21 +137,21 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 20,
     color: '#9CCC65',
-    // fontFamily: Constants.TEXT_FONT
+    fontFamily: Constants.TEXT_FONT
   },
   num: {
     right: 150,
     position: 'absolute',
     fontSize: 20,
     color: '#4527A0',
-    // fontFamily: Constants.TEXT_FONT
+    fontFamily: Constants.TEXT_FONT
   },
   percent: {
     right: 75,
     position: 'absolute',
     fontSize: 20,
     color: '#4527A0',
-    // fontFamily: Constants.TEXT_FONT
+    fontFamily: Constants.TEXT_FONT
   },
   columnHeaderLeft:{
     fontSize: 15,
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 20,
     color: '#4527A0',
-    // fontFamily: Constants.TEXT_FONT
+    fontFamily: Constants.TEXT_FONT
   },
 });
 

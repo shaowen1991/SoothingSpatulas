@@ -226,7 +226,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(Recorder);
 /* ----------------------------------
       In order to make this work

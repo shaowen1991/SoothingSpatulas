@@ -5,37 +5,14 @@ import PropTypes from 'prop-types';
 import Constants from '../Constants.js';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
-// const mapStateToProps = ({
-//   userPicReducer
-// }) => ({
-//   userPicReducer
-// });
-
 class ProfileHeader extends Component {
   constructor(props) {
     super(props);
   }
 
-  // call to database w/ userid
-  // lastCheckin() {
-  //   fetch("http://localhost:3000/api/locationsusers/", {
-  //     method: "GET",
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'            
-  //     }
-  //     })
-  //   }
-
   render() {
-    // const {
-    //   userPicReducer
-    // } = this.props
+    let histArray = this.props.userHist;
 
-    var histArray = this.props.userHist;
-    // console.log('PROFILE HEADER PROPS', this.props)
-    // console.log('PROFILE HEADER STATE', this.state)
-    // console.log('****PROFILE HEADER userHist: ', this.props.userHist)
     return (
       <View style={styles.profileheader}>
         <View style={styles.header}>
@@ -77,7 +54,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     height: '90%',
-    fontFamily: Constants.TEXT_FONT
   },
   picture: {
     width: 150,
@@ -95,13 +71,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 30,
     textAlign: 'center',
-    color: '#9CCC65'
+    color: '#9CCC65',
+    fontFamily: Constants.TEXT_FONT
   },
   hometown: {
     fontSize: 20,
     textAlign: 'center',
     marginTop: 15,
-    color: '#9CCC65'
+    color: '#9CCC65',
+    fontFamily: Constants.TEXT_FONT
   },
 });
 

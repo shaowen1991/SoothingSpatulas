@@ -35,16 +35,16 @@ class HistoryList extends Component {
           {this.props.userHist.map((place, key) => {
             place.name = (place.name ? place.name : 'custom location')
             return (      
-              <View style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
+              <View key={key} style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
                 <Text style={styles.name}>- {place.name}</Text>
                 <Text style={styles.des}>Rating: {place.rating / 2} Stars</Text>
                 <Text style={styles.des}>San Francisco, CA</Text>
-                <Text style={styles.des}>Latitude: {place.lat}, Longitude: {place.lng}</Text>
+                <Text style={styles.des}>Latitude: {place.latitude}, Longitude: {place.longitude}</Text>
                 <Text style={styles.comment}>{place.comment}</Text>
               </View>
             )
           })}
-          <Text style={styles.end}> - You have no more check ins - </Text>
+          <Text style={styles.end}> - You have no more checkins - </Text>
           </ScrollView>
         </View>
       </View>
@@ -89,15 +89,16 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 35,
-    // textAlign: 'center',
-    color: '#4527A0'
+    color: '#4527A0',
+    fontFamily: Constants.TEXT_FONT
   },
   comment: {
     fontSize: 20,
     textAlign: 'center',
     marginTop: 5,
     color: '#9CCC65',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    fontFamily: Constants.TEXT_FONT
   },
   trends: {
     flexDirection: 'column',
@@ -105,25 +106,18 @@ const styles = StyleSheet.create({
     width: '100%',
     alignContent: 'center',
     paddingTop: 10,
-    fontFamily: Constants.TEXT_FONT
   },
   trendsHeader: {
     color: 'black',
     textAlign: 'center',
     fontSize: 20,
     marginBottom: '1%',
-    // color: '#9CCC65'
   },
   info: {
     flexDirection: 'column',
     marginLeft: '3%',
     marginBottom: '5%',
   },
-  // name: {
-  //   marginLeft: '3%',
-  //   fontSize: 20,
-  //   color: '#4527A0',
-  // },
   hometown: {
     marginLeft: 20,
     fontSize: 15,
@@ -138,6 +132,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'grey',
     marginTop: 20
+  },
+  des: {
+    fontFamily: Constants.TEXT_FONT
   }
 });
 
