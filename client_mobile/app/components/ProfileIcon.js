@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, TouchableOpacity, Image, Keyboard } from 'react-native'
 
 import AssetMap from '../config/AssetMap'
 
@@ -22,13 +22,17 @@ export default class ProfileIcon extends Component {
 
   render() {
 
-    const {onPress, icon, profileViewOpen} = this.props
+    const {onPress, icon, profileViewOpen, closeCheckIn} = this.props
 
     return (
       <TouchableOpacity
         style={styles.container}
         hitSlop={hitSlop}
-        onPress={() => {onPress(profileViewOpen)}}
+        onPress={() => {
+          onPress(profileViewOpen);
+          Keyboard.dismiss();
+          closeCheckIn();
+        }}
       >
         <Image
           style={styles.icon}

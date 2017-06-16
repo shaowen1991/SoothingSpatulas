@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
-
 class MomentoBar extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-
     return (
       <View style={styles.profileheader}>
         <View style={styles.headerBar}>

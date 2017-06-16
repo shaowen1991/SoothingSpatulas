@@ -62,7 +62,7 @@ export default class TextCommentCallout extends Component {
   }
 
   startPlay () {
-    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.comment_audio);
+    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.comment_audio, {output:'Phone Speaker'});
     this.props.startPlaying();
     AudioPlayer.onFinished = () => {
       this.props.stopPlaying();
@@ -89,7 +89,7 @@ export default class TextCommentCallout extends Component {
       stopPlaying,
       audioDownloadedList
     } = this.props;
-    const playStopIcon = this.props.isPlaying ? 'stop' : 'play';
+    const playStopIcon = this.props.isPlaying ? 'Stop' : 'Play';
     const playStopHandler = this.props.isPlaying ? this.stopPlay : this.startPlay;  
 
     let coordinatesString = '';
@@ -166,13 +166,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60/2,
-    borderColor: Constants.COMMENT_PIN_COLOR,
-    borderWidth: 3,
+    borderColor: Constants.ICON_NOT_AVAILABLE_COLOR,
+    borderWidth: 10,
   },
   image: {
-    width: 58,
-    height: 58,
-    borderRadius: 58/2,
+    width: 55,
+    height: 55,
+    borderRadius: 55/2,
   },
   usernameText: {
     fontSize: 11,

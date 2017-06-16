@@ -11,5 +11,6 @@ export default {
   play: require('../images/play.png'),
   stop: require('../images/stop.png'),  
   spinner: require('../images/spinner.gif'),
-  loginBackground: require('../images/login-background.jpg')
+  loginBackground: require('../images/login-background-blur.jpg'),
+  clear: require('../images/clear.png')
 }

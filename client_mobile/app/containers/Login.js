@@ -118,7 +118,6 @@ class Login extends Component {
         <Image 
           source={AssetMap.loginBackground} 
           style={styles.backgroundImage} 
-          blurRadius={1}
         />
         <View style={styles.middle}>
           <Text style={styles.welcome}>

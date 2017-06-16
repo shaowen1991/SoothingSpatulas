@@ -172,7 +172,7 @@ class Recorder extends Component {
   }
 
   startPlay () {
-    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.audioCurrentFileName);
+    AudioPlayer.play(Constants.AUDIO_PATH + '/' + this.props.audioCurrentFileName, {output:'Phone Speaker'});
     this.props.startPlaying();
     AudioPlayer.onFinished = () => {
       this.props.stopPlaying();
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     flexDirection: 'row',
-    top: 100,
+    top: 80,
     height: 100,
     zIndex: 6,
     backgroundColor: '#F5F5F5',

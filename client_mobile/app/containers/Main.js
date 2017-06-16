@@ -27,6 +27,7 @@ import {
   openCheckIn,
   closeCheckIn,
   moveRegion,
+  clearNearbyPlace,
   openProfileView,
   closeProfileView,
   updateAudioList
@@ -39,7 +40,7 @@ import Map from './Map';
 import CheckInFooter from './CheckInFooter';
 import Profile from './Profile';
 import SearchMain from './SearchMain';
-import { BackToMyLocationIcon, CheckInButton, ProfileIcon }  from '../components';
+import { BackToMyLocationIcon, CheckInButton, ProfileIcon, ClearNearbyPlaceButton }  from '../components';
 
 /* ----------------------------------
     Mapping Redux Store States
@@ -52,6 +53,7 @@ const mapStateToProps = ({
   checkInOpenReducer,
   profileViewOpen,
   myLocationReducer,
+  nearbyPlacesReducer,
   regionReducer,
   audioDownloadedList
 }) => ({
@@ -62,6 +64,7 @@ const mapStateToProps = ({
   checkInOpenReducer,
   profileViewOpen,
   myLocationReducer,
+  nearbyPlacesReducer,
   regionReducer,
   audioDownloadedList
 });
@@ -77,7 +80,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateUserPic(''));
   },
   toggleCheckIn: (checkInOpenReducer) => {
-    console.log('checkin hamburger')
     if (checkInOpenReducer) {
       dispatch(closeCheckIn());
     }
@@ -91,14 +93,13 @@ const mapDispatchToProps = (dispatch) => ({
   closeCheckIn: () => {
     dispatch(closeCheckIn());
   },
+  clearNearbyPlace: () => {
+    dispatch(clearNearbyPlace());
+  },
   backToMyLocation: (latitude, longitude, latitudeDelta, longitudeDelta) => {
     dispatch(moveRegion(latitude, longitude, latitudeDelta, longitudeDelta));
   },
   toggleProfileView: (profileViewOpen) => {
-    console.log('profile hamburger')
-    console.log('hamburger props: ', this.props)
-    console.log('hamburger dispatch:', dispatch)
-    console.log('hamburger dispatch:', profileViewOpen)
     if (profileViewOpen) {
       dispatch(closeProfileView());
     }
@@ -119,7 +120,6 @@ class Main extends Component  {
     // Once the Main component is mounted, updateing the audioList in Redux
     RNFetchBlob.fs.ls(Constants.AUDIO_PATH)
     .then((files) => {
-      console.log('Updating audio file list');
       this.props.updateAudioList(files);
     })
   }
@@ -136,19 +136,29 @@ class Main extends Component  {
       closeCheckIn,
       toggleProfileView,
       myLocationReducer,
+      nearbyPlacesReducer,
+      clearNearbyPlace,
       backToMyLocation,
       regionReducer,
       useridReducer
     } = this.props;
 
-    console.log('Main props: ', this.props);
+    // console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
         <ProfileIcon 
           icon={profileViewOpen ? 'arrowLeft' : 'hamburger'}
           profileViewOpen={profileViewOpen}
           onPress={toggleProfileView}
+          closeCheckIn={closeCheckIn}
         />
+        {nearbyPlacesReducer.length !== 0 ?
+          <ClearNearbyPlaceButton
+            clearNearbyPlace={clearNearbyPlace}
+          />
+          :
+          null
+        }
         <BackToMyLocationIcon 
           myLocationReducer={myLocationReducer}
           regionReducer={regionReducer}

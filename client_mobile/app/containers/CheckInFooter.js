@@ -158,7 +158,7 @@ class CheckInFooter extends Component {
     } = this.props
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
     const style = {
-      top: checkInOpenReducer ? windowHeight - 270 - this.state.keyboardHeight : windowHeight,
+      top: checkInOpenReducer ? windowHeight - 250 - this.state.keyboardHeight : windowHeight,
       height: windowHeight,
       width: windowWidth,
     }
@@ -191,65 +191,68 @@ class CheckInFooter extends Component {
         {/* ---------------------------------
           Header that include text and stars
         ---------------------------------- */}
-        <Animatable.View style={styles.titleHeader}>
-          <Animatable.View style={styles.headerText}>
+        <Animatable.View style={styles.header}>
+          <Animatable.View style={styles.headerTextView}>
             <Animatable.Text style={styles.titleText}>
               {'How is this place?'}
             </Animatable.Text>
-            <Animatable.Text style={styles.addressText}>
-              {selectedPlaceReducer.name ? selectedPlaceReducer.name : coordinatesString}
-            </Animatable.Text>
+          </Animatable.View>
+          {/* ---------------------------------
+                          Stars
+          ---------------------------------- */}   
+          <Animatable.View style={styles.ratingHeader}>       
+            <TouchableOpacity 
+              style={styles.starContainer}
+              onPress={() => {this.setRating(1)}}
+            >
+              <Image
+                style={styles[starsDisplay.first]}
+                source={AssetMap[starsDisplay.first]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.starContainer}
+              onPress={() => {this.setRating(2)}}
+            >
+              <Image
+                style={styles[starsDisplay.second]}
+                source={AssetMap[starsDisplay.second]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.starContainer}
+              onPress={() => {this.setRating(3)}}
+            >
+              <Image
+                style={styles[starsDisplay.third]}
+                source={AssetMap[starsDisplay.third]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.starContainer}
+              onPress={() => {this.setRating(4)}}
+            >
+              <Image
+                style={styles[starsDisplay.forth]}
+                source={AssetMap[starsDisplay.forth]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.starContainer}
+              onPress={() => {this.setRating(5)}}
+            >
+              <Image
+                style={styles[starsDisplay.fifth]}
+                source={AssetMap[starsDisplay.fifth]}
+              />
+            </TouchableOpacity>
           </Animatable.View>
         </Animatable.View>
-        {/* ---------------------------------
-                        Stars
-        ---------------------------------- */}   
-        <Animatable.View style={styles.ratingHeader}>       
-          <TouchableOpacity 
-            style={styles.starContainer}
-            onPress={() => {this.setRating(1)}}
-          >
-            <Image
-              style={styles[starsDisplay.first]}
-              source={AssetMap[starsDisplay.first]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.starContainer}
-            onPress={() => {this.setRating(2)}}
-          >
-            <Image
-              style={styles[starsDisplay.second]}
-              source={AssetMap[starsDisplay.second]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.starContainer}
-            onPress={() => {this.setRating(3)}}
-          >
-            <Image
-              style={styles[starsDisplay.third]}
-              source={AssetMap[starsDisplay.third]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.starContainer}
-            onPress={() => {this.setRating(4)}}
-          >
-            <Image
-              style={styles[starsDisplay.forth]}
-              source={AssetMap[starsDisplay.forth]}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.starContainer}
-            onPress={() => {this.setRating(5)}}
-          >
-            <Image
-              style={styles[starsDisplay.fifth]}
-              source={AssetMap[starsDisplay.fifth]}
-            />
-          </TouchableOpacity>
+
+        <Animatable.View style={styles.address}>
+          <Animatable.Text style={styles.addressText}>
+            {selectedPlaceReducer.name ? selectedPlaceReducer.name : coordinatesString}
+          </Animatable.Text>
         </Animatable.View>
         {/* ---------------------------------
               Text Comments Input Box
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 22,
     right: 22,
-    top: 100,
+    top: 80,
     height: 100,
     zIndex: 6,
     paddingHorizontal: 15,
@@ -362,7 +365,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     position: 'absolute',
-    top: 220,
+    top: 200,
     left: 22,
     right: 22,
     flexDirection: 'row',
@@ -416,24 +419,28 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.3,
   },
-  titleHeader: {
+  header: {
     position: 'absolute',
+    top: 10,
     left: 22,
-    height: 60,
+    height: 40,
+    justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: "center",
+    // alignItems: "center",
   },
-  headerText: {
+  headerTextView: {
+    // flexDirection: 'row',
     zIndex: 6,
-    paddingRight: 10,
+    // paddingRight: 10,
     backgroundColor: 'transparent',
+    justifyContent: 'center'
   },
   ratingHeader: {
-    position: 'absolute',
-    left: "25%",
-    right: "25%",
-    height: 35,
-    top: 58,
+    // position: 'absolute',
+    // left: "25%",
+    // right: "25%",
+    // height: 35,
+    // top: 58,
     paddingLeft: "2.5%",
     flexDirection: 'row',
     alignItems: "center",
@@ -451,15 +458,21 @@ const styles = StyleSheet.create({
     height: 29.5,
     margin: 2.8
   },
+  address: {
+    left: 24,
+    top: 55
+  },
   buttonText: {
     fontSize: 16,
     color: 'white',
     fontFamily: Constants.TEXT_FONT
   },
   titleText: {
+    top: 3,
     fontSize: 17,
     color: 'black',
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
+    // justifyContent: 'center', 
     fontFamily: Constants.TEXT_FONT
   },
   addressText: {
