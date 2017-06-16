@@ -52,10 +52,12 @@ class Trends extends Component {
         // console.log('USERID IN TRENDS: ', this.props.useridReducer)
         console.log('LOCATIONUSERS RESPONSE: ', responseJSON.rows)
         for (var i = 0; i < responseJSON.rows.length; i++) {
-          var cat = responseJSON.rows[i].category.split(',', 1);
-          var str = cat[0].replace(/\W/g, '');
-          var readCat = str.replace(/_/g, ' ');
-          categoriesArray.push(readCat);
+          if (responseJSON.rows[i].category) {
+            var cat = responseJSON.rows[i].category.split(',', 1);
+            var str = cat[0].replace(/\W/g, '');
+            var readCat = str.replace(/_/g, ' ');
+            categoriesArray.push(readCat);
+          }
         }
         console.log('categoriesArray', categoriesArray)
         for (var j = 0; j < categoriesArray.length; j++) {
@@ -73,9 +75,9 @@ class Trends extends Component {
           userCategories: catArray
         })
       })
-
+      .catch((error) => console.log('TRENDS ERROR', error))
         
-    }.bind(this),3000)
+    }.bind(this),5000)
   }
 
   render() {
@@ -131,7 +133,8 @@ const styles = StyleSheet.create({
     marginBottom: '1%'
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 15
   },
   category: {
     marginLeft: 20,

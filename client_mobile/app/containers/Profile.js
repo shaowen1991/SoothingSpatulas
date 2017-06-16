@@ -68,7 +68,6 @@ class Profile extends Component {
       userID: this.props.userID,
       categories: []
     }
-    // this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
 
   setTab (tabID) {
@@ -76,39 +75,6 @@ class Profile extends Component {
       selectedTab: tabID
     })
   }
-
-//     userCheckinHistory(userid) {
-//     var histArray = [];
-//     fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
-//         method: "GET",
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json'
-//         }
-//       })
-//       .then((response) => response.json())
-//       .then((responseJSON) => {
-//         // if (responseJSON.isArray()) {
-//           for (var i = 0; i < responseJSON.length; i++) {
-//             histArray.push(responseJSON[i]);
-//           }
-//         // } else {
-//         //   histArray.push(responseJSON)
-//         // }
-//         this.setState({
-//           userHist: histArray,
-//           userHistFirst: histArray.shift()
-//         })
-//         console.log('CHECKINSTUFF!!!', this.state.userHist)
-//       })
-//       .catch((err) => {
-//         console.log('-------> user id fetch err: ', err);
-//       })
-//   }
-
-//   componentWillMount() {
-//     this.userCheckinHistory(5);
-// }
 
   componentDidMount() {
     setInterval(function() {
