@@ -143,7 +143,7 @@ const postLocation = (location) => {
       resolve(responseJSON.id);
     })
     .catch((error) => {
-      console.logr('-------> new location POST error: ', error);
+      console.log('-------> new location POST error: ', error);
       reject(error);
     });  
   })
