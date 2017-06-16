@@ -32,8 +32,8 @@ class Chat extends Component {
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
-    this.socket = SocketIOClient('ws://198.199.93.251:7999');
-    // this.socket = SocketIOClient('http://localhost:8000');
+    // this.socket = SocketIOClient('ws://198.199.93.251:7999');
+    this.socket = SocketIOClient('http://localhost:8000');
     this.socket.on('message', this.onReceivedMessage);
   }
 
