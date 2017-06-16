@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     flexDirection: 'column',
-    textAlign: 'center',
+    alignSelf: 'center',
     width: '50%',
     marginTop: 35,
   },
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: '1%',
-    color: '#9CCC65'
+    // color: '#9CCC65'
   },
   trendsBody: {
     color: '#4527A0',
@@ -125,11 +125,11 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     marginBottom: '5%',
   },
-  name: {
-    marginLeft: '3%',
-    fontSize: 20,
-    color: '#4527A0',
-  },
+  // name: {
+  //   marginLeft: '3%',
+  //   fontSize: 20,
+  //   color: '#4527A0',
+  // },
   hometown: {
     marginLeft: 20,
     fontSize: 15,

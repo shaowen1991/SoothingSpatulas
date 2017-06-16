@@ -87,7 +87,10 @@ Note: `--env NODE_ENV` may be omitted for development. For example, `knex migrat
 
 To run webpack build: `yarn build`
 
-To run Google Speech API: `export GOOGLE_APPLICATION_CREDENTIALS=/code/server/service/Momento-300463bf99db.json`
+To run Google Speech API: `brew install ffmpeg ` & `export GOOGLE_APPLICATION_CREDENTIALS=/code/server/service/Momento-300463bf99db.json`
+
+IMPORTANT: When you run front-end, run `yarn` and `react-native link` first. Then run `react-native run-ios`.
+Make sure `react-native-fetch-blob` is installed; otherwise, you may get a error `Cannot read property DocumentDir of undefined`
 
 To run server: `yarn start`
 

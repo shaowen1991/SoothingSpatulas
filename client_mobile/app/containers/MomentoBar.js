@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     height: 44,
     backgroundColor: '#4527A0',
     marginTop: 20,
-    textAlign: 'center'
+    alignSelf: 'center'
   },
   appName: {
     fontSize: 16.9,

@@ -11,7 +11,7 @@ const mapStateToProps = ({ loginReducer }) => ({ loginReducer });
 class Navigator extends Component {
   render() {
     const {loginReducer} = this.props;
-    console.log('Navigator props: ', this.props);
+    // console.log('Navigator props: ', this.props);
 
     return (
       loginReducer ? <Main /> : <Login />

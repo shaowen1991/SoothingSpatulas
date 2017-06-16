@@ -12,7 +12,7 @@ import {
   View 
 } from 'react-native';
 import { connect } from 'react-redux';
-//import { Icon } from 'react-native-icons';
+
 const mapStateToProps = ({
   useridReducer,
   textCommentsReducer

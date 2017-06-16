@@ -134,6 +134,17 @@ const audioLength = (state = 0, action) => {
   }
 };
 
+const audioDownloadedList = (state = [], action) => {
+  switch (action.type) {
+    case ('ADD_AUDIO_LIST') : return [
+      ...state,
+      action.newAudioFilename
+    ];
+    case ('UPDATE_AUDIO_LIST') : return action.audioDownloadedList;
+    default : return state;
+  }      
+}
+
 /* Map Reducers
 --------------------------------*/
 const regionReducer = (state = {}, action) => {
@@ -228,6 +239,7 @@ const reducers = combineReducers({
   isPlaying,
   currentTime,
   audioLength,
+  audioDownloadedList,
   // Map Reducers
   regionReducer,
   myLocationReducer,

@@ -87,7 +87,7 @@ class Profile extends Component {
       this.setState({
         checkins: filteredCheckins
       })
-    }.bind(this), 1000)
+    }.bind(this), 30000)
   }
 
   changeUserID(userid) {

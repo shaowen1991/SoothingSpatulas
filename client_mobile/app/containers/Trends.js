@@ -77,7 +77,7 @@ class Trends extends Component {
       })
       .catch((error) => console.log('TRENDS ERROR', error))
         
-    }.bind(this),5000)
+    }.bind(this),30000)
   }
 
   render() {
