@@ -22,36 +22,33 @@ class HistoryList extends Component {
   }
 
   render() {
-    // console.log()
     const {
       useridReducer,
       textCommentsReducer
     } = this.props
-    
-    console.log('HISTORY LIST userHist: ', this.props.userHist)
+    // console.log('HISTORY LIST userHist: ', this.props.userHist)
     return (
       <View>
-      <View style={styles.trends}>
-        <ScrollView>
-        {this.props.userHist.map((place, key) => {
-          return (      
-            <View style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
-              <Text style={styles.name}>- {place.name}</Text>
-              <Text style={styles.des}>Rating: {place.rating / 2} Stars</Text>
-              <Text style={styles.des}>San Francisco, CA</Text>
-              <Text style={styles.des}>Latitude: {place.lat}, Longitude: {place.lng}</Text>
-              <Text style={styles.comment}>{place.comment}</Text>
-            </View>
-          )
-        })}
-        <Text style={styles.end}> - You have no more check ins - </Text>
-        </ScrollView>
+        <View style={styles.trends}>
+          <ScrollView>
+          {this.props.userHist.map((place, key) => {
+            return (      
+              <View style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
+                <Text style={styles.name}>- {place.name}</Text>
+                <Text style={styles.des}>Rating: {place.rating / 2} Stars</Text>
+                <Text style={styles.des}>San Francisco, CA</Text>
+                <Text style={styles.des}>Latitude: {place.lat}, Longitude: {place.lng}</Text>
+                <Text style={styles.comment}>{place.comment}</Text>
+              </View>
+            )
+          })}
+          <Text style={styles.end}> - You have no more check ins - </Text>
+          </ScrollView>
+        </View>
       </View>
-    </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   profileheader: {

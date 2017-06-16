@@ -12,7 +12,8 @@
     "docker-migrate": "./setup/migrate.sh",
     "docker-migrate-rollback": "./setup/migrate-rollback.sh",
     "docker-seed": "./setup/seed.sh",
-    "docker-reset": "./setup/reset.sh"
+    "docker-reset": "./setup/reset.sh",
+    "docker-voice": "./setup/voice-setup.sh"
   },
   "author": "Hack Reactor",
   "license": "MIT",

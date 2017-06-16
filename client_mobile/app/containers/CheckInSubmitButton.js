@@ -251,7 +251,6 @@ class CheckInSubmitButton extends Component {
       }
     )
     .then((transcription) => {
-      console.log('transcription:', transcription);
       /* ----------------------------------------------------
         comment, latitude, longitude, rating, userid, username
                 pass the text commet details here

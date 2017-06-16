@@ -13,10 +13,10 @@ var styles = StyleSheet.create({
 
 class Separator extends React.Component{
 	render(){
-		console.log("SEPA SEPA");
+		// console.log("SEPA SEPA");
 		return (
 			<View style={styles.separator} />
-			);
+		);
 	}
 };
 

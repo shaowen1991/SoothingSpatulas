@@ -31,14 +31,12 @@ class ChatAdd extends Component {
             id: this.props.userId
           })
         });
-
       }
     });
   }
 
   render(){
-
-    console.log('in ChatAdd.js', this.props.userId);
+    // console.log('in ChatAdd.js', this.props.userId);
     return (
       <View style={styles.container}>
       <TextInput style = {styles.input}

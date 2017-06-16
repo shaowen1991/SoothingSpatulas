@@ -5,6 +5,7 @@ services:
     image: momento-image
     environment:
       NODE_ENV: production
+      GOOGLE_APPLICATION_CREDENTIALS: /code/server/service/Momento-300463bf99db.json
     ports:
       - "8000:8000"
       - "3000:3000"
