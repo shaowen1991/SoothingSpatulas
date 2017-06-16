@@ -19,8 +19,8 @@ class ChatAdd extends Component {
     email.split('').forEach((value) => {
       if(value === '@') {
 
-        // return fetch('https://activesort.com/api/connections', {
-        return fetch('http://localhost:3000/api/connections', {
+        return fetch('https://activesort.com/api/connections', {
+        // return fetch('http://localhost:3000/api/connections', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
