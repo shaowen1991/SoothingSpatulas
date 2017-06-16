@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Constants from '../Constants.js';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 // const mapStateToProps = ({
@@ -75,7 +76,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: '90%'
+    height: '90%',
+    fontFamily: Constants.TEXT_FONT
   },
   picture: {
     width: 150,

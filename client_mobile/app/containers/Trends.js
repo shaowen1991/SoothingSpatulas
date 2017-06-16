@@ -8,6 +8,7 @@ import { AppRegistry,
   Button 
 } from 'react-native';
 import { connect } from 'react-redux';
+import Constants from '../Constants.js'
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 const mapStateToProps = ({
@@ -56,7 +57,9 @@ class Trends extends Component {
             var cat = responseJSON.rows[i].category.split(',', 1);
             var str = cat[0].replace(/\W/g, '');
             var readCat = str.replace(/_/g, ' ');
-            categoriesArray.push(readCat);
+            categoriesArray.push(readCat + 's');
+          } else {
+            categoriesArray.push('other')
           }
         }
         // console.log('categoriesArray', categoriesArray)
@@ -77,7 +80,7 @@ class Trends extends Component {
       })
       .catch((error) => console.log('TRENDS ERROR', error))
         
-    }.bind(this),30000)
+    }.bind(this),3000)
   }
 
   render() {
@@ -99,7 +102,7 @@ class Trends extends Component {
             {this.state.userCategories.map((category, key) => {
               return (
                 <View style={styles.row} key={key}>
-                  <Text style={styles.category}>{category[0]}s</Text>
+                  <Text style={styles.category}>{category[0]}</Text>
                   <Text style={styles.num}>{category[1]}</Text>
                   <Text style={styles.percent}>{Math.floor((category[1] / this.props.checkins.length) * 100)}%</Text>
                 </View>
@@ -121,7 +124,8 @@ const styles = StyleSheet.create({
     height: '20%',
     width: '100%',
     alignContent: 'center',
-    marginBottom: '2%'
+    marginBottom: '2%',
+    fontFamily: Constants.TEXT_FONT
   },
   trendsHeader: {
     color: 'black',
@@ -137,18 +141,21 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 20,
     color: '#9CCC65',
+    // fontFamily: Constants.TEXT_FONT
   },
   num: {
     right: 150,
     position: 'absolute',
     fontSize: 20,
     color: '#4527A0',
+    // fontFamily: Constants.TEXT_FONT
   },
   percent: {
     right: 75,
     position: 'absolute',
     fontSize: 20,
     color: '#4527A0',
+    // fontFamily: Constants.TEXT_FONT
   },
   columnHeaderLeft:{
     fontSize: 15,
@@ -172,6 +179,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 20,
     color: '#4527A0',
+    // fontFamily: Constants.TEXT_FONT
   },
 });
 

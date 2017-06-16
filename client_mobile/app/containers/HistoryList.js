@@ -3,6 +3,7 @@ import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollVi
 import { connect } from 'react-redux';
 import HistoryItem from './HistoryItem';
 import PropTypes from 'prop-types';
+import Constants from '../Constants.js';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 const mapStateToProps = ({
@@ -32,6 +33,7 @@ class HistoryList extends Component {
         <View style={styles.trends}>
           <ScrollView>
           {this.props.userHist.map((place, key) => {
+            place.name = (place.name ? place.name : 'custom location')
             return (      
               <View style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
                 <Text style={styles.name}>- {place.name}</Text>
@@ -87,8 +89,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 35,
-    textAlign: 'center',
-    color: '#9CCC65'
+    // textAlign: 'center',
+    color: '#4527A0'
   },
   comment: {
     fontSize: 20,
@@ -102,7 +104,8 @@ const styles = StyleSheet.create({
     height: '91.75%',
     width: '100%',
     alignContent: 'center',
-    paddingTop: 10
+    paddingTop: 10,
+    fontFamily: Constants.TEXT_FONT
   },
   trendsHeader: {
     color: 'black',
