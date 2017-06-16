@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
     height: '80%',
     width: '100%',
     alignContent: 'center',
-    fontSize: 10,
-
   },
   trendsHeader: {
     color: 'black',

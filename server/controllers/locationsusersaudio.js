@@ -11,17 +11,6 @@ const AWSCredentials = require('../service/AWS.json');
 AWS.config.credentials = AWSCredentials;
 const s3 = new AWS.S3({credentials: AWSCredentials});
 
-// module.exports.getAll = (req, res) => {
-//   models.LocationUser.fetchAll()
-//     .then(locationsUsers => {
-//       res.status(200).send(locationsUsers);
-//     })
-//     .catch(err => {
-//       // This code indicates an outside service (the database) did not respond in time
-//       res.status(503).send(err);
-//     });
-// };
-
 module.exports.create = (req, res) => {
   const audioBuffer = Buffer.from(req.body.buffer, 'base64');
   const filename = req.body.filename;
@@ -110,40 +99,3 @@ module.exports.getOne = (req, res) => {
   });
 };
 
-// module.exports.update = (req, res) => {
-//   models.LocationUser.where({ id: req.params.id }).fetch()
-//     .then(locationUser => {
-//       if (!locationUser) {
-//         throw locationUser;
-//       }
-//       return locationUser.save(req.body, { method: 'update' });
-//     })
-//     .then(() => {
-//       res.sendStatus(201);
-//     })
-//     .error(err => {
-//       res.status(500).send(err);
-//     })
-//     .catch(() => {
-//       res.sendStatus(404);
-//     });
-// };
-
-// module.exports.deleteOne = (req, res) => {
-//   models.LocationUser.where({ id: req.params.id }).fetch()
-//     .then(locationUser => {
-//       if (!locationUser) {
-//         throw locationUser;
-//       }
-//       return locationUser.destroy();
-//     })
-//     .then(() => {
-//       res.sendStatus(200);
-//     })
-//     .error(err => {
-//       res.status(503).send(err);
-//     })
-//     .catch(() => {
-//       res.sendStatus(404);
-//     });
-// };

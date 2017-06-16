@@ -15,7 +15,7 @@ const getTextComments = () => {
     fetch('https://activesort.com/api/locationsusers')
       .then((response) => response.json())
       .then((responseJSON) => {
-        console.log('-------> GET locationsusers: ', responseJSON);
+        // console.log('-------> GET locationsusers: ', responseJSON);
         resolve(responseJSON);
       })
       .catch((error) => {
@@ -45,7 +45,7 @@ const postTextComments = (textComment) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> POST comment db', responseJSON);
+      // console.log('-------> POST comment db', responseJSON);
       resolve(responseJSON);
     })
     .catch((error) => {
@@ -56,8 +56,8 @@ const postTextComments = (textComment) => {
 };
 
 const postAudioComments = (filepath, filename, commentBody) => {
-  console.log('filepath', filepath);
-  console.log('filename', filename);
+  // console.log('filepath', filepath);
+  // console.log('filename', filename);
   return new Promise((resolve, reject) => {
     RNFetchBlob.fs.readFile(filepath, 'base64')
     .then((data) => {
@@ -77,7 +77,7 @@ const postAudioComments = (filepath, filename, commentBody) => {
       })
       .then((response) => {
         let transcription = response.data;
-        console.log('success send audio to server');
+        // console.log('success send audio to server');
         resolve(transcription);
       })
       .catch((err) => {
@@ -93,14 +93,14 @@ const postAudioComments = (filepath, filename, commentBody) => {
 }
 
 const getAudioCommentByFileName = (filename) => {
-  console.log('getAudioCommentByFileName', filename);
+  // console.log('getAudioCommentByFileName', filename);
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
       url: 'https://activesort.com/api/locationsusersaudio/' + filename,
     })
     .then((response) => {
-      console.log('success get audio from server');   
+      // console.log('success get audio from server');   
       RNFetchBlob.fs.writeFile(Constants.AUDIO_PATH + '/' + filename, response.data, 'base64')
       .then(() => {
         resolve();
@@ -139,7 +139,7 @@ const postLocation = (location) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> POST location db', responseJSON);
+      // console.log('-------> POST location db', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
@@ -160,7 +160,7 @@ const getLocationId = (name) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> GET location id: ', responseJSON);
+      // console.log('-------> GET location id: ', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
@@ -202,7 +202,7 @@ const getUserById = (user_id) => {
     fetch('https://activesort.com/api/users/' + user_id)
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> GET user: ', responseJSON);
+      // console.log('-------> GET user: ', responseJSON);
       resolve(responseJSON);
     })
     .catch((error) => {
@@ -223,7 +223,7 @@ const getUserByEmail = (email) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> GET login user data: ', responseJSON);
+      // console.log('-------> GET login user data: ', responseJSON);
       resolve(responseJSON.id)
     })
     .catch((error) => {
@@ -245,7 +245,7 @@ const postUser = (userLoginInfo) => {
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-      console.log('-------> POST new user: ', responseJSON);
+      // console.log('-------> POST new user: ', responseJSON);
       resolve(responseJSON.id);
     })
     .catch((error) => {
