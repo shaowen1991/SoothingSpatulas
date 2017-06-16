@@ -33,13 +33,13 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   userPicReducer,
-  textCommentsReducer
+  commentsReducer
 }) => ({
   profileViewOpen,
   usernameReducer,
   useridReducer,
   userPicReducer,
-  textCommentsReducer
+  commentsReducer
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -68,7 +68,7 @@ class Profile extends Component {
       userID: this.props.userID,
       categories: []
     }
-    this.userCheckinHistory = this.userCheckinHistory.bind(this);
+    // this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
 
   setTab (tabID) {
@@ -77,45 +77,45 @@ class Profile extends Component {
     })
   }
 
-    userCheckinHistory(userid) {
-    var histArray = [];
-    fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
-        method: "GET",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        // if (responseJSON.isArray()) {
-          for (var i = 0; i < responseJSON.length; i++) {
-            histArray.push(responseJSON[i]);
-          }
-        // } else {
-        //   histArray.push(responseJSON)
-        // }
-        this.setState({
-          userHist: histArray,
-          userHistFirst: histArray.shift()
-        })
-        console.log('CHECKINSTUFF!!!', this.state.userHist)
-      })
-      .catch((err) => {
-        console.log('-------> user id fetch err: ', err);
-      })
-  }
+//     userCheckinHistory(userid) {
+//     var histArray = [];
+//     fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
+//         method: "GET",
+//         headers: {
+//           'Accept': 'application/json',
+//           'Content-Type': 'application/json'
+//         }
+//       })
+//       .then((response) => response.json())
+//       .then((responseJSON) => {
+//         // if (responseJSON.isArray()) {
+//           for (var i = 0; i < responseJSON.length; i++) {
+//             histArray.push(responseJSON[i]);
+//           }
+//         // } else {
+//         //   histArray.push(responseJSON)
+//         // }
+//         this.setState({
+//           userHist: histArray,
+//           userHistFirst: histArray.shift()
+//         })
+//         console.log('CHECKINSTUFF!!!', this.state.userHist)
+//       })
+//       .catch((err) => {
+//         console.log('-------> user id fetch err: ', err);
+//       })
+//   }
 
-  componentWillMount() {
-    this.userCheckinHistory(5);
-}
+//   componentWillMount() {
+//     this.userCheckinHistory(5);
+// }
 
   componentDidMount() {
     setInterval(function() {
       var filteredCheckins = [];
-      for (var i = 0; i < this.props.textCommentsReducer.length; i++) {
-        if(this.props.textCommentsReducer[i].user_id === this.props.useridReducer) {
-          filteredCheckins.push(this.props.textCommentsReducer[i])
+      for (var i = 0; i < this.props.commentsReducer.length; i++) {
+        if(this.props.commentsReducer[i].user_id === this.props.useridReducer) {
+          filteredCheckins.push(this.props.commentsReducer[i])
         }
       }
       this.setState({
@@ -136,13 +136,13 @@ class Profile extends Component {
       toggleProfileView,
       useridReducer,
       userPicReducer,
-      textCommentsReducer
+      commentsReducer
     } = this.props
     // console.log('***profile state***: ', this.state)
     // this.setState({
     //   userID: useridReducer
     // })
-    console.log('PROFILE- ALL CHECKINS: ', this.props.textCommentsReducer)
+    console.log('PROFILE- ALL CHECKINS: ', this.props.commentsReducer)
     console.log('PROFILE- filteredCheckins', this.state.checkins)
     // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
@@ -195,7 +195,7 @@ class Profile extends Component {
             >
             <View>
               <MomentoBar/>
-              <HistoryList userHist={this.state.userHist}/>
+              <HistoryList userHist={this.state.checkins}/>
             </View>
           </TabBarIOS.Item>
         </TabBarIOS>

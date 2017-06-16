@@ -43,7 +43,7 @@ class ProfileHeader extends Component {
             source={{uri: this.props.userPic}}
           />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{this.props.userName + ' LastName'}</Text>
+            <Text style={styles.name}>{this.props.userName}</Text>
             <Text style={styles.hometown}>{'USA'}</Text>
           </View>
         </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   name: {
-    fontSize: 35,
+    fontSize: 30,
     textAlign: 'center',
     color: '#9CCC65'
   },

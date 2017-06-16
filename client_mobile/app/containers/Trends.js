@@ -75,7 +75,7 @@ class Trends extends Component {
       })
 
         
-    }.bind(this), 10000)
+    }.bind(this),3000)
   }
 
   render() {
@@ -92,14 +92,15 @@ class Trends extends Component {
     return (
       <View>
         <View style={styles.trends}>
-          <Text style={styles.trendsHeader}>Your Trends</Text>
-          <Text>Total checkins: {this.props.checkins.length}</Text>
-          <Text>category | checkins | percentage</Text>
+          <Text style={styles.checkin}>Total checkins: {this.props.checkins.length}</Text>
+          
             {this.state.userCategories.map((category, key) => {
               return (
-                <Text key={key}>
-                  {category[0]} | {category[1]} | {Math.floor((category[1] / this.props.checkins.length) * 100)}%
-                </Text>
+                <View style={styles.row} key={key}>
+                  <Text style={styles.category}>{category[0]}s</Text>
+                  <Text style={styles.num}>{category[1]}</Text>
+                  <Text style={styles.percent}>{Math.floor((category[1] / this.props.checkins.length) * 100)}%</Text>
+                </View>
               )
             })
           }
@@ -128,7 +129,50 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: '1%'
-  }
+  },
+  row: {
+    flexDirection: 'row'
+  },
+  category: {
+    marginLeft: 20,
+    fontSize: 20,
+    color: '#9CCC65',
+  },
+  num: {
+    right: 150,
+    position: 'absolute',
+    fontSize: 20,
+    color: '#4527A0',
+  },
+  percent: {
+    right: 75,
+    position: 'absolute',
+    fontSize: 20,
+    color: '#4527A0',
+  },
+  columnHeaderLeft:{
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#9CCC65',
+    marginLeft: 20  
+  },
+  columnHeaderCenter:{
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#9CCC65',
+    right: 150,  
+  },
+  columnHeaderRight:{
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#9CCC65',
+    right: 75,  
+  },
+  checkin: {
+    marginLeft: 20,
+    fontSize: 20,
+    color: '#4527A0',
+  },
 });
 
 export default connect(mapStateToProps, {})(Trends);
