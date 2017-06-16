@@ -4,6 +4,13 @@ RUN mkdir -p /code
 WORKDIR /code
 ADD . /code
 
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.3/main' >> /etc/apk/repositories
+
+RUN apk update && \
+    apk add ffmpeg-dev=2.8.11-r0 && \
+    apk add ffmpeg=2.8.11-r0 && \
+    apk add libc6-compat
+
 ENV YARN_VERSION=0.24.6
 ENV PATH="$PATH:/opt/yarn-0.24.6/bin"
 

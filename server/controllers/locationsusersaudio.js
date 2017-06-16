@@ -78,6 +78,7 @@ module.exports.create = (req, res) => {
           res.status(201).send(transcription);
         })
         .catch(err => {
+          console.error('ERROR in database forge:', err);
           res.status(500).send(err);
         });           
       })

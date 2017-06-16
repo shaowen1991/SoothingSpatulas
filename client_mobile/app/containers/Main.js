@@ -140,7 +140,7 @@ class Main extends Component  {
       regionReducer
     } = this.props;
 
-    // console.log('Main props: ', this.props);
+    console.log('Main props: ', this.props);
     return (
       <View style={styles.container}>
         <ProfileIcon 

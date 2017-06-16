@@ -5,14 +5,15 @@ import {
   TextInput,
   View,
   TouchableOpacity, 
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import Auth0Lock from 'react-native-lock';
 import { getUserByEmail, postUser } from '../Network.js';
 import Constants from '../Constants';
+import AssetMap from '../config/AssetMap';
 const credentials = require('../config/config.js');
 const lock = new Auth0Lock(credentials);
-
 /* ----------------------------------
        Import Redux Actions
 ---------------------------------- */
@@ -73,7 +74,7 @@ const mapDispatchToProps = (dispatch) => ({
         userLoginInfo.photo_large = profile.extraInfo.picture_large;
       }
       
-      console.log('PROFILE: ', profile)
+      // console.log('PROFILE: ', profile)
       /* ----------------------------------------------------
         Firstly, check if this email is in the our DB or not.
         If it is in DB, get the userid and update Redux.
@@ -110,21 +111,28 @@ class Login extends Component {
 
   render() {
     const { onLoginClick } = this.props;
-    console.log('Login props: ', this.props);
+    // console.log('Login props: ', this.props);
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Momento!
-        </Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={onLoginClick}
-        >
-          <Text style={styles.buttonText}>
-            {'Log In'}
+        <Image 
+          source={AssetMap.loginBackground} 
+          style={styles.backgroundImage} 
+          blurRadius={1}
+        />
+        <View style={styles.middle}>
+          <Text style={styles.welcome}>
+            Welcome to Momento!
           </Text>
-        </TouchableOpacity> 
+          <TouchableOpacity
+            style={styles.button}
+            onPress={onLoginClick}
+          >
+            <Text style={styles.buttonText}>
+              {'Log In'}
+            </Text>
+          </TouchableOpacity> 
+        </View>
       </View>
     );
   }
@@ -137,28 +145,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
   },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   welcome: {
     fontSize: 25,
-    textAlign: 'center',
+    alignContent: 'center',
     margin: 10,
+    color: 'white',
     fontFamily: Constants.TEXT_FONT,
+    backgroundColor: 'transparent',
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 2,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  middle: {
+    position: 'absolute',
+    flexDirection: 'column',
   },
   button: {
-    width: 140,
-    flexDirection: 'row',
+    width: 180,
     alignSelf: 'center',
+    alignItems: 'center',
     backgroundColor: Constants.ICON_COLOR,
     marginTop: 10,
     paddingHorizontal: 20,
     paddingVertical: 12,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
+    shadowOpacity: 2,
     justifyContent: 'center',
   },
   buttonText: {

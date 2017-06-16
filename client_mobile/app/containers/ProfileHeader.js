@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     flexDirection: 'column',
-    textAlign: 'center',
+    alignSelf: 'center',
     width: '50%',
     marginTop: 35,
   },
