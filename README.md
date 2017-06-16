@@ -32,6 +32,55 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 - Postgresql 9.6.x
 - etc
 
+
+- Google-cloud/speech: 0.9.2
+- Aws-sdk: 2.70.0
+- Axios: 0.16.2
+- Babel-core: 6.24.1
+- Bcrypt-nodejs: 0.0.3
+- Bluebird: 3.5.0
+- Body-parser: 1.17.1
+- Bookshelf: 0.10.3
+- Config: 1.26.1
+- Connect-flash: 0.1.1
+- Connect-redis: 3.2.0
+- Cookie-parser: 1.4.3
+- Ejs: 2.5.6
+- Enzyme: 2.8.2
+- Express: 4.15.2
+- Express-session: 1.15.1
+- Grunt-pg: https://github.com/watsoncj/grunt-pg.git
+- jQuery: 3.2.1
+- Knex: 0.12.9
+- Lodash: 4.17.4
+- Morgan: 1.8.1
+- Nodemon: 1.11.0
+- Passport: 0.3.2
+- Passport-facebook: 2.1.1
+- Passport-google-oauth: 1.0.0
+- Passport-local: 1.0.0
+- Passport-twitter: 1.0.4
+- Pg: 6.1.5
+- Prop-types: 15.5.10
+- React: 16.0.0-alpha.6
+- React-dom: 15.4.2
+- React-native: 0.44.2
+- React-native-animatable: 1.2.0
+- React-native-audio-player-recorder: 2.0.0
+- React-native-fetch-blob: 0.10.5
+- React-native-gifted-chat: 0.1.4
+- React-native-lock: 0.6.0
+- React-native-maps: 0.15.2
+- React-native-uuid-generator: 2.0.0
+- React-navigation: 1.0.0-beta.11
+- React-redux: 5.0.5
+- Redis: 2.7.1
+- Redux: 3.6.0
+- Require: 2.4.20
+- Socket.io: 2.0.2
+- Uuid: 3.0.1
+
+
 ## Development
 
 ### Installing System Dependencies
