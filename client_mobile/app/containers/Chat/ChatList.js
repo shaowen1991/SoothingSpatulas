@@ -41,7 +41,7 @@ class ChatList extends Component {
         console.error(error);
       });
 
-    }.bind(this), 1000);
+    }.bind(this), 5000);
   }
 
   goToChat(userDetails){

@@ -4,6 +4,7 @@ const router = express.Router();
 const LocationUserController = require('../controllers').LocationsUsers;
 
 router.route('/').get(LocationUserController.getAll);
+router.route('/user/:id').get(LocationUserController.getAllByUserId);
 router.route('/').post(LocationUserController.create);
 
 router.route('/:id').get(LocationUserController.getOne);

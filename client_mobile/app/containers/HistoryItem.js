@@ -12,8 +12,6 @@ class HistoryItem extends Component {
       <View >
         <Text style={styles.name}>- {this.props.place}</Text>
         <Text style={styles.hometown}>Rating: {this.props.rating}</Text>
-        <Text style={styles.hometown}>{this.props.city}, {this.props.state}</Text>
-        <Text style={styles.hometown}>Pin at {this.props.lat}, {this.props.lng}</Text>
         <Text style={styles.hometown}>{this.props.comment}</Text>
       </View>
     );
