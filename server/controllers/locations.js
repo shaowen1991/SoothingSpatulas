@@ -47,12 +47,12 @@ module.exports.getOne = (req, res) => {
 
 module.exports.getIdByName = (req, res) => {
   // select id from locations where name = req.name;
-  models.Location.where({ name: req.params.name }).fetch()
-    .then(location => {
-      if (!location) {
-        throw location;
+  models.Location.where({ name: req.params.user_id }).fetchAll()
+    .then(locations => {
+      if (!locations) {
+        throw locations;
       }
-      res.status(200).send(location);
+      res.status(200).send(locations);
     })
     .error(err => {
       res.status(500).send(err);

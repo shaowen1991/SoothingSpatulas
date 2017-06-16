@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
-import Chart from './chart.js';
+import Trends from './Trends.js';
 import FriendList from './FriendList';
 import HistoryList from './HistoryList';
 import MomentoBar from './MomentoBar';
@@ -33,13 +33,13 @@ const mapStateToProps = ({
   usernameReducer,
   useridReducer,
   userPicReducer,
-  userHistoryReducer
+  commentsReducer
 }) => ({
   profileViewOpen,
   usernameReducer,
   useridReducer,
   userPicReducer,
-  userHistoryReducer
+  commentsReducer
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,11 +62,12 @@ class Profile extends Component {
     super(props);
     this.state = {
       selectedTab: 'most-viewed',
-      userHist: [],
+      checkins: [],
       userPic: this.props.userPic,
-      userName: this.props.userName
+      userName: this.props.userName,
+      userID: this.props.userID,
+      categories: []
     }
-    this.userCheckinHistory = this.userCheckinHistory.bind(this);
   }
 
   setTab (tabID) {
@@ -75,37 +76,24 @@ class Profile extends Component {
     })
   }
 
-  userCheckinHistory(userid) {
-    var histArray = [];
-    fetch("http://localhost:3000/api/locationsusers/"/* + userid*/, {
-        method: "GET",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+  componentDidMount() {
+    setInterval(function() {
+      var filteredCheckins = [];
+      for (var i = 0; i < this.props.commentsReducer.length; i++) {
+        if(this.props.commentsReducer[i].user_id === this.props.useridReducer) {
+          filteredCheckins.push(this.props.commentsReducer[i])
         }
+      }
+      this.setState({
+        checkins: filteredCheckins
       })
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        // if (responseJSON.isArray()) {
-          for (var i = 0; i < responseJSON.length; i++) {
-            histArray.push(responseJSON[i]);
-          }
-        // } else {
-        //   histArray.push(responseJSON)
-        // }
-        this.setState({
-          userHist: histArray,
-          userHistFirst: histArray.shift()
-        })
-        console.log('CHECKINSTUFF!!!', this.state.userHist)
-      })
-      .catch((err) => {
-        console.log('-------> user id fetch err: ', err);
-      })
+    }.bind(this), 1000)
   }
 
-  componentWillMount() {
-    this.userCheckinHistory(5);
+  changeUserID(userid) {
+    this.setState({
+      userID: userid
+    })
   }
 
   render() {
@@ -114,9 +102,15 @@ class Profile extends Component {
       toggleProfileView,
       useridReducer,
       userPicReducer,
-      userHistoryReducer
+      commentsReducer
     } = this.props
     // console.log('***profile state***: ', this.state)
+    // this.setState({
+    //   userID: useridReducer
+    // })
+    console.log('PROFILE- ALL CHECKINS: ', this.props.commentsReducer)
+    console.log('PROFILE- filteredCheckins', this.state.checkins)
+    // this.changeUserID(useridReducer)
     const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
     const style = {
       top: profileViewOpen ? 0 : windowHeight,
@@ -141,9 +135,14 @@ class Profile extends Component {
             <ProfileHeader
               userPic={this.state.userPic}
               userName={this.state.userName}
-              userHist={this.state.userHist}
+              userHist={this.state.checkins}
+              userID={this.state.userID}
             />
-            <Chart userHist={this.state.userHist}/>
+            <Trends 
+              checkins={this.state.checkins}
+              categories={this.state.categories}
+            />
+            
           </View>
           </TabBarIOS.Item>
           <TabBarIOS.Item
@@ -162,7 +161,7 @@ class Profile extends Component {
             >
             <View>
               <MomentoBar/>
-              <HistoryList userHist={this.state.userHist}/>
+              <HistoryList userHist={this.state.checkins}/>
             </View>
           </TabBarIOS.Item>
         </TabBarIOS>

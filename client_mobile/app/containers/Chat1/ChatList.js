@@ -26,8 +26,8 @@ class ChatList extends Component {
   componentDidMount(){
     setInterval(function() {
 
-      // return fetch("https://activesort.com/api/connections/" + this.props.userId, {
-      return fetch("http://localhost:3000/api/connections/" + this.props.userId, {
+      return fetch("https://activesort.com/api/connections/" + this.props.userId, {
+      // return fetch("http://localhost:3000/api/connections/" + this.props.userId, {
         method: 'GET'
       })
       .then((response) => {

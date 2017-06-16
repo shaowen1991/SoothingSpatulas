@@ -118,7 +118,8 @@ class Main extends Component  {
       toggleProfileView,
       myLocationReducer,
       backToMyLocation,
-      regionReducer
+      regionReducer,
+      useridReducer
     } = this.props;
 
     // console.log('Main props: ', this.props);
@@ -149,6 +150,7 @@ class Main extends Component  {
         <Profile 
           userPic={this.props.userPicReducer}
           userName={this.props.usernameReducer}
+          userID={this.props.useridReducer}
         />
         {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>

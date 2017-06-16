@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
         userLoginInfo.photo_small = profile.picture;
         userLoginInfo.photo_large = profile.picture;
       } else {
-        userLoginInfo.first = profile.extraInfo.given_name;
+        userLoginInfo.first = profile.extraInfo.given_name + ' ' + profile.extraInfo.family_name;
         userLoginInfo.last = profile.extraInfo.family_name;
         userLoginInfo.email = profile.email;
         userLoginInfo.photo_small = profile.picture;

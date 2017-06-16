@@ -1,16 +1,34 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import HistoryItem from './HistoryItem';
 import PropTypes from 'prop-types';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
+const mapStateToProps = ({
+  useridReducer,
+  textCommentsReducer
+}) => ({
+  useridReducer,
+  textCommentsReducer
+})
+
 class HistoryList extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      checkins: []
+    }
   }
 
   render() {
+    // console.log()
+    const {
+      useridReducer,
+      textCommentsReducer
+    } = this.props
+    
+    console.log('HISTORY LIST userHist: ', this.props.userHist)
     return (
       <View>
       <View style={styles.trends}>
@@ -129,4 +147,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HistoryList;
+export default connect(mapStateToProps, {})(HistoryList);
