@@ -3,7 +3,7 @@ module.exports = [{
         latitude: '37.7749',
         longitude: '-122.4194',
         name: '21st Amendment',
-        rating: 10,
+        rating: 5,
         user_id: 1,
         location_id: 1
       }, {
@@ -11,7 +11,7 @@ module.exports = [{
         latitude: '37.7884',
         longitude: '-122.4076',
         name: 'Union Square',
-        rating: 7,
+        rating: 3,
         user_id: 2,
         location_id: 2
       }, {
@@ -19,7 +19,7 @@ module.exports = [{
         latitude: '37.7786',
         longitude: '-122.3893',
         name: 'AT&T Park',
-        rating: 9,
+        rating: 4,
         user_id: 3,
         location_id: 3
       }, {
@@ -27,7 +27,7 @@ module.exports = [{
         latitude: '37.7786',
         longitude: '-122.3893',
         name: 'AT&T Park',
-        rating: 10,
+        rating: 5,
         user_id: 4,
         location_id: 3
       }, {
@@ -35,7 +35,7 @@ module.exports = [{
         latitude: '37.7884',
         longitude: '-122.4076',
         name: 'Union Square',
-        rating: 10,
+        rating: 1,
         user_id: 5,
         location_id: 2
       }];
