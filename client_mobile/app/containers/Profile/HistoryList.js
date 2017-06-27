@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import HistoryItem from './HistoryItem';
 import PropTypes from 'prop-types';
-import Constants from '../Constants.js';
-// @import url('https://fonts.googleapis.com/css?family=Satisfy');
+import Constants from '../../Constants.js';
 
 const mapStateToProps = ({
   useridReducer,
@@ -27,7 +25,7 @@ class HistoryList extends Component {
       useridReducer,
       textCommentsReducer
     } = this.props
-    // console.log('HISTORY LIST userHist: ', this.props.userHist)
+
     return (
       <View>
         <View style={styles.trends}>
@@ -36,11 +34,11 @@ class HistoryList extends Component {
             place.name = (place.name ? place.name : 'custom location')
             return (      
               <View key={key} style={{backgroundColor: (key % 2 == 0) ? '#ecf0f1' : '#fff', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
-                <Text style={styles.name}>- {place.name}</Text>
-                <Text style={styles.des}>Rating: {place.rating / 2} Stars</Text>
+                <Text style={styles.comment}>"{place.comment}"</Text>
+                <Text style={styles.name}>@ {place.name}</Text>
                 <Text style={styles.des}>San Francisco, CA</Text>
+                <Text style={styles.des}>Rating: {place.rating / 2} Stars</Text>
                 <Text style={styles.des}>Latitude: {place.latitude}, Longitude: {place.longitude}</Text>
-                <Text style={styles.comment}>{place.comment}</Text>
               </View>
             )
           })}
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
   headerBar: {
     width: '100%',
     height: 38,
-    backgroundColor: '#4527A0',
+    backgroundColor: Constants.ICON_COLOR,
     marginTop: 25,
     textAlign: 'center'
   },
@@ -88,15 +86,14 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   name: {
-    fontSize: 35,
-    color: '#4527A0',
+    fontSize: 15,
+    color: Constants.COMMENT_PIN_COLOR,
     fontFamily: Constants.TEXT_FONT
   },
   comment: {
     fontSize: 20,
-    textAlign: 'center',
     marginTop: 5,
-    color: '#9CCC65',
+    color: 'black',
     fontStyle: 'italic',
     fontFamily: Constants.TEXT_FONT
   },
@@ -116,12 +113,13 @@ const styles = StyleSheet.create({
   info: {
     flexDirection: 'column',
     marginLeft: '3%',
+    marginRight: '3%',
     marginBottom: '5%',
   },
   hometown: {
     marginLeft: 20,
     fontSize: 15,
-    color: '#4527A0',
+    color: Constants.ICON_COLOR,
   },
   image: {
     height: 75,

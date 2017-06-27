@@ -11,13 +11,15 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-import ProfileHeader from './ProfileHeader';
-import Trends from './Trends.js';
-import FriendList from './FriendList';
-import HistoryList from './HistoryList';
-import MomentoBar from './MomentoBar';
-// @import url('https://fonts.googleapis.com/css?family=Satisfy');
-const transitionProps = ['top', 'height', 'width']
+/* ----------------------------------
+         Import Components
+---------------------------------- */
+
+import { ProfileHeader, MomentoBar }  from '../components';
+
+import Trends from './Profile/Trends';
+import FriendList from './Profile/FriendList';
+import HistoryList from './Profile/HistoryList';
 
 /* ----------------------------------
        Import Redux Actions
@@ -25,7 +27,11 @@ const transitionProps = ['top', 'height', 'width']
 import {
   openProfileView,
   closeProfileView,
-  storeUserHistoryToState
+  storeUserHistoryToState,
+  updateLogout,
+  updateUsername,
+  updateUserid,
+  updateUserPic,
 } from '../Actions.js';
 
 const mapStateToProps = ({
@@ -53,8 +59,16 @@ const mapDispatchToProps = (dispatch) => ({
   },
   storeUserHistoryToState: (userhistory) => {
     dispatch(storeUserHistoryToState(usercomment))
-  }
+  },
+  onLogoutClick: () => {
+    dispatch(updateLogout());
+    dispatch(updateUsername(''));
+    dispatch(updateUserid(0));
+    dispatch(updateUserPic(''));
+  },
 })
+
+const transitionProps = ['right', 'height', 'width']
 
 class Profile extends Component {
   constructor(props) {
@@ -101,21 +115,17 @@ class Profile extends Component {
       toggleProfileView,
       useridReducer,
       userPicReducer,
-      commentsReducer
+      commentsReducer,
+      onLogoutClick
     } = this.props
-    // console.log('***profile state***: ', this.state)
-    // this.setState({
-    //   userID: useridReducer
-    // })
-    // console.log('PROFILE- ALL CHECKINS: ', this.props.commentsReducer)
-    // console.log('PROFILE- filteredCheckins', this.state.checkins)
-    // this.changeUserID(useridReducer)
-    const {width: windowWidth, height: windowHeight} = Dimensions.get('window')
+
+    const { width: windowWidth, height: windowHeight } = Dimensions.get('window')
     const style = {
-      top: profileViewOpen ? 0 : windowHeight,
+      right: profileViewOpen ? 0 : windowWidth,
       height: windowHeight,
       width: windowWidth,
     }
+
     return (
       <Animatable.View
         style={[styles.container, style]}
@@ -123,6 +133,10 @@ class Profile extends Component {
         easing={"ease-out"}
         transition={transitionProps}
       >
+        {/*<Button
+          style={styles.logoutButton}
+          onPress={onLogoutClick} title="Logout" 
+        />*/}
         <TabBarIOS>
           <TabBarIOS.Item
             systemIcon="most-viewed"
@@ -175,6 +189,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     zIndex: 6
   },
+  logoutButton: {
+    position: 'absolute',
+    top: 34,
+    left: 21,
+    zIndex: 10,
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

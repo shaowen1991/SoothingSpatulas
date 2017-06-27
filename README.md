@@ -5,7 +5,7 @@ Discover places near you and find others who share the same interests near you!
 ## Team
 
 - Chris Keating
-- Jack Ren
+- Shaowen Ren
 - Michael Sermersheim
 - Nick Anderson
 

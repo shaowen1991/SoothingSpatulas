@@ -4,10 +4,14 @@ import RecordButton from './Recorder/RecordButton';
 import BackToMyLocationIcon from './Main/BackToMyLocationIcon';
 import CheckInButton from './Main/CheckInButton';
 import ClearNearbyPlaceButton from './Main/ClearNearbyPlaceButton';
+import ProfileIcon from './Main/ProfileIcon';
 import NearbyPlacesCallout from './Map/NearbyPlacesCallout';
 import TextCommentCallout from './Map/TextCommentCallout';
 import TextCommentMarker from './Map/TextCommentMarker';
-import ProfileIcon from './ProfileIcon';
+import ProfileHeader from './Profile/ProfileHeader';
+import HistoryItem from './Profile/HistoryItem';
+import MomentoBar from './Profile/MomentoBar';
+import Friend from './Profile/Friend';
 
 export {
   ActionButtons,
@@ -19,5 +23,8 @@ export {
   CheckInButton,
   TextCommentCallout,
   TextCommentMarker,
-  ProfileIcon
+  ProfileIcon,
+  ProfileHeader,
+  MomentoBar,
+  Friend
 };

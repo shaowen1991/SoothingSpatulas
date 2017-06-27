@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button, ScrollView } from 'react-native';
-import Friend from './Friend';
-import Chat from './Chat';
-// @import url('https://fonts.googleapis.com/css?family=Satisfy');
+import Chat from '../Chat';
 
 class FriendList extends Component {
   constructor(props) {

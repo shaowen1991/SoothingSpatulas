@@ -20,10 +20,6 @@ import Constants from '../Constants';
        Import Redux Actions
 ---------------------------------- */
 import {
-  updateLogout,
-  updateUsername,
-  updateUserid,
-  updateUserPic,
   openCheckIn,
   closeCheckIn,
   moveRegion,
@@ -73,12 +69,6 @@ const mapStateToProps = ({
      Mapping Redux Store Actions
 ---------------------------------- */
 const mapDispatchToProps = (dispatch) => ({
-  onLogoutClick: () => {
-    dispatch(updateLogout());
-    dispatch(updateUsername(''));
-    dispatch(updateUserid(0));
-    dispatch(updateUserPic(''));
-  },
   toggleCheckIn: (checkInOpenReducer) => {
     if (checkInOpenReducer) {
       dispatch(closeCheckIn());
@@ -128,7 +118,6 @@ class Main extends Component  {
     const {
       usernameReducer,
       userPicReducer,
-      onLogoutClick,
       checkInOpenReducer,
       profileViewOpen,
       toggleCheckIn,
@@ -181,7 +170,6 @@ class Main extends Component  {
           userName={this.props.usernameReducer}
           userID={this.props.useridReducer}
         />
-        {/*<Button onPress={onLogoutClick} title="Logout" />*/}
       </View>
     );
   }

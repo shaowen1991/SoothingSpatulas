@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, View, Image, StyleSheet, Text, TabBarIOS, Button } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Constants from '../Constants.js';
+import Constants from '../../Constants.js';
 // @import url('https://fonts.googleapis.com/css?family=Satisfy');
 
 class ProfileHeader extends Component {
@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 30,
     textAlign: 'center',
-    color: '#9CCC65',
+    color: 'black',
     fontFamily: Constants.TEXT_FONT
   },
   hometown: {
     fontSize: 20,
     textAlign: 'center',
     marginTop: 15,
-    color: '#9CCC65',
+    color: 'black',
     fontFamily: Constants.TEXT_FONT
   },
 });

@@ -8,8 +8,7 @@ import { AppRegistry,
   Button 
 } from 'react-native';
 import { connect } from 'react-redux';
-import Constants from '../Constants.js'
-// @import url('https://fonts.googleapis.com/css?family=Satisfy');
+import Constants from '../../Constants.js'
 
 const mapStateToProps = ({
   useridReducer,
@@ -26,10 +25,7 @@ class Trends extends Component {
       checkins: [],
       userCategories: []
     }
-    // this.filterCategories = this.filterCategories.bind(this);
-    // this.categoryHash = this.categoryHash.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    // this.setState = this.setState.bind(this)
   }
 
   componentDidMount() {
@@ -81,15 +77,10 @@ class Trends extends Component {
   }
 
   render() {
-
     const {
       useridReducer,
       textCommentsReducer
     } = this.props
-
-    // setInterval(function() {
-    //   this.componentDidMount()
-    // }.bind(this), 10000)
 
     return (
       <View>
@@ -136,45 +127,45 @@ const styles = StyleSheet.create({
   category: {
     marginLeft: 20,
     fontSize: 20,
-    color: '#9CCC65',
+    color: 'black',
     fontFamily: Constants.TEXT_FONT
   },
   num: {
     right: 150,
     position: 'absolute',
     fontSize: 20,
-    color: '#4527A0',
+    color: Constants.COMMENT_PIN_COLOR,
     fontFamily: Constants.TEXT_FONT
   },
   percent: {
     right: 75,
     position: 'absolute',
     fontSize: 20,
-    color: '#4527A0',
+    color: Constants.COMMENT_PIN_COLOR,
     fontFamily: Constants.TEXT_FONT
   },
   columnHeaderLeft:{
     fontSize: 15,
     textAlign: 'center',
-    color: '#9CCC65',
+    color: Constants.ICON_COLOR,
     marginLeft: 20  
   },
   columnHeaderCenter:{
     fontSize: 15,
     textAlign: 'center',
-    color: '#9CCC65',
+    color: Constants.ICON_COLOR,
     right: 150,  
   },
   columnHeaderRight:{
     fontSize: 15,
     textAlign: 'center',
-    color: '#9CCC65',
+    color: Constants.ICON_COLOR,
     right: 75,  
   },
   checkin: {
     marginLeft: 20,
     fontSize: 20,
-    color: '#4527A0',
+    color: 'black',
     fontFamily: Constants.TEXT_FONT
   },
 });

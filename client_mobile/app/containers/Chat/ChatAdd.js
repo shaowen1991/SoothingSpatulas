@@ -41,8 +41,7 @@ class ChatAdd extends Component {
       <View style={styles.container}>
       <TextInput style = {styles.input}
         underlineColorAndroid = "transparent"
-        placeholder = "enter email here"
-        placeholderTextColor = "#9a73ef"
+        placeholder = "Enter email here"
         autoCapitalize = "none"
         ref={r => this._textInput = r}
         onChangeText = {this.handleEmail}/>
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: 45,
     flex: 0.3,
-    backgroundColor: '#7a42f4',
+    backgroundColor: Constants.ICON_COLOR,
     padding: 10,
     height: 40,
   },

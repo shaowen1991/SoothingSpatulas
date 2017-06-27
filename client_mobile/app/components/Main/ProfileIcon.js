@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { StyleSheet, TouchableOpacity, Image, Keyboard } from 'react-native'
 
-import AssetMap from '../config/AssetMap'
+import AssetMap from '../../config/AssetMap'
 
 const hitSlop = {
   top: 10,
