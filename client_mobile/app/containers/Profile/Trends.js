@@ -34,7 +34,7 @@ class Trends extends Component {
       var catArray = [];
       var categoriesArray = [];
 
-      fetch("https://activesort.com/api/locationsusers/user/" + this.props.useridReducer, {
+      fetch("http://localhost:3000/api/locationsusers/user/" + this.props.useridReducer, {
         method: 'GET',
           headers: {
             'Accept': 'application/json',

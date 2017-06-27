@@ -173,9 +173,9 @@ class Map extends Component  {
 
     // console.log('Map props: ', this.props);
     // console.log('Map state: ', this.state);
-          {/*initialRegion={Object.keys(myLocationReducer).length === 0 ? initialRegion : myLocationReducer}*/}
     return (
         <MapView 
+          initialRegion={Object.keys(myLocationReducer).length === 0 ? initialRegion : myLocationReducer}
           style={styles.map}
           onRegionChange={this.onRegionChange}
           region={Object.keys(regionReducer).length === 0 ? initialRegion : regionReducer}
@@ -183,7 +183,7 @@ class Map extends Component  {
           key="AIzaSyBD5VDZHAMghzun891D2rAZCOgKo7xM6Wc"
           mapType="standard"
           showsUserLocation={true}
-          followsUserLocation={false}
+          followsUserLocation={true}
           showsPointsOfInterest={false}
           showCompass={true}
           showsBuildings={true}
