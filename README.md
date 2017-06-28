@@ -1,5 +1,4 @@
 # MOMENTO
-<img src="/demos/chat.gif?raw=true" width="200px">
 Discover places near you and find others who share the same interests near you!
 
 ## Team
@@ -13,6 +12,20 @@ Discover places near you and find others who share the same interests near you!
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
+# Feature Demos
+
+View check-in comments nearby
+<img src="/demos/comments_display.gif?raw=true" width="400px">
+Search place and leave text comment
+<img src="/demos/text_comments.gif?raw=true" width="400px">
+Leave playable voice comment, and auto trancripted to text
+<img src="/demos/voice_comments.gif?raw=true" width="400px">
+View trends
+<img src="/demos/trend.gif?raw=true" width="400px">
+Chat with friends
+<img src="/demos/chat.gif?raw=true" width="400px">
+View check-in history
+<img src="/demos/history.gif?raw=true" width="400px">
 # Table of Contents
 
 1. [Usage](#Usage)
