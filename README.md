@@ -14,7 +14,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 # Feature Demos
 
-### View check-in comments nearby
+### View nearby check-in comments
 <img src="/demos/comments_display.gif?raw=true" width="300px">
 
 ### Search place and leave text comment
