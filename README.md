@@ -12,7 +12,7 @@ Discover places near you and find others who share the same interests near you!
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
-# Feature Demos
+## Feature Demos
 
 ### View nearby check-in comments
 <img src="/demos/comments_display.gif?raw=true" width="300px">
