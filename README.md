@@ -21,7 +21,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 <img src="/demos/text_comments.gif?raw=true" width="300px">
 
 ### Leave playable voice comment, and auto trancripted to text
-<img src="/demos/voice_comments.gif?raw=true" width="400px">
+<img src="/demos/voice_comments.gif?raw=true" width="600px">
 
 ### View trends
 <img src="/demos/trend.gif?raw=true" width="300px">
@@ -29,7 +29,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 ### Chat with friends
 <img src="/demos/chat.gif?raw=true" width="300px">
 
-###View check-in history
+### View check-in history
 <img src="/demos/history.gif?raw=true" width="300px">
 
 # Table of Contents
