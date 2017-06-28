@@ -1,5 +1,5 @@
 # MOMENTO
-
+![](https://cl.ly/0K14391K0M2b/voice_comments.gif)
 Discover places near you and find others who share the same interests near you!
 
 ## Team
