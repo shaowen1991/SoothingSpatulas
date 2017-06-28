@@ -1,5 +1,5 @@
 # MOMENTO
-
+<img src="/demos/chat.gif?raw=true" width="200px">
 Discover places near you and find others who share the same interests near you!
 
 ## Team
